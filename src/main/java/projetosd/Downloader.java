@@ -29,7 +29,6 @@ public class Downloader extends Thread{
             while (true) {
                 String url = index.takeNext();
                 if(url == null){
-                    // Ooga booga starvation handling
                     sleep(100);
                     continue;
                 }
@@ -41,7 +40,6 @@ public class Downloader extends Thread{
                     //System.out.println(doc);
                 }
                 catch(HttpStatusException e){
-                    // fuck it we ballin
                     continue;
                 }
 
