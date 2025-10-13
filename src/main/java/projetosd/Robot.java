@@ -1,4 +1,4 @@
-package search;
+package projetosd;
 
 import java.rmi.registry.*;
 import java.util.*;
