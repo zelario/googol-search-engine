@@ -2,16 +2,15 @@ package projetosd;
 
 import java.rmi.registry.*;
 import java.util.*;
-import java.util.concurrent.Semaphore;
 
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
 
-public class Robot extends Thread{
+public class Downloader extends Thread{
     private final int thread_num;
 
-    public Robot(int thread_num){
+    public Downloader(int thread_num){
         this.thread_num = thread_num;
     }
 
@@ -20,7 +19,7 @@ public class Robot extends Thread{
         int thread_counter = 5;
 
         for (int i = 0; i < thread_counter; i++){
-            new Robot(i+1).start();
+            new Downloader(i+1).start();
         }
     }
 

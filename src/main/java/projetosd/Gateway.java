@@ -3,7 +3,7 @@ package projetosd;
 import java.rmi.registry.*;
 import java.util.*;
 
-public class Client {
+public class Gateway {
     public static void main(String[] args){
         try{
             // No ip because localhost
