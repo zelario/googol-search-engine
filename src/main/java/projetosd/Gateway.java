@@ -43,7 +43,7 @@ public class Gateway {
                     continue;
                 }
             }
-
+            sc.close();
         } catch (Exception e){
             e.printStackTrace();
         }

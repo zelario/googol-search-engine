@@ -4,7 +4,6 @@ import java.rmi.*;
 import java.rmi.server.*;
 import java.rmi.registry.*;
 import java.util.concurrent.*;
-import java.io.*;
 import java.util.*;
 
 public class IndexServer extends UnicastRemoteObject implements Index {
@@ -29,7 +28,8 @@ public class IndexServer extends UnicastRemoteObject implements Index {
             Registry registry = LocateRegistry.createRegistry(8183);
             registry.rebind("index", server);
             System.out.println("Server ready. Waiting for input...\n");
-
+            
+            sc.close();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
