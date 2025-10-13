@@ -26,8 +26,9 @@ public class Downloader extends Thread{
     public void run(){
         try {
             Index index = (Index) LocateRegistry.getRegistry(8183).lookup("index");
+            UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
             while (true) {
-                String url = index.takeNext();
+                String url = queue.takeUrl();
                 if(url == null){
                     sleep(100);
                     continue;
@@ -55,7 +56,7 @@ public class Downloader extends Thread{
                 for (Element link : links) {
                     String page_url = link.attr("href");
                     if((page_url.startsWith("https://"))){
-                        index.putNew(page_url);
+                        queue.addUrl(page_url);
                     }
                 }
             }
