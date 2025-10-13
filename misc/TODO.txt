@@ -1,0 +1,12 @@
+
+1. Fazer RMI, os metodos. 
+
+2. Fazer Queue dos Urls
+
+3. Fazer Gateway
+
+4. Fazer Barrels
+
+5. Mudar os Downloaders 
+
+6. Fazer os issues
