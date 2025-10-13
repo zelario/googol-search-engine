@@ -8,6 +8,8 @@ public class Gateway {
         try{
             // No ip because localhost
             Index index = (Index) LocateRegistry.getRegistry(8183).lookup("index");
+            UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
+
             Scanner sc = new Scanner(System.in);
 
             String input;
@@ -32,7 +34,7 @@ public class Gateway {
 
                         default:
                             if(input.startsWith("http")){
-                                index.putNew(input);
+                                queue.addUrl(input);
                                 System.out.println("Added url: " + input);
                             }
                             else System.out.println(index.searchWord(input));
@@ -40,7 +42,6 @@ public class Gateway {
 
                 } catch (Exception e){
                     System.out.println(e.getMessage());
-                    continue;
                 }
             }
             sc.close();

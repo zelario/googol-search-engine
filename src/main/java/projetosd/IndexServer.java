@@ -7,8 +7,6 @@ import java.util.concurrent.*;
 import java.util.*;
 
 public class IndexServer extends UnicastRemoteObject implements Index {
-    // These structures handle concurrency automatically with good performance (according to gpt friend)
-    private final Queue<String> urlsToIndex;
     private final ConcurrentMap<String, List<String>> indexedItems;
 
     private long counter = 0;
@@ -16,7 +14,6 @@ public class IndexServer extends UnicastRemoteObject implements Index {
     public IndexServer() throws RemoteException {
         super();
 
-        urlsToIndex = new ConcurrentLinkedDeque<>();
         indexedItems = new ConcurrentHashMap<>();
     }
 
@@ -35,15 +32,6 @@ public class IndexServer extends UnicastRemoteObject implements Index {
         }
     }
 
-    public synchronized String takeNext() throws RemoteException {
-        counter++;
-        return urlsToIndex.poll();
-    }
-
-    public synchronized void putNew(String url) throws java.rmi.RemoteException {
-        urlsToIndex.offer(url);
-    }
-
     public synchronized void addToIndex(String word, String url) throws java.rmi.RemoteException {
         // If the word (key) is not there, it creates a new list (synchronized also) and adds the ulr
         indexedItems.computeIfAbsent(word, k -> Collections.synchronizedList(new ArrayList<>())).add(url);
@@ -59,4 +47,5 @@ public class IndexServer extends UnicastRemoteObject implements Index {
                 "\nFree memory: " + Runtime.getRuntime().freeMemory() / (1024 * 1024) + " MB" +
                 "\nMax memory: " + Runtime.getRuntime().maxMemory() / (1024 * 1024) + " MB";
     }
+
 }
