@@ -29,10 +29,6 @@ public class Downloader extends Thread{
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
             while (true) {
                 String url = queue.takeUrl();
-                if(url == null){
-                    sleep(100);
-                    continue;
-                }
 
                 System.out.println(thread_num + ": " + url);
                 Document doc;
