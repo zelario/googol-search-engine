@@ -56,7 +56,7 @@ public class Downloader extends Thread{
                 for (Element link : links) {
                     String page_url = link.attr("href");
                     if((page_url.startsWith("https://"))){
-                        queue.addUrl(page_url);
+                        queue.addUrl(page_url, false);
                     }
                 }
             }

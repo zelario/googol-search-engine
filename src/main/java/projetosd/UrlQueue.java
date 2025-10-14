@@ -4,11 +4,11 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface{
     // Handles (thread) concurrency automatically, no need for extra logic
-    private final LinkedBlockingQueue<String> urlQueue = new LinkedBlockingQueue<>();
+    private final LinkedBlockingDeque<String> urlQueue = new LinkedBlockingDeque<>();
 
     public UrlQueue() throws java.rmi.RemoteException {
         super();
@@ -28,8 +28,10 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface{
     }
 
     @Override
-    public void addUrl(String url) throws RemoteException {
-        urlQueue.add(url);
+    public void addUrl(String url, boolean userInput) throws RemoteException {
+        if(userInput) urlQueue.addFirst(url);
+        else urlQueue.add(url);
+
         System.out.println("[urlQueue] Added url: " + url);
     }
 

@@ -34,7 +34,7 @@ public class Gateway {
 
                         default:
                             if(input.startsWith("http")){
-                                queue.addUrl(input);
+                                queue.addUrl(input, true);
                                 System.out.println("Added url: " + input);
                             }
                             else System.out.println(index.searchWord(input));
