@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 import java.util.*;
 
 public class IndexServer extends UnicastRemoteObject implements Index {
-    private final ConcurrentMap<String, List<String>> indexedItems;
+    private final ConcurrentMap<String, Set<String>> indexedItems;
 
     private long counter = 0;
 
@@ -34,10 +34,10 @@ public class IndexServer extends UnicastRemoteObject implements Index {
 
     public synchronized void addToIndex(String word, String url) throws java.rmi.RemoteException {
         // If the word (key) is not there, it creates a new list (synchronized also) and adds the ulr
-        indexedItems.computeIfAbsent(word, k -> Collections.synchronizedList(new ArrayList<>())).add(url);
+        indexedItems.computeIfAbsent(word, k -> Collections.synchronizedSet(new HashSet<>())).add(url);
     }
 
-    public List<String> searchWord(String word) throws java.rmi.RemoteException {
+    public Set<String> searchWord(String word) throws java.rmi.RemoteException {
         return indexedItems.get(word);
     }
 

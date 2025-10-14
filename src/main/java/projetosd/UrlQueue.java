@@ -29,6 +29,7 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface{
 
     @Override
     public void addUrl(String url, boolean userInput) throws RemoteException {
+        // If userInput -> insert first so user input is processed first, if not, insert normally (FIFO)
         if(userInput) urlQueue.addFirst(url);
         else urlQueue.add(url);
 
