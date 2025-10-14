@@ -38,7 +38,12 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface{
 
     @Override
     public String takeUrl() throws RemoteException {
-        return urlQueue.poll();
+        try{
+            return urlQueue.take();
+        }
+        catch (InterruptedException e){
+            return null;
+        }
     }
 
 }
