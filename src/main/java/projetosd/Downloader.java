@@ -1,58 +1,82 @@
 package projetosd;
 
-import java.rmi.registry.*;
-import java.util.*;
+import java.rmi.registry.LocateRegistry;
+import java.util.StringTokenizer;
 
-import org.jsoup.*;
-import org.jsoup.nodes.*;
-import org.jsoup.select.*;
+import org.jsoup.HttpStatusException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-public class Downloader extends Thread{
-    private final int thread_num;
+/**
+ * Downloader for fetching and processing web pages.
+ * Handles downloading, parsing, indexing, and queueing new URLs.
+ * 
+ * @author Jose Amado e José Capinha
+ * @version 1.0
+ */
+public class Downloader extends Thread {
 
-    public Downloader(int thread_num){
-        this.thread_num = thread_num;
+    /**
+     * The thread number for this downloader instance.
+     */
+    private final int threadNum;
+
+    /**
+     * Constructs a Downloader.
+     * @param threadNum The thread number
+     */
+    public Downloader(int threadNum) {
+        this.threadNum = threadNum;
     }
 
-    public static void main(String[] args){
+    /**
+     * Main for Downloader. Starts multiple Downloader threads.
+     * @param args Command-line arguments
+     */
+    public static void main(String[] args) {
         // CHANGE THREAD NUMBER HERE
-        int thread_counter = 5;
+        int threadCounter = 5;
 
-        for (int i = 0; i < thread_counter; i++){
-            new Downloader(i+1).start();
+        for (int i = 0; i < threadCounter; i++) {
+            new Downloader(i + 1).start();
         }
     }
 
-    public void run(){
+    /**
+     * Work for the downloader thread. Fetches URLs, parses content, updates index, and adds new links to the queue.
+     */
+    @Override
+    public void run() {
         try {
-            Index index = (Index) LocateRegistry.getRegistry(8183).lookup("index");
+            IndexServerInterface index = (IndexServerInterface) LocateRegistry.getRegistry(8183).lookup("index");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
             while (true) {
                 String url = queue.takeUrl();
 
-                System.out.println(thread_num + ": " + url);
+                System.out.println(threadNum + ": " + url);
                 Document doc;
-                try{
+                try {
                     doc = Jsoup.connect(url).get();
                     //System.out.println(doc);
-                }
-                catch(HttpStatusException e){
+                } catch (HttpStatusException e) {
                     continue;
                 }
 
                 String text = doc.body().text();
                 StringTokenizer st = new StringTokenizer(text, " \t\n\r\f,.:;?![]'\"");
 
-                while(st.hasMoreTokens()) {
+                while (st.hasMoreTokens()) {
                     index.addToIndex(st.nextToken(), url);
                 }
 
                 Elements links = doc.select("a[href]");
 
                 for (Element link : links) {
-                    String page_url = link.attr("href");
-                    if((page_url.startsWith("https://"))){
-                        queue.addUrl(page_url, false);
+                    String pageUrl = link.attr("href");
+                    if ((pageUrl.startsWith("https://"))) {
+                        queue.addUrl(pageUrl, false);
                     }
                 }
             }

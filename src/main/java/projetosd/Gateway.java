@@ -1,46 +1,58 @@
 package projetosd;
 
-import java.rmi.registry.*;
-import java.util.*;
+import java.rmi.registry.LocateRegistry;
+import java.util.Scanner;
 
+/**
+ * Gateway for user interaction.
+ * Handles user input for adding URLs and searching keywords.
+ * 
+ * @author Jose Amado e José Capinha
+ * @version 1.0
+ */
 public class Gateway {
-    public static void main(String[] args){
-        try{
+    /**
+     * Main for Gateway. Handles user input for adding URLs and searching keywords.
+     * @param args Command-line arguments
+     */
+    public static void main(String[] args) {
+        try {
             // No ip because localhost
-            Index index = (Index) LocateRegistry.getRegistry(8183).lookup("index");
+            IndexServerInterface index = (IndexServerInterface) LocateRegistry.getRegistry(8183).lookup("index");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
 
-            try (Scanner sc = new Scanner(System.in)) {
+            try (Scanner scanner = new Scanner(System.in)) {
                 String input;
-                
+
                 //  https://pt.wikipedia.org/wiki/Wikipédia:Página_principal
-                
+
                 System.out.println("End and Stats are reserved keywords with obvious functionalities\nAdd urls for indexing: Start with 'http'\nSearch for keywords: start with anything else\n");
                 boolean run = true;
-                while(run){
+                while (run) {
                     System.out.print("> ");
-                    input = sc.nextLine();
-                    
-                    try{
+                    input = scanner.nextLine();
+
+                    try {
                         switch (input) {
                             case "End", "end" -> run = false;
-                            
+
                             case "Stats", "stats" -> System.out.println(index.printStats());
-                            
+
                             default -> {
-                                if(input.startsWith("http")){
+                                if (input.startsWith("http")) {
                                     queue.addUrl(input, true);
                                     System.out.println("Added url: " + input);
+                                } else {
+                                    System.out.println(index.searchWord(input));
                                 }
-                                else System.out.println(index.searchWord(input));
                             }
                         }
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
