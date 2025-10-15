@@ -1,7 +1,7 @@
 package projetosd;
 
-import java.rmi.*;
-import java.util.*;
+import java.rmi.Remote;
+import java.util.Set;
 
 /**
  * Remote interface for the distributed index server.
@@ -32,4 +32,10 @@ public interface IndexServerInterface extends Remote {
      * @throws java.rmi.RemoteException if a remote error occurs
      */
     String printStats() throws java.rmi.RemoteException;
+
+    /**
+     * Pings the server to check if working.
+     * @throws java.rmi.RemoteException if a remote error occurs
+     */
+    void ping() throws java.rmi.RemoteException;
 }

@@ -94,4 +94,12 @@ public class IndexServer extends UnicastRemoteObject implements IndexServerInter
                 "\nMax memory: " + Runtime.getRuntime().maxMemory() / (1024 * 1024) + " MB";
     }
 
+    /**
+     * Pings the server to check if working.
+     * @throws java.rmi.RemoteException if a remote error occurs
+     */
+    @Override
+    public void ping() throws java.rmi.RemoteException {
+    }
+
 }
