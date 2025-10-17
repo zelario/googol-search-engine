@@ -50,7 +50,7 @@ public class Downloader extends Thread {
     @Override
     public void run() {
         try {
-            IndexServerInterface index = (IndexServerInterface) LocateRegistry.getRegistry(8183).lookup("index");
+            BarrelInterface index = (BarrelInterface) LocateRegistry.getRegistry(8183).lookup("index");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
 
             while (true) {

@@ -9,7 +9,7 @@ import java.util.Set;
  * @author Jose Amado e José Capinha
  * @version 1.0
  */
-public interface IndexServerInterface extends Remote {
+public interface BarrelInterface extends Remote {
     /**
      * Adds a word and its associated URL to the index.
      * @param word The word to add

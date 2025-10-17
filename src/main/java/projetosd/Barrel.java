@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author Jose Amado e José Capinha
  * @version 1.0
  */
-public class IndexServer extends UnicastRemoteObject implements IndexServerInterface {
+public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
     /**
      * Map storing indexed words and their associated URLs.
@@ -31,23 +31,23 @@ public class IndexServer extends UnicastRemoteObject implements IndexServerInter
     private long counter = 0;
 
     /**
-     * Constructs the IndexServer.
+     * Constructs the Barrel.
      * @throws RemoteException if a remote error occurs
      */
-    public IndexServer() throws RemoteException {
+    public Barrel() throws RemoteException {
         super();
         indexedItems = new ConcurrentHashMap<>();
     }
 
     /**
-     * Main for IndexServer. Starts the RMI registry and binds the server.
+     * Main for Barrel. Starts the RMI registry and binds the server.
      * @param args Command-line arguments
      */
     public static void main(String[] args) {
         try {
             Scanner scanner = new Scanner(System.in);
 
-            IndexServer server = new IndexServer();
+            Barrel server = new Barrel();
             Registry registry = LocateRegistry.createRegistry(8183);
             registry.rebind("index", server);
             System.out.println("Server ready. Waiting for input...\n");
