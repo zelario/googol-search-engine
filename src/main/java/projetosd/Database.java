@@ -55,4 +55,13 @@ public class Database {
             return null;
         }
     }
+
+    // TODO: method to verify if all barrels are in the same state
+    public void verifyStatus(){
+        try{
+
+        } catch (Exception e){
+            System.out.println("[DATABASE] Could not guarantee same state for all barrels. Exiting...");
+        }
+    }
 }
