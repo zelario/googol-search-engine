@@ -37,7 +37,7 @@ public class Downloader extends Thread {
      */
     public static void main(String[] args) {
         // CHANGE THREAD NUMBER HERE
-        int threadCounter = 5;
+        int threadCounter = 3;
 
         for (int i = 0; i < threadCounter; i++) {
             new Downloader(i + 1).start();
@@ -52,6 +52,7 @@ public class Downloader extends Thread {
         try {
             IndexServerInterface index = (IndexServerInterface) LocateRegistry.getRegistry(8183).lookup("index");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
+
             while (true) {
                 String url = queue.takeUrl();
 
