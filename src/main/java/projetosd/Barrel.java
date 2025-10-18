@@ -4,15 +4,16 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Scanner;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Implementation of the Index Server remote interface.
+ * Implementation of the Index barrel remote interface.
  * Handles indexing and searching of words across URLs.
  * 
  * @author Jose Amado e José Capinha
@@ -21,48 +22,35 @@ import java.util.concurrent.ConcurrentMap;
 public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
     /**
-     * Map storing indexed words and their associated URLs.
-     */
-    private final ConcurrentMap<String, Set<String>> indexedItems;
-
-    /**
      * Counter for the number of URLs parsed.
      */
     private long counter = 0;
 
     /**
+     * Map storing Page metadata for indexed pages.
+     */
+    private ConcurrentMap<String, Page> pages = new ConcurrentHashMap<>(); //TODO TEM DE SER PASSADO PARA BASE DE DADOS
+
+    /**
+     * Map storing indexed words and their associated URLs.
+     */
+    private ConcurrentMap<String, Set<String>> indexedItems;
+
+    /**
      * Constructs the Barrel.
-     * @throws RemoteException if a remote error occurs
+     * @throws RemoteException
      */
     public Barrel() throws RemoteException {
         super();
         indexedItems = new ConcurrentHashMap<>();
-    }
-
-    /**
-     * Main for Barrel. Starts the RMI registry and binds the server.
-     * @param args Command-line arguments
-     */
-    public static void main(String[] args) {
-        try {
-            Scanner scanner = new Scanner(System.in);
-
-            Barrel server = new Barrel();
-            Registry registry = LocateRegistry.createRegistry(8183);
-            registry.rebind("index", server);
-            System.out.println("Server ready. Waiting for input...\n");
-
-            scanner.close();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        pages = new ConcurrentHashMap<>();
     }
 
     /**
      * Adds a word and its associated URL to the index.
      * @param word The word to add
      * @param url The URL where the word was found
-     * @throws java.rmi.RemoteException if a remote error occurs
+     * @throws java.rmi.RemoteException
      */
     @Override
     public synchronized void addToIndex(String word, String url) throws java.rmi.RemoteException {
@@ -71,35 +59,35 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     }
 
     /**
-     * Searches for a word in the index and returns the set of URLs where it appears.
-     * @param word The word to search for
-     * @return Set of URLs containing the word
-     * @throws java.rmi.RemoteException if a remote error occurs
+     * Search for pages containing all provided terms.
+     * @param terms The search terms
+     * @returns Returns a list of pages (urls and metadata).
      */
     @Override
-    public Set<String> searchWord(String word) throws java.rmi.RemoteException {
-        return indexedItems.get(word);
+    public List<Page> searchQuery(String[] terms) throws java.rmi.RemoteException {
+        return new ArrayList<>();
     }
 
     /**
-     * Prints statistics about the index.
-     * @return A string with statistics
-     * @throws java.rmi.RemoteException if a remote error occurs
-     */
-    @Override
-    public String printStats() throws java.rmi.RemoteException {
-        return "URLs parsed: " + counter +
-                "\nTotal memory: " + Runtime.getRuntime().totalMemory() / (1024 * 1024) + " MB" +
-                "\nFree memory: " + Runtime.getRuntime().freeMemory() / (1024 * 1024) + " MB" +
-                "\nMax memory: " + Runtime.getRuntime().maxMemory() / (1024 * 1024) + " MB";
-    }
-
-    /**
-     * Pings the server to check if working.
-     * @throws java.rmi.RemoteException if a remote error occurs
+     * Pings the barrel to check if working.
+     * @throws java.rmi.RemoteException
      */
     @Override
     public void ping() throws java.rmi.RemoteException {
     }
 
+    /**
+     * Main for Barrel. Starts the RMI registry and binds the barrel.
+     * @param args Command-line arguments
+     */
+    public static void main(String[] args) {
+        try {
+            Barrel barrel = new Barrel();
+            Registry registry = LocateRegistry.createRegistry(8183);
+            registry.rebind("index", barrel);
+            Debug.info("Barrel ready on port: 8183");
+        } catch (RemoteException e) {
+            Debug.error("Failed to start Barrel: " + e.getMessage());
+        }
+    }
 }

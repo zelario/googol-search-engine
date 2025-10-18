@@ -1,5 +1,7 @@
 package projetosd;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -17,8 +19,8 @@ public class Client {
             GatewayInterface gateway = (GatewayInterface) registry.lookup("gateway");
             System.out.println("Connected to gateway on port " + GATEWAY_PORT);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NotBoundException | RemoteException e) {
+            Debug.error("Gateway not available: " + e.getMessage());
         }
     }
 }

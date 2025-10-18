@@ -1,12 +1,11 @@
+cntrl f TODO nos barrels
 
-1. Fazer RMI, os metodos. 
+---GATEWAY:
 
-2. Fazer Queue dos Urls
+1. Fazer timeout e backoff ao conectar barrels
 
-3. Fazer Gateway
+2. Maneira de descobrir barrels nao estatica
 
-4. Fazer Barrels
+---BARRELS
 
-5. Mudar os Downloaders 
-
-6. Fazer os issues
+1. Temos de passar as paginas (urls e metadata) para base de dados
