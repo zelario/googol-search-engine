@@ -77,15 +77,22 @@ public class Stats {
 
 	/**
 	 * Return the top 10 searches by count.
-     * @return List of entries sorted by count.
+	 *
+	 * @return Map of query -> count, ordered by count descending (limited to 10 entries).
 	 */
-	public List<Map.Entry<String, Long>> getTopSearches() {
+	public Map<String, Long> getTopSearches() {
 		List<Map.Entry<String, Long>> entries = new ArrayList<>();
 		for (Map.Entry<String, AtomicLong> entry : queryCounts.entrySet()) {
 			entries.add(new java.util.AbstractMap.SimpleImmutableEntry<>(entry.getKey(), entry.getValue().get()));
 		}
 		entries.sort((a, b) -> Long.compare(b.getValue(), a.getValue()));
-		return new ArrayList<>(entries.subList(0, Math.min(entries.size(), 10)));
+
+		Map<String, Long> topSearches = new java.util.LinkedHashMap<>();
+		for (int i = 0; i < Math.min(entries.size(), 10); i++) {
+			Map.Entry<String, Long> entry = entries.get(i);
+			topSearches.put(entry.getKey(), entry.getValue());
+		}
+		return topSearches;
 	}
 
 	/**
@@ -112,7 +119,7 @@ public class Stats {
 	 * Snapshot of active barrels and their sizes.
      * @return Map of barrel IDs to index sizes.
 	 */
-	public Map<String, Long> getBarrelIndexSizes() {
+	public Map<String, Long> getActiveBarrels() {
 		return new HashMap<>(barrelIndexSizes);
 	}
 

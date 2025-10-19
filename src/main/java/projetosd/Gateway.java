@@ -9,12 +9,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of the GatewayInterface for clients.
  * Exposes RMI methods for adding URLs and searching (paginated groups of 10).
  */
 public class Gateway extends UnicastRemoteObject implements GatewayInterface {
+
+    /*
+     * Stats object to track various statistics.
+     */
+    private Stats stats;
 
     /**
      * Reference to the URL queue.
@@ -32,6 +38,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     public Gateway() throws RemoteException {
         super();
+        stats = new Stats();
         try {
             Registry registry = LocateRegistry.getRegistry(Ports.URL_QUEUE_PORT);
             queue = (UrlQueueInterface) registry.lookup("queue");
@@ -153,9 +160,27 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     @Override
     public String stats() throws RemoteException {
-        return "Gateway connected barrels: " + barrels.size();
-    }
+        Map<String, Long> topSearches = stats.getTopSearches();
+        Map<String, Long> activeBarrels = stats.getActiveBarrels();
+        Map<String, Long> responseTimes = stats.getAverageResponse();
 
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== Gateway Statistics ===\n\n");
+        sb.append("Top 10 Searches:\n");
+        for (Map.Entry<String, Long> entry : topSearches.entrySet()) {
+            sb.append(String.format("  \"%s\" - %d times\n", entry.getKey(), entry.getValue()));
+        }
+        sb.append("Active Barrels:\n");
+        for (Map.Entry<String, Long> entry : activeBarrels.entrySet()) {
+            sb.append(String.format("  \"%s\" - %d indexes\n", entry.getKey(), entry.getValue()));
+        }
+        sb.append("Average Response Times (tenths of seconds):\n");
+        for (Map.Entry<String, Long> entry : responseTimes.entrySet()) {
+            sb.append(String.format("  \"%s\" - %d tenths\n", entry.getKey(), entry.getValue()));
+        }
+
+        return sb.toString();
+    }
     //------------------ END OF USER FUNCTIONS ------------------//
 
     /**
