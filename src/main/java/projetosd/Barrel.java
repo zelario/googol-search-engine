@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.Scanner;
 
 /**
  * Implementation of the Index barrel remote interface.
@@ -20,6 +21,11 @@ import java.util.concurrent.ConcurrentMap;
  * @version 1.0
  */
 public class Barrel extends UnicastRemoteObject implements BarrelInterface {
+
+    /**
+     * The port this barrel is running on.
+     */
+    private static int port;
 
     /**
      * Counter for the number of URLs parsed.
@@ -82,10 +88,16 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      */
     public static void main(String[] args) {
         try {
+            try (Scanner scanner = new Scanner(System.in)) {
+                System.out.print("Enter the port for this barrel: ");
+                port = scanner.nextInt();
+            }
+
             Barrel barrel = new Barrel();
-            Registry registry = LocateRegistry.createRegistry(8183);
-            registry.rebind("index", barrel);
-            Debug.info("Barrel ready on port: 8183");
+            Registry registry = LocateRegistry.createRegistry(port);
+            registry.rebind("barrel", barrel);
+            Debug.info("Barrel running on port: " + port);
+
         } catch (RemoteException e) {
             Debug.error("Failed to start Barrel: " + e.getMessage());
         }

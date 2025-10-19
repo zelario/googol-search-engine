@@ -15,8 +15,6 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
 
-    static final int URL_QUEUE_PORT = 1099;
-
     /**
      * Queue for storing URLs.
      */
@@ -67,7 +65,7 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     public static void main(String[] args) {
         try {
             UrlQueue queue = new UrlQueue();
-            Registry registry = LocateRegistry.createRegistry(URL_QUEUE_PORT);
+            Registry registry = LocateRegistry.createRegistry(Ports.URL_QUEUE_PORT);
             registry.rebind("queue", queue);
             Debug.info("UrlQueue RMI server ready.");
         } catch (RemoteException e) {

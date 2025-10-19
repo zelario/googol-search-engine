@@ -56,7 +56,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     private void discoverBarrels() {
         for (int port : Ports.BARREL_PORTS) {
             try {
-                BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(port).lookup("index");
+                BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(port).lookup("barrel");
                 try {
                     barrel.ping();
                     barrels.add(barrel);
