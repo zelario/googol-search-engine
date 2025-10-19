@@ -15,6 +15,8 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
 
+    static final int URL_QUEUE_PORT = 1099;
+
     /**
      * Queue for storing URLs.
      */
@@ -29,22 +31,6 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     }
 
     /**
-     * Main for UrlQueue. Starts the RMI registry and binds the queue.
-     * @param args Command-line arguments
-     */
-    public static void main(String[] args) {
-        try {
-            UrlQueue queue = new UrlQueue();
-
-            Registry registry = LocateRegistry.createRegistry(1099);
-            registry.rebind("queue", queue);
-            System.out.println("Queue ready");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Adds a URL to the queue. User input URLs are prioritized.
      * @param url The URL to add
      * @param userInput True if the URL was provided by the user, false otherwise
@@ -52,14 +38,12 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
      */
     @Override
     public void addUrl(String url, boolean userInput) throws RemoteException {
-        // If userInput -> insert first so user input is processed first, if not, insert normally (FIFO)
         if (userInput) {
             urlQueue.addFirst(url);
         } else {
             urlQueue.add(url);
         }
-
-        System.out.println("[urlQueue] Added url: " + url);
+        Debug.info("URL added to queue: " + url);
     }
 
     /**
@@ -76,4 +60,18 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
         }
     }
 
+    /**
+     * Main for UrlQueue. Starts the RMI registry and binds the queue.
+     * @param args Command-line arguments
+     */
+    public static void main(String[] args) {
+        try {
+            UrlQueue queue = new UrlQueue();
+            Registry registry = LocateRegistry.createRegistry(URL_QUEUE_PORT);
+            registry.rebind("queue", queue);
+            Debug.info("UrlQueue RMI server ready.");
+        } catch (RemoteException e) {
+            Debug.error("UrlQueue exception: " + e.getMessage());
+        }
+    }
 }

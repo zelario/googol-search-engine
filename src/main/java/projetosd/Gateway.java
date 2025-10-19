@@ -16,20 +16,10 @@ import java.util.List;
  */
 public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
-    /*
-     * Gateway RMI port.
-     */
-    private static final int GATEWAY_PORT = 1098;
-
-    /*
-     * Known barrel ports for discovery.
-     */
-    private static final int BARREL_PORTS[] = {8183};
-
-    /*
+    /**
      * Reference to the URL queue.
      */
-    private UrlQueueInterface queue;    
+    private UrlQueueInterface queue;
 
     /*
      * List of connected barrels.
@@ -43,10 +33,11 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     public Gateway() throws RemoteException {
         super();
         try {
-            this.queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
+            Registry registry = LocateRegistry.getRegistry(Ports.URL_QUEUE_PORT);
+            queue = (UrlQueueInterface) registry.lookup("queue");
+            Debug.info("Connected to URL Queue on port " + Ports.URL_QUEUE_PORT);
         } catch (NotBoundException | RemoteException e) {
-            Debug.error("UrlQueue not available at startup: " + e.getMessage());
-            this.queue = null;
+            Debug.error("URL Queue not available: " + e.getMessage());
         }
         discoverBarrels();
     }
@@ -56,11 +47,16 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @throws RemoteException
      */
     private void discoverBarrels() {
-        for (int port : BARREL_PORTS) {
+        for (int port : Ports.BARREL_PORTS) {
             try {
                 BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(port).lookup("index");
-                barrels.add(barrel);
-                Debug.info("Discovered barrel on port " + port);
+                try {
+                    barrel.ping();
+                    barrels.add(barrel);
+                    Debug.info("Discovered barrel on port " + port);
+                } catch (RemoteException e) {
+                    Debug.error("Barrel on port " + port + " is not responding.");
+                }
             } catch (NotBoundException | RemoteException e) {
                 Debug.error("No barrel on port: " + port + " -> " + e.getMessage());
             }
@@ -89,6 +85,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         }
         return null;
     }
+
+    //------------------ USER FUNCTIONS ------------------//
 
     /**
      * Index a URL at the URL queue.
@@ -140,7 +138,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 pageLists.add(new ArrayList<>(pages.subList(i, to)));
             }
             Debug.info("Search completed successfully.");
-            return pageLists;
+            return pageLists; //TODO backlinks depois do resultado
 
         } catch (RemoteException e) {
             Debug.error("Search failed on barrel: " + e.getMessage());
@@ -158,6 +156,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         return "Gateway connected barrels: " + barrels.size();
     }
 
+    //------------------ END OF USER FUNCTIONS ------------------//
+
     /**
      * Main method for the Gateway.
      */
@@ -165,9 +165,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         try {
             Gateway server = new Gateway();
 
-            Registry registry = LocateRegistry.createRegistry(GATEWAY_PORT);
+            Registry registry = LocateRegistry.createRegistry(Ports.GATEWAY_PORT);
             registry.rebind("gateway", server);
-            Debug.info("Gateway ready on port " + GATEWAY_PORT);
+            Debug.info("Gateway ready on port " + Ports.GATEWAY_PORT);
 
         } catch (RemoteException e) {
             Debug.error("Failed to start Gateway: " + e.getMessage());

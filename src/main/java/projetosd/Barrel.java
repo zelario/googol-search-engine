@@ -34,7 +34,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     /**
      * Map storing indexed words and their associated URLs.
      */
-    private ConcurrentMap<String, Set<String>> indexedItems;
+    private ConcurrentMap<String, Set<String>> indexedWords;
 
     /**
      * Constructs the Barrel.
@@ -42,7 +42,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      */
     public Barrel() throws RemoteException {
         super();
-        indexedItems = new ConcurrentHashMap<>();
+        indexedWords = new ConcurrentHashMap<>();
         pages = new ConcurrentHashMap<>();
     }
 
@@ -55,7 +55,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     @Override
     public synchronized void addToIndex(String word, String url) throws java.rmi.RemoteException {
         // If the word (key) is not there, it creates a new list (synchronized also) and adds the url
-        indexedItems.computeIfAbsent(word, k -> Collections.synchronizedSet(new HashSet<>())).add(url);
+        indexedWords.computeIfAbsent(word, k -> Collections.synchronizedSet(new HashSet<>())).add(url);
     }
 
     /**

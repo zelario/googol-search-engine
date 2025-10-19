@@ -14,10 +14,9 @@ import java.rmi.registry.Registry;
 public class Client {
     public static void main(String[] args) {
         try {
-            int GATEWAY_PORT = 1098;
-            Registry registry = LocateRegistry.getRegistry(GATEWAY_PORT);
+            Registry registry = LocateRegistry.getRegistry(Ports.GATEWAY_PORT);
             GatewayInterface gateway = (GatewayInterface) registry.lookup("gateway");
-            System.out.println("Connected to gateway on port " + GATEWAY_PORT);
+            System.out.println("Connected to gateway on port " + Ports.GATEWAY_PORT);
 
         } catch (NotBoundException | RemoteException e) {
             Debug.error("Gateway not available: " + e.getMessage());
