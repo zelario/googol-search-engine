@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.Scanner;
 
 /**
@@ -196,6 +194,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      */
     public static void main(String[] args) {
         try {
+            int port;
             try (Scanner scanner = new Scanner(System.in)) {
                 System.out.print("Enter the port for this barrel: ");
                 port = scanner.nextInt();
