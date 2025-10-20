@@ -119,8 +119,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @return      List of Page objects
      */
     public List<Page> searchQuery(String[] terms) {
-        // TODO: add relevance factor
-
         Database db = new Database();
         List<Page> pages = new ArrayList<>();
 
@@ -199,7 +197,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         try {
             Barrel barrel = new Barrel();
             Registry registry = LocateRegistry.createRegistry(8183);
-            registry.rebind("index", barrel);
+            registry.rebind("barrel", barrel);
             Debug.info("Barrel ready on port: 8183");
         } catch (RemoteException e) {
             Debug.error("Failed to start Barrel: " + e.getMessage());
