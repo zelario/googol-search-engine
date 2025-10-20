@@ -1,6 +1,10 @@
 package projetosd;
 
 import java.rmi.registry.LocateRegistry;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import org.jsoup.HttpStatusException;
@@ -50,8 +54,9 @@ public class Downloader extends Thread {
     @Override
     public void run() {
         try {
-            BarrelInterface index = (BarrelInterface) LocateRegistry.getRegistry(8183).lookup("index");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
+            ArrayList<String> pageWords = new ArrayList<>();
+            ArrayList<String> relatedUrls = new ArrayList<>();
 
             while (true) {
                 String url = queue.takeUrl();
@@ -69,7 +74,7 @@ public class Downloader extends Thread {
                 StringTokenizer st = new StringTokenizer(text, " \t\n\r\f,.:;?![]'\"");
 
                 while (st.hasMoreTokens()) {
-                    index.addToIndex(st.nextToken(), url);
+                    pageWords.add(st.nextToken());
                 }
 
                 Elements links = doc.select("a[href]");
@@ -78,11 +83,56 @@ public class Downloader extends Thread {
                     String pageUrl = link.attr("href");
                     if ((pageUrl.startsWith("https://"))) {
                         queue.addUrl(pageUrl, false);
+                        relatedUrls.add(pageUrl);
                     }
+                }
+
+                // Fetch title and description
+                String title = doc.title();
+                String description = "";
+
+                // Try different descriptions/citations from the pages
+                String metaDesc = doc.select("meta[name=description]").attr("content");
+                if(!metaDesc.isBlank()) description = truncateDescription(metaDesc);
+
+                if(description.isEmpty()){
+                    Elements paragraphs = doc.select("p");
+                    for (Element p : paragraphs){
+                        String paraText = p.text().trim();
+                        // Ignore very short descriptions
+                        if (text.length() > 15) description = truncateDescription(paraText);
+                    }
+                }
+
+                if(description.isEmpty()){
+                    String bodyText = doc.body().text();
+                    description = truncateDescription(bodyText);
+                }
+
+                // TODO: add failback logic
+                if(!Barrel.addEntry(url, pageWords, title, description, relatedUrls)){
+                    System.out.println("[DOWNLOADER] Failed to parse and store an url");
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     *  Truncates description to reduce citation size
+     *
+     * @param description   Text to be truncated or not
+     * @return              (If necessary) Trimmed text
+     */
+    private static String truncateDescription(String description){
+        int maxLength = 30;
+
+        if (description.length() < maxLength) return description;
+
+        int periodIndex = description.indexOf(".", maxLength);
+        if(periodIndex != -1) return description.substring(0, periodIndex + 1).trim();
+
+        return description.substring(0, maxLength).trim() + "...";
     }
 }

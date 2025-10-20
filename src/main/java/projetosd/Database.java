@@ -32,7 +32,6 @@ public class Database {
         this.dbName = dotenv.get("DB_NAME");
         this.username = dotenv.get("DB_USERNAME");
         this.password = dotenv.get("DB_PASSWORD", "");
-
     }
 
     /**
@@ -53,6 +52,15 @@ public class Database {
         catch (SQLException e){
             System.out.println("[DATABASE] Connection Error!");
             return null;
+        }
+    }
+
+    // TODO: method to verify if all barrels are in the same state
+    public void verifyStatus(){
+        try{
+
+        } catch (Exception e){
+            System.out.println("[DATABASE] Could not guarantee same state for all barrels. Exiting...");
         }
     }
 }
