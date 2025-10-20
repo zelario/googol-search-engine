@@ -22,7 +22,7 @@ import java.util.Scanner;
 public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     /**
      * Constructs the Barrel.
-     * @throws RemoteException
+     * @throws RemoteException RMI exception
      */
     public Barrel() throws RemoteException {
         super();
@@ -30,7 +30,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
     /**
      * Pings the barrel to check if working.
-     * @throws java.rmi.RemoteException
+     * @throws java.rmi.RemoteException RMI exception
      */
     @Override
     public void ping() throws java.rmi.RemoteException {
@@ -44,9 +44,8 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @param citation      Short citation from the page
      * @param relatedUrls   All urls in that page
      * @return              Boolean to indicate success or not
-     * @throws SQLException DB (barrel) Error
      */
-    public static boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws SQLException {
+    public static boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls){
         Database db = new Database();
 
         String insertUrlQuery = "INSERT INTO url(url, title, citation) VALUES (?, ?, ?)";
@@ -84,7 +83,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             if(words != null && !words.isEmpty()) {
                 try (PreparedStatement psWords = conn.prepareStatement(insertWordsQuery)) {
                     for (String word : words) {
-                        psWords.setString(1, url);
+                        psWords.setString(1, word);
                         psWords.addBatch();
                     }
 

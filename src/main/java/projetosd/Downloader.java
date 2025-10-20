@@ -112,7 +112,7 @@ public class Downloader extends Thread {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("[DOWNLOADER] ERROR: " + e.getMessage());
         }
     }
 

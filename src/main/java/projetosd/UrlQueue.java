@@ -22,7 +22,7 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
 
     /**
      * Constructs the UrlQueue.
-     * @throws java.rmi.RemoteException 
+     * @throws java.rmi.RemoteException RMI exception
      */
     public UrlQueue() throws java.rmi.RemoteException {
         super();
@@ -32,7 +32,7 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
      * Adds a URL to the queue. User input URLs are prioritized.
      * @param url The URL to add
      * @param userInput True if the URL was provided by the user, false otherwise
-     * @throws RemoteException
+     * @throws RemoteException RMI exception
      */
     @Override
     public void addUrl(String url, boolean userInput) throws RemoteException {
@@ -47,7 +47,7 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     /**
      * Retrieves and removes the next URL from the queue.
      * @return The next URL, or null if interrupted
-     * @throws RemoteException
+     * @throws RemoteException RMI exception
      */
     @Override
     public String takeUrl() throws RemoteException {
