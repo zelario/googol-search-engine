@@ -179,7 +179,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                     pages.add(new Page(rs.getString("url"), "", ""));
                 }
             }
-
         }
         catch (Exception e){
             System.out.println("[DOWNLOADER] Error fetching pages: " + e.getMessage());
