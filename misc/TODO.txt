@@ -9,3 +9,4 @@ cntrl f TODO nos barrels
 ---BARRELS
 
 1. Temos de passar as paginas (urls e metadata) para base de dados
+
