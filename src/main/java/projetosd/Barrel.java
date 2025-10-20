@@ -22,27 +22,6 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class Barrel extends UnicastRemoteObject implements BarrelInterface {
-
-    /**
-     * The port this barrel is running on.
-     */
-    private static int port;
-
-    /**
-     * Counter for the number of URLs parsed.
-     */
-    private long counter = 0;
-
-    /**
-     * Map storing Page metadata for indexed pages.
-     */
-    private ConcurrentMap<String, Page> pages = new ConcurrentHashMap<>(); //TODO TEM DE SER PASSADO PARA BASE DE DADOS
-
-    /**
-     * Map storing indexed words and their associated URLs.
-     */
-    private ConcurrentMap<String, Set<String>> indexedWords;
-
     /**
      * Constructs the Barrel.
      * @throws RemoteException
@@ -141,8 +120,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @return      List of Page objects
      */
     public List<Page> searchQuery(String[] terms) {
-        // TODO: add relevance factor
-
         Database db = new Database();
         List<Page> pages = new ArrayList<>();
 
