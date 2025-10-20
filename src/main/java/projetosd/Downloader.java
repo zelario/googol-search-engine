@@ -54,7 +54,6 @@ public class Downloader extends Thread {
     @Override
     public void run() {
         try {
-            BarrelInterface index = (BarrelInterface) LocateRegistry.getRegistry(8183).lookup("index");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
             ArrayList<String> pageWords = new ArrayList<>();
             ArrayList<String> relatedUrls = new ArrayList<>();
@@ -92,22 +91,26 @@ public class Downloader extends Thread {
                 String title = doc.title();
                 String description = "";
 
-                // Try different descriptions
+                // Try different descriptions/citations from the pages
                 String metaDesc = doc.select("meta[name=description]").attr("content");
                 if(!metaDesc.isBlank()) description = truncateDescription(metaDesc);
 
-                Elements paragraphs = doc.select("p");
-                for (Element p : paragraphs){
-                    String paraText = p.text().trim();
-                    // Ignore very short descriptions
-                    if (text.length() > 15) description = truncateDescription(paraText);
+                if(description.isEmpty()){
+                    Elements paragraphs = doc.select("p");
+                    for (Element p : paragraphs){
+                        String paraText = p.text().trim();
+                        // Ignore very short descriptions
+                        if (text.length() > 15) description = truncateDescription(paraText);
+                    }
                 }
 
-                String bodyText = doc.body().text();
-                description = truncateDescription(bodyText);
+                if(description.isEmpty()){
+                    String bodyText = doc.body().text();
+                    description = truncateDescription(bodyText);
+                }
 
                 // TODO: add failback logic
-                if(!addEntry(url, pageWords, title, description, relatedUrls)){
+                if(!Barrel.addEntry(url, pageWords, title, description, relatedUrls)){
                     System.out.println("[DOWNLOADER] Failed to parse and store an url");
                 }
             }
@@ -117,81 +120,11 @@ public class Downloader extends Thread {
     }
 
     /**
-     *  Adds all necessary info into a barrel
-     * @param url           Page URL
-     * @param words         Words found in page
-     * @param title         Page title
-     * @param citation      Short citation from the page
-     * @param relatedUrls   All urls in that page
-     * @return              Boolean to indicate success or not
-     * @throws SQLException DB (barrel) Error
+     *  Truncates description to reduce citation size
+     *
+     * @param description   Text to be truncated or not
+     * @return              (If necessary) Trimmed text
      */
-    private boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws SQLException {
-        Database db = new Database();
-
-        String insertUrlQuery = "INSERT INTO url(url, title, citation) VALUES (?, ?, ?)";
-        String insertPageUrlsQuery = "INSERT INTO url_url(url_url, url_url1) VALUES (?, ?)";
-        String insertWordsQuery = "INSERT INTO words(word) VALUES (?) ON CONFLICT (word) DO NOTHING";
-        String insertWordsUrlQuery = "INSERT INTO words_url(words_word, url_url) VALUES (?, ?)";
-
-        // There is also a Connection object of jsoup so it is better to explicitly declare it as sql connction object
-        try (java.sql.Connection conn = db.getConnection()){
-            // Begin transaction
-            conn.setAutoCommit(false);
-
-            try (PreparedStatement psUrl = conn.prepareStatement(insertUrlQuery)) {
-                psUrl.setString(1, url);
-                psUrl.setString(2, title);
-                psUrl.setString(3, citation);
-
-                try (ResultSet rs = psUrl.executeQuery()) {
-                    rs.next();
-                }
-            }
-
-            if (relatedUrls != null && !relatedUrls.isEmpty()) {
-                try (PreparedStatement psPageUrls = conn.prepareStatement(insertPageUrlsQuery)) {
-                    for (String relatedUrl : relatedUrls) {
-                        psPageUrls.setString(1, url);
-                        psPageUrls.setString(2, relatedUrl);
-                        psPageUrls.addBatch();
-                    }
-
-                    psPageUrls.executeBatch();
-                }
-            }
-
-            if(words != null && !words.isEmpty()) {
-                try (PreparedStatement psWords = conn.prepareStatement(insertWordsQuery)) {
-                    for (String word : words) {
-                        psWords.setString(1, url);
-                        psWords.addBatch();
-                    }
-
-                    psWords.executeBatch();
-                }
-
-                try(PreparedStatement psWordsUrls = conn.prepareStatement(insertWordsUrlQuery)) {
-                    for (String word : words) {
-                        psWordsUrls.setString(1, word);
-                        psWordsUrls.setString(2, url);
-                        psWordsUrls.addBatch();
-                    }
-
-                    psWordsUrls.executeBatch();
-                }
-            }
-
-            conn.commit();
-            return true;
-
-       } catch (Exception e){
-           System.out.println("[DOWNLOADER] Error adding entry to barrels: " + e.getMessage());
-           try { db.getConnection().rollback(); } catch (SQLException e1) {System.out.println("[DOWNLOADER] Barrel could not rollback" + e1.getMessage());}
-           return false;
-        }
-    }
-
     private static String truncateDescription(String description){
         int maxLength = 30;
 

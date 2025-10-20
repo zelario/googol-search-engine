@@ -32,7 +32,6 @@ public class Database {
         this.dbName = dotenv.get("DB_NAME");
         this.username = dotenv.get("DB_USERNAME");
         this.password = dotenv.get("DB_PASSWORD", "");
-
     }
 
     /**
