@@ -11,14 +11,6 @@ import java.util.List;
  */
 public interface BarrelInterface extends Remote {
     /**
-     * Adds a word and its associated URL to the index.
-     * @param word The word to add
-     * @param url The URL where the word was found
-     * @throws java.rmi.RemoteException if a remote error occurs
-     */
-    void addToIndex(String word, String url) throws java.rmi.RemoteException;
-
-    /**
      * Search for pages where url contains all terms.
      * @param terms The search terms
      * @returns Returns a list of pages (urls and metadata).

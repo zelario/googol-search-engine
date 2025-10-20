@@ -4,11 +4,12 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -20,52 +21,12 @@ import java.util.concurrent.ConcurrentMap;
  * @version 1.0
  */
 public class Barrel extends UnicastRemoteObject implements BarrelInterface {
-
-    /**
-     * Counter for the number of URLs parsed.
-     */
-    private long counter = 0;
-
-    /**
-     * Map storing Page metadata for indexed pages.
-     */
-    private ConcurrentMap<String, Page> pages = new ConcurrentHashMap<>(); //TODO TEM DE SER PASSADO PARA BASE DE DADOS
-
-    /**
-     * Map storing indexed words and their associated URLs.
-     */
-    private ConcurrentMap<String, Set<String>> indexedWords;
-
     /**
      * Constructs the Barrel.
      * @throws RemoteException
      */
     public Barrel() throws RemoteException {
         super();
-        indexedWords = new ConcurrentHashMap<>();
-        pages = new ConcurrentHashMap<>();
-    }
-
-    /**
-     * Adds a word and its associated URL to the index.
-     * @param word The word to add
-     * @param url The URL where the word was found
-     * @throws java.rmi.RemoteException
-     */
-    @Override
-    public synchronized void addToIndex(String word, String url) throws java.rmi.RemoteException {
-        // If the word (key) is not there, it creates a new list (synchronized also) and adds the url
-        indexedWords.computeIfAbsent(word, k -> Collections.synchronizedSet(new HashSet<>())).add(url);
-    }
-
-    /**
-     * Search for pages containing all provided terms.
-     * @param terms The search terms
-     * @returns Returns a list of pages (urls and metadata).
-     */
-    @Override
-    public List<Page> searchQuery(String[] terms) throws java.rmi.RemoteException {
-        return new ArrayList<>();
     }
 
     /**
@@ -74,6 +35,160 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      */
     @Override
     public void ping() throws java.rmi.RemoteException {
+    }
+
+    /**
+     *  Adds all necessary info into a barrel
+     * @param url           Page URL
+     * @param words         Words found in page
+     * @param title         Page title
+     * @param citation      Short citation from the page
+     * @param relatedUrls   All urls in that page
+     * @return              Boolean to indicate success or not
+     * @throws SQLException DB (barrel) Error
+     */
+    public static boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws SQLException {
+        Database db = new Database();
+
+        String insertUrlQuery = "INSERT INTO url(url, title, citation) VALUES (?, ?, ?)";
+        String insertPageUrlsQuery = "INSERT INTO url_url(url_url, url_url1) VALUES (?, ?)";
+        String insertWordsQuery = "INSERT INTO words(word) VALUES (?) ON CONFLICT (word) DO NOTHING";
+        String insertWordsUrlQuery = "INSERT INTO words_url(words_word, url_url) VALUES (?, ?)";
+
+        // There is also a Connection object of jsoup so it is better to explicitly declare it as sql connction object
+        try (java.sql.Connection conn = db.getConnection()){
+            // Begin transaction
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement psUrl = conn.prepareStatement(insertUrlQuery)) {
+                psUrl.setString(1, url);
+                psUrl.setString(2, title);
+                psUrl.setString(3, citation);
+
+                try (ResultSet rs = psUrl.executeQuery()) {
+                    rs.next();
+                }
+            }
+
+            if (relatedUrls != null && !relatedUrls.isEmpty()) {
+                try (PreparedStatement psPageUrls = conn.prepareStatement(insertPageUrlsQuery)) {
+                    for (String relatedUrl : relatedUrls) {
+                        psPageUrls.setString(1, url);
+                        psPageUrls.setString(2, relatedUrl);
+                        psPageUrls.addBatch();
+                    }
+
+                    psPageUrls.executeBatch();
+                }
+            }
+
+            if(words != null && !words.isEmpty()) {
+                try (PreparedStatement psWords = conn.prepareStatement(insertWordsQuery)) {
+                    for (String word : words) {
+                        psWords.setString(1, url);
+                        psWords.addBatch();
+                    }
+
+                    psWords.executeBatch();
+                }
+
+                try(PreparedStatement psWordsUrls = conn.prepareStatement(insertWordsUrlQuery)) {
+                    for (String word : words) {
+                        psWordsUrls.setString(1, word);
+                        psWordsUrls.setString(2, url);
+                        psWordsUrls.addBatch();
+                    }
+
+                    psWordsUrls.executeBatch();
+                }
+            }
+
+            conn.commit();
+            return true;
+
+        } catch (Exception e){
+            System.out.println("[DOWNLOADER] Error adding entry to barrels: " + e.getMessage());
+            try { db.getConnection().rollback(); } catch (SQLException e1) {System.out.println("[DOWNLOADER] Barrel could not rollback" + e1.getMessage());}
+            return false;
+        }
+    }
+
+    /**
+     *  Fetches from the barrel (DB) all the pages that contain all the terms in the search query
+     * @param terms The search terms
+     * @return      List of Page objects
+     */
+    public List<Page> searchQuery(String[] terms) {
+        // TODO: add relevance factor
+
+        Database db = new Database();
+        List<Page> pages = new ArrayList<>();
+
+        try (java.sql.Connection conn = db.getConnection()) {
+            String placeholders = String.join(",", Collections.nCopies(terms.length, "?"));
+
+            String query = "SELECT u.url, u.title, u.citation, COUNT(DISTINCT uu.url_url) AS ref_count " +
+                    "FROM url u " +
+                    "JOIN words_url wu ON wu.url_url = u.url " +
+                    "JOIN words w ON wu.words_word = w.word " +
+                    "LEFT JOIN url_url uu ON uu.url_url1 = u.url " +
+                    "WHERE w.word IN (" + placeholders + ") " +
+                    "GROUP BY u.url, u.title, u.citation " +
+                    "HAVING COUNT(DISTINCT w.word) = ? " +
+                    "ORDER BY ref_count DESC;";
+
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+            for (int i = 0; i < terms.length; i++) {
+                stmt.setString(i + 1, terms[i]);
+            }
+
+            stmt.setInt(terms.length + 1, terms.length);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    pages.add(new Page(rs.getString("url"), rs.getString("title"), rs.getString("citation")));
+                }
+            } catch (SQLException e) {
+                System.out.println("[DOWNLOADER] Error fetching pages: " + e.getMessage());
+            }
+        } catch (Exception e) {
+            System.out.println("[DOWNLOADER] Error fetching pages: " + e.getMessage());
+        }
+
+        return pages;
+    }
+
+    /**
+     * Returns all pages that reference the given page
+     * @param page Page that is referenced
+     * @return     List of pages that referene the given page
+     */
+    public List<Page> getBacklinks(Page page){
+        Database db = new Database();
+        List<Page> pages = new ArrayList<>();
+
+        try (java.sql.Connection conn = db.getConnection()){
+            String query = "SELECT u.url " +
+                    "FROM url u " +
+                    "JOIN url_url uu ON uu.url_url = u.url " +
+                    "WHERE uu.url_url1 = ?; ";
+
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, page.getUrl());
+
+            try(ResultSet rs = stmt.executeQuery()){
+                while (rs.next()) {
+                    pages.add(new Page(rs.getString("url"), "", ""));
+                }
+            }
+
+        }
+        catch (Exception e){
+            System.out.println("[DOWNLOADER] Error fetching pages: " + e.getMessage());
+        }
+
+        return pages;
     }
 
     /**
