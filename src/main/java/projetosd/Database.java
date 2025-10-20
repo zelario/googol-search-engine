@@ -13,11 +13,11 @@ import java.sql.SQLException;
  * @version 1.0
  */
 public class Database {
-    private String hostname;
-    private String port;
-    private String dbName;
-    private String username;
-    private String password;
+    private final String hostname;
+    private final String port;
+    private final String dbName;
+    private final String username;
+    private final String password;
 
     /**
      * Database Class Constructor
@@ -40,7 +40,7 @@ public class Database {
      * @return DB (Barrel) Connection Object
      */
     public Connection getConnection(){
-        Connection connection = null;
+        Connection connection;
 
         try{
             String url = "jdbc:postgresql://" + this.hostname + ":" + this.port + "/" + this.dbName;
@@ -56,11 +56,11 @@ public class Database {
     }
 
     // TODO: method to verify if all barrels are in the same state
-    public void verifyStatus(){
+    /*public void verifyStatus(){
         try{
 
         } catch (Exception e){
             System.out.println("[DATABASE] Could not guarantee same state for all barrels. Exiting...");
         }
-    }
+    }*/
 }
