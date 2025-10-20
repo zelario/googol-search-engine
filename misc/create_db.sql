@@ -1,7 +1,7 @@
 CREATE TABLE url (
                      url	 VARCHAR(2048),
-                     title	 VARCHAR(128) NOT NULL DEFAULT 'Page',
-                     citation VARCHAR(256) NOT NULL,
+                     title	 VARCHAR(128) DEFAULT 'Page',
+                     citation VARCHAR(256),
                      PRIMARY KEY(url)
 );
 
@@ -26,3 +26,4 @@ ALTER TABLE words_url ADD CONSTRAINT words_url_fk1 FOREIGN KEY (words_word) REFE
 ALTER TABLE words_url ADD CONSTRAINT words_url_fk2 FOREIGN KEY (url_url) REFERENCES url(url);
 ALTER TABLE url_url ADD CONSTRAINT url_url_fk1 FOREIGN KEY (url_url) REFERENCES url(url);
 ALTER TABLE url_url ADD CONSTRAINT url_url_fk2 FOREIGN KEY (url_url1) REFERENCES url(url);
+
