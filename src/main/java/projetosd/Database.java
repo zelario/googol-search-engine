@@ -50,7 +50,7 @@ public class Database {
             return connection;
         }
         catch (SQLException e){
-            System.out.println("[DATABASE] Connection Error!");
+            Debug.error(e.getMessage());
             return null;
         }
     }

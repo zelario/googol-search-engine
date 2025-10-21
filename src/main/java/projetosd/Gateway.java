@@ -93,6 +93,56 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         return null;
     }
 
+    //------------------ CALLBACK FUNCTIONS ------------------//
+
+    /**
+     * Callback: Barrels send periodic stats updates.
+     * @param barrelPort Barrel port
+     * @param indexSize  Current index size
+     * @param urlsParsed Total URLs parsed
+     */
+    @Override
+    public void callbackStats(int barrelPort, int indexSize, long urlsParsed) throws RemoteException {
+        String barrelId = "barrel-" + barrelPort;
+        stats.updateBarrelIndexSize(barrelId, indexSize);
+        Debug.info("Stats updated from " + barrelId + ": indexSize=" + indexSize + ", urlsParsed=" + urlsParsed);
+    }
+
+    /**
+     * Callback: Barrels notify active/inactive state changes.
+     * @param barrelPort Barrel port
+     * @param isActive true if active, false if inactive
+     * @throws RemoteException
+     */
+    @Override
+    public void callbackBarrelStatus(int barrelPort, boolean isActive) throws RemoteException {
+        String barrelId = "barrel-" + barrelPort;
+        if (isActive) {
+            // Mark/refresh as active (size 0 until next update arrives)
+            stats.updateBarrelIndexSize(barrelId, 0);
+            Debug.info("Barrel active: " + barrelId);
+        } else {
+            stats.removeBarrel(barrelId);
+            Debug.warning("Barrel inactive: " + barrelId);
+        }
+    }
+
+    /**
+     * Callback: Barrels report search completion time for response-time stats.
+     * @param barrelPort Barrel port
+     * @param queryId Query identifier
+     * @param responseTime Response time in ms
+     * @throws RemoteException
+     */
+    @Override
+    public void callbackSearchCompleted(int barrelPort, String queryId, long responseTime) throws RemoteException {
+        String barrelId = "barrel-" + barrelPort;
+        stats.updateSearchTime(barrelId, responseTime);
+        Debug.info("Search completed on " + barrelId + " for query " + queryId + " in " + responseTime + " ms");
+    }
+
+    //---------------- END CALLBACK FUNCTIONS -------------//
+
     //------------------ USER FUNCTIONS ------------------//
 
     /**

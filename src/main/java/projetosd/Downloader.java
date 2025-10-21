@@ -58,7 +58,7 @@ public class Downloader extends Thread {
             while (true) {
                 String url = queue.takeUrl();
 
-                System.out.println(threadNum + ": " + url);
+                Debug.info(threadNum + ": " + url);
                 Document doc;
                 try {
                     doc = Jsoup.connect(url).get();
@@ -108,11 +108,11 @@ public class Downloader extends Thread {
 
                 // TODO: add failback logic
                 if(!Barrel.addEntry(url, pageWords, title, description, relatedUrls)){
-                    System.out.println("[DOWNLOADER] Failed to parse and store an url");
+                    Debug.info("Failed to parse and store an url");
                 }
             }
         } catch (Exception e) {
-            System.out.println("[DOWNLOADER] ERROR: " + e.getMessage());
+            Debug.error(e.getMessage());
         }
     }
 
