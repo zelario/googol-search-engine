@@ -41,7 +41,7 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
         } else {
             urlQueue.add(url);
         }
-        Debug.info("URL added to queue: " + url);
+        Debug.info("[URLQueue] Added to queue: " + url);
     }
 
     /**
@@ -67,9 +67,9 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
             UrlQueue queue = new UrlQueue();
             Registry registry = LocateRegistry.createRegistry(Ports.URL_QUEUE_PORT);
             registry.rebind("queue", queue);
-            Debug.info("UrlQueue RMI server ready.");
+            Debug.info("[URLQueue] RMI server ready.");
         } catch (RemoteException e) {
-            Debug.error("UrlQueue exception: " + e.getMessage());
+            Debug.error("[URLQueue] Exception: " + e.getMessage());
         }
     }
 }

@@ -22,10 +22,10 @@ public interface GatewayInterface extends Remote {
     /**
      * CALLBACK: Notifies the Gateway about a Barrel's status change.
      * @param barrelPort Barrel port
-     * @param isActive true if active, false if inactive
+     * @param status Status message
      * @throws RemoteException
      */
-    void callbackBarrelStatus(int barrelPort, boolean isActive) throws RemoteException;
+    void callbackBarrelStatus(int barrelPort, boolean status) throws RemoteException;
 
     /**
      * CALLBACK: Notifies the Gateway that a search has been completed by a Barrel.

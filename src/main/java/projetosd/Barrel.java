@@ -1,5 +1,6 @@
 package projetosd;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -37,7 +38,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     }
 
     /**
-     *  Adds all necessary info into a barrel
+     * Adds all necessary info into a barrel
      * @param url           Page URL
      * @param words         Words found in page
      * @param title         Page title
@@ -116,6 +117,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @param terms The search terms
      * @return      List of Page objects
      */
+    @Override
     public List<Page> searchQuery(String[] terms) {
         Database db = new Database();
         List<Page> pages = new ArrayList<>();
@@ -201,10 +203,20 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             Barrel barrel = new Barrel();
             Registry registry = LocateRegistry.createRegistry(port);
             registry.rebind("barrel", barrel);
-            Debug.info("Barrel running on port: " + port);
+            Debug.info("[BARREL] Running on port: " + port);
+
+            GatewayInterface gateway;
+            try {
+                registry = LocateRegistry.getRegistry(Ports.GATEWAY_PORT);
+                gateway = (GatewayInterface) registry.lookup("gateway");
+                Debug.info("[BARREL] Connected to gateway on port " + Ports.GATEWAY_PORT);
+                gateway.callbackBarrelStatus(port, true);
+            } catch (NotBoundException | RemoteException e) {
+                Debug.error("[BARREL] Gateway not available: " + e.getMessage());
+            }
 
         } catch (RemoteException e) {
-            Debug.error("Failed to start Barrel: " + e.getMessage());
+            Debug.error("[BARREL] Failed to start: " + e.getMessage());
         }
     }
 }

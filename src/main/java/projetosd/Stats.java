@@ -24,7 +24,7 @@ public class Stats {
 	/*
      * Active barrels and their index sizes
      */
-	private final ConcurrentMap<String, Long> barrelIndexSizes = new ConcurrentHashMap<>();
+	private final ConcurrentMap<Integer, Long> barrelIndexSizes = new ConcurrentHashMap<>();
 
 	/*
      * Barrel response time stats class
@@ -34,7 +34,7 @@ public class Stats {
 		final AtomicLong count = new AtomicLong(0);
 	}
 
-	private final ConcurrentMap<String, ResponseTime> barrelTimes = new ConcurrentHashMap<>();
+	private final ConcurrentMap<Integer, ResponseTime> barrelTimes = new ConcurrentHashMap<>();
 
 	/**
 	 * Record a search query occurrence.
@@ -50,28 +50,26 @@ public class Stats {
 
 	/**
 	 * Record a search response time for a barrel.
-	 * @param barrelId unique barrel identifier
+	 * @param barrelPort barrel RMI port
 	 * @param millis response time in milliseconds
 	 */
-	public void updateSearchTime(String barrelId, long millis) {
-		if (barrelId == null) return;
-		ResponseTime responseTime = barrelTimes.computeIfAbsent(barrelId, key -> new ResponseTime());
+	public void updateSearchTime(int barrelPort, long millis) {
+		ResponseTime responseTime = barrelTimes.computeIfAbsent(barrelPort, key -> new ResponseTime());
 		responseTime.total.addAndGet(millis);
 		responseTime.count.incrementAndGet();
 	}
 
 	/**
 	 * Update a barrel's index size.
-	 * @param barrelId Barrel port
+	 * @param barrelPort Barrel port
 	 * @param indexSize Number of indexed pages
 	 */
-	public void updateBarrelIndexSize(String barrelId, long indexSize) {
-		if (barrelId == null) return;
-		Long current = barrelIndexSizes.get(barrelId);
+	public void updateBarrelIndexSize(int barrelPort, long indexSize) {
+		Long current = barrelIndexSizes.get(barrelPort);
 		if (current == null) {
-			barrelIndexSizes.put(barrelId, 1L);
+			barrelIndexSizes.put(barrelPort, 1L);
 		} else {
-			barrelIndexSizes.put(barrelId, current + 1L);
+			barrelIndexSizes.put(barrelPort, current + 1L);
 		}
 	}
 
@@ -97,38 +95,37 @@ public class Stats {
 
 	/**
 	 * Return average response time in tenths of seconds for each barrel.
-	 * Map key = barrelId, value = avg in tenths 
-     * @return Map of barrel IDs to average response times in tenths of seconds.
+	 * Map key = barrelPort, value = avg in tenths 
+	 * @return Map of barrel ports to average response times in tenths of seconds.
 	 */
-	public Map<String, Long> getAverageResponse() {
-		Map<String, Long> averages = new HashMap<>();
-		for (Map.Entry<String, ResponseTime> entry : barrelTimes.entrySet()) {
-			String barrelId = entry.getKey();
+	public Map<Integer, Long> getAverageResponse() {
+		Map<Integer, Long> averages = new HashMap<>();
+		for (Map.Entry<Integer, ResponseTime> entry : barrelTimes.entrySet()) {
+			Integer barrelPort = entry.getKey();
 			ResponseTime responseTime = entry.getValue();
 			long count = responseTime.count.get();
 
 			long totalMillis = responseTime.total.get();
-			long millis = totalMillis / count;
+			long millis = count == 0 ? 0 : totalMillis / count;
 			long tenths = Math.round(millis / 100.0);
-			averages.put(barrelId, tenths);
+			averages.put(barrelPort, tenths);
 		}
 		return averages;
 	}
 
 	/**
 	 * Snapshot of active barrels and their sizes.
-     * @return Map of barrel IDs to index sizes.
+	 * @return Map of barrel ports to index sizes.
 	 */
-	public Map<String, Long> getActiveBarrels() {
+	public Map<Integer, Long> getActiveBarrels() {
 		return new HashMap<>(barrelIndexSizes);
 	}
 
 	/**
 	 * Remove a barrel from active list.
 	 */
-	public void removeBarrel(String barrelId) {
-		if (barrelId == null) return;
-		barrelIndexSizes.remove(barrelId);
-		barrelTimes.remove(barrelId);
+	public void removeBarrel(int barrelPort) {
+		barrelIndexSizes.remove(barrelPort);
+		barrelTimes.remove(barrelPort);
 	}
 }

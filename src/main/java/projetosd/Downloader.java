@@ -1,5 +1,7 @@
 package projetosd;
 
+import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -58,7 +60,7 @@ public class Downloader extends Thread {
             while (true) {
                 String url = queue.takeUrl();
 
-                Debug.info(threadNum + ": " + url);
+                Debug.info("[DOWNLOADER " + threadNum + "] " + url);
                 Document doc;
                 try {
                     doc = Jsoup.connect(url).get();
@@ -108,11 +110,11 @@ public class Downloader extends Thread {
 
                 // TODO: add failback logic
                 if(!Barrel.addEntry(url, pageWords, title, description, relatedUrls)){
-                    Debug.info("Failed to parse and store an url");
+                    Debug.info("[DOWNLOADER " + threadNum + "] Failed to parse and store an url");
                 }
             }
-        } catch (Exception e) {
-            Debug.error(e.getMessage());
+        } catch (IOException | NotBoundException e) {
+            Debug.error("[DOWNLOADER " + threadNum + "] " + e.getMessage());
         }
     }
 

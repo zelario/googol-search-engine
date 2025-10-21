@@ -1,10 +1,10 @@
 package projetosd;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import io.github.cdimascio.dotenv.Dotenv;
 
 /**
  * Database Class for Barrels Managment and Connection
@@ -50,7 +50,7 @@ public class Database {
             return connection;
         }
         catch (SQLException e){
-            Debug.error(e.getMessage());
+            Debug.error("[DATABASE] " + e.getMessage());
             return null;
         }
     }
