@@ -38,17 +38,17 @@ public class Client {
                 while (run) {
                     String query = scanner.nextLine().trim();
                     switch (query) {
-                        case "INDEX" -> {
+                        case "INDEX", "index" -> {
                             System.out.print("Enter URL to add: ");
                             String url = scanner.nextLine().trim();
                             gateway.index(url);
                             System.out.print("URL added successfully.\n");
                         }
-                        case "STATS" -> {
+                        case "STATS", "stats" -> {
                             String stats = gateway.stats(clientId);
                             System.out.println(stats);
                         }
-                        case "EXIT" -> {
+                        case "EXIT", "exit" -> {
                             run = false;
                             System.out.println("Exiting the application. Goodbye!");
                             Debug.info("[CLIENT] Client " + clientId + " has disconnected.");

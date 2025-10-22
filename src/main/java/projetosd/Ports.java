@@ -33,10 +33,25 @@ public class Ports {
      */
     public static int claimBarrelPort() {
         for (int port : BARREL_PORTS) {
-            try (ServerSocket socket = new ServerSocket(port)) {
+            try (ServerSocket ignored = new ServerSocket(port)) {
                 return port;
-            } catch (IOException e) {}
+            } catch (IOException e) {
+                Debug.info("[PORTS] Port already in use: " + port);
+            }
         }
         return -1; 
+    }
+
+    public static int lookBarrels() {
+        for (int port: BARREL_PORTS) {
+            //noinspection EmptyTryBlock
+            try (ServerSocket ignored = new ServerSocket(port)) {
+                // NOP
+            } catch (IOException e) {
+                return port;
+            }
+        }
+
+        return -1;
     }
 }

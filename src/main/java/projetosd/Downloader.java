@@ -24,14 +24,14 @@ public class Downloader extends Thread {
     /**
      * The thread number for this downloader instance.
      */
-    private final int threadNum;
+    private final int threadNumber;
 
     /**
      * Constructs a Downloader.
      * @param threadNum The thread number
      */
     public Downloader(int threadNum) {
-        this.threadNum = threadNum;
+        this.threadNumber = threadNum;
     }
 
     /**
@@ -58,14 +58,14 @@ public class Downloader extends Thread {
     public void run() {
         try {
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Ports.URL_QUEUE_PORT).lookup("queue");
-            BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Ports.claimBarrelPort()).lookup("barrel");
+            BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Ports.lookBarrels()).lookup("barrel");
             ArrayList<String> pageWords = new ArrayList<>();
             ArrayList<String> relatedUrls = new ArrayList<>();
 
             while (true) {
                 String url = queue.takeUrl();
 
-                Debug.info("[DOWNLOADER " + threadNum + "] " + url);
+                Debug.info("[DOWNLOADER " + threadNumber + "] " + url);
                 Document doc;
                 try {
                     doc = Jsoup.connect(url).get();
@@ -115,11 +115,11 @@ public class Downloader extends Thread {
 
                 // TODO: add failback logic
                 if(!barrel.addEntry(url, pageWords, title, description, relatedUrls)){
-                    Debug.info("[DOWNLOADER " + threadNum + "] Failed to parse and store an url");
+                    Debug.info("[DOWNLOADER " + threadNumber + "] Failed to parse and store an url");
                 }
             }
         } catch (IOException | NotBoundException e) {
-            Debug.error("[DOWNLOADER " + threadNum + "] " + e.getMessage());
+            Debug.error("[DOWNLOADER " + threadNumber + "] " + e.getMessage());
         }
     }
 

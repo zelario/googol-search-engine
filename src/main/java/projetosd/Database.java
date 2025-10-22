@@ -42,7 +42,7 @@ public class Database {
      * Database Class Constructor
      */
     public Database() {
-        Dotenv dotenv = Dotenv.configure().directory("../../../../../config/").load();
+        Dotenv dotenv = Dotenv.configure().directory("config/.env").load();
 
         this.hostname = dotenv.get("DB_HOSTNAME");
         this.port = dotenv.get("DB_PORT");
