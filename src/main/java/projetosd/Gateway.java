@@ -201,7 +201,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         Debug.info("[GATEWAY] Client " + clientId + " requested stats.");
 
         StringBuilder sb = new StringBuilder();
-        sb.append("=== Gateway Statistics ===\n\n");
+        sb.append("=== Statistics ===\n\n");
         sb.append("Top 10 Searches:\n");
         for (Map.Entry<String, Long> entry : topSearches.entrySet()) {
             sb.append(String.format("  \"%s\" - %d times\n", entry.getKey(), entry.getValue()));
