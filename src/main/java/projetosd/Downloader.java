@@ -53,7 +53,7 @@ public class Downloader extends Thread {
     @Override
     public void run() {
         try {
-            UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
+            UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Ports.URL_QUEUE_PORT).lookup("queue");
             BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Ports.claimBarrelPort()).lookup("barrel");
             ArrayList<String> pageWords = new ArrayList<>();
             ArrayList<String> relatedUrls = new ArrayList<>();

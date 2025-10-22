@@ -34,7 +34,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
     /**
      * Constructs the Gateway.
-     * @throws RemoteException 
+     * @throws RemoteException RMI exception
      */
     public Gateway() throws RemoteException {
         super();
@@ -76,7 +76,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Callback: Barrels notify state changes.
      * @param barrelPort Barrel port
      * @param status true if active, false if inactive
-     * @throws RemoteException
+     * @throws RemoteException RMI exception
      */
     @Override
     public void callbackBarrelStatus(int barrelPort, boolean status) throws RemoteException {
@@ -110,9 +110,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     /**
      * Callback: Barrels report search completion time for response-time stats.
      * @param barrelPort Barrel port
-     * @param queryId Query identifier
+     * @param query Query identifier
      * @param responseTime Response time in ms
-     * @throws RemoteException
+     * @throws RemoteException RMI exception
      */
     @Override
     public void callbackSearchCompleted(int barrelPort, String query, long responseTime) throws RemoteException {
@@ -127,7 +127,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     /**
      * Index a URL at the URL queue.
      * @param url the URL to index
-     * @throws RemoteException
+     * @throws RemoteException RMI exception
      */
     @Override
     public void index(String url) throws RemoteException {
@@ -147,7 +147,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Search for a query, returning found pages.
      * @param query Search query
      * @return list of lists of pages (each inner list has up to 10 pages)
-     * @throws RemoteException 
+     * @throws RemoteException RMI exception
      */
     @Override
     public List<List<Page>> search(String clientId, String query) throws RemoteException {
@@ -187,7 +187,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     /**
      * Get stats from the gateway.
      * @return stats string
-     * @throws RemoteException 
+     * @throws RemoteException RMI exception
      */
     @Override
     public String stats(String clientId) throws RemoteException {

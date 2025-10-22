@@ -20,7 +20,7 @@ public class Client {
             Debug.info("[CLIENT] Connected to gateway on port " + Ports.GATEWAY_PORT);
 
             System.out.print("---- Welcome to Googol! ----\n\n");
-            System.out.print("URL: To add new url\nSTATS: To see statistics\nEXIT: To exit the app\n\n");
+            System.out.print("INDEX: To add new url\nSTATS: To see statistics\nEXIT: To exit the app\n\n");
 
             boolean run = true;
             try (Scanner scanner = new Scanner(System.in)) {

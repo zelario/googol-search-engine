@@ -25,13 +25,13 @@ public class Database {
      */
     public Database() {
         // Load .env
-        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+        Dotenv dotenv = Dotenv.configure().directory("../../../../../config/").load();
 
         this.hostname = dotenv.get("DB_HOSTNAME");
         this.port = dotenv.get("DB_PORT");
         this.dbName = dotenv.get("DB_NAME");
         this.username = dotenv.get("DB_USERNAME");
-        this.password = dotenv.get("DB_PASSWORD", "");
+        this.password = dotenv.get("DB_PASSWORD");
     }
 
     /**
