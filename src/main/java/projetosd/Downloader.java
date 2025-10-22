@@ -54,6 +54,7 @@ public class Downloader extends Thread {
     public void run() {
         try {
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(1099).lookup("queue");
+            BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Ports.claimBarrelPort()).lookup("barrel");
             ArrayList<String> pageWords = new ArrayList<>();
             ArrayList<String> relatedUrls = new ArrayList<>();
 
@@ -109,7 +110,7 @@ public class Downloader extends Thread {
                 }
 
                 // TODO: add failback logic
-                if(!Barrel.addEntry(url, pageWords, title, description, relatedUrls)){
+                if(!barrel.addEntry(url, pageWords, title, description, relatedUrls)){
                     Debug.info("[DOWNLOADER " + threadNum + "] Failed to parse and store an url");
                 }
             }

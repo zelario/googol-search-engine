@@ -18,7 +18,7 @@ public class Ports {
     /*
      * Barrel RMI ports
      */
-    public static final int BARREL_PORTS[] = {2000, 2001, 2002, 2003};
+    public static final int[] BARREL_PORTS = {2000, 2001, 2002, 2003};
     
     /**
      * Gets the next available barrel port.

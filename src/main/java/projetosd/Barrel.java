@@ -42,16 +42,8 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     public void ping() throws java.rmi.RemoteException {
     }
 
-    /**
-     * Adds all necessary info into a barrel
-     * @param url           Page URL
-     * @param words         Words found in page
-     * @param title         Page title
-     * @param citation      Short citation from the page
-     * @param relatedUrls   All urls in that page
-     * @return              Boolean to indicate success or not
-     */
-    public static boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls){
+    @Override
+    public boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls){
         Database db = new Database();
 
         String insertUrlQuery = "INSERT INTO url(url, title, citation) VALUES (?, ?, ?)";
@@ -117,11 +109,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         }
     }
 
-    /**
-     *  Fetches from the barrel (DB) all the pages that contain all the terms in the search query
-     * @param terms The search terms
-     * @return List of Page objects
-     */
     @Override
     public List<Page> searchQuery(String[] terms) {
         Database db = new Database();
@@ -162,11 +149,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         return pages;
     }
 
-    /**
-     * Returns all pages that reference the given page
-     * @param page Page that is referenced
-     * @return     List of pages that referene the given page
-     */
+    @Override
     public List<Page> getBacklinks(Page page){
         Database db = new Database();
         List<Page> pages = new ArrayList<>();
