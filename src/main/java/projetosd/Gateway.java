@@ -52,7 +52,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Select an available barrel by pinging them.
      * @return an available barrel or null
      */
-    private BarrelInterface selectAvailableBarrel() {
+    private BarrelInterface selectAvailableBarrel() { //TODO Fazer timeout e backoff ao conectar barrels
         List<Map.Entry<Integer, BarrelInterface>> entries = new ArrayList<>(barrels.entrySet());
         while (!entries.isEmpty()) {
             int idx = (int) (Math.random() * entries.size());
