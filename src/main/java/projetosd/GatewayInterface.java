@@ -46,16 +46,18 @@ public interface GatewayInterface extends Remote {
     /**
     * Search for a query.
     * @param query Search query
+    * @param clientId Client identifier
     * @return list of pages
     * @throws RemoteException 
     */
-    List<List<Page>> search(String query) throws RemoteException;
+    List<List<Page>> search(String clientId, String query) throws RemoteException;
 
     /**
      * Get simple stats string from a barrel.
+     * @param clientId Client identifier
      * @return stats string
      * @throws RemoteException 
      */
-    String stats() throws RemoteException;
+    String stats(String clientId) throws RemoteException;
 }
 

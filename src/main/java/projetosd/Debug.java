@@ -1,5 +1,11 @@
 package projetosd;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Debug utility class.
  * Set DEBUG to false in production to disable all debug prints.
@@ -11,7 +17,31 @@ public class Debug {
     /**
      * Global debug flag. Set to false to disable debug output.
      */
-    public static boolean DEBUG = true; 
+    public static boolean DEBUG = true;
+    
+    /**
+     * Log file path.
+     */
+    private static final String LOG_FILE = "config/Googol.log";
+    
+    /**
+     * Date/time formatter.
+     */
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    /**
+     * Writes a message to the log file.
+     * @param level The log type (INFO, ERROR, WARNING)
+     * @param message The message to log
+     */
+    private static synchronized void writeToLog(String type, String message) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(LOG_FILE, true))) {
+            String timestamp = LocalDateTime.now().format(DATE_FORMATTER);
+            writer.println(String.format("[%s] [%s] %s", timestamp, type, message));
+        } catch (IOException e) {
+            System.err.println("[LOG ERROR] Failed to write to log file: " + e.getMessage());
+        }
+    }
 
     /**
      * Prints a debug message if DEBUG is enabled.
@@ -20,6 +50,7 @@ public class Debug {
     public static void info(String message) {
         if (DEBUG) {
             System.out.println("[INFO] " + message);
+            writeToLog("INFO", message);
         }
     }
     
@@ -30,6 +61,7 @@ public class Debug {
     public static void error(String message) {
         if (DEBUG) {
             System.err.println("[ERROR] " + message);
+            writeToLog("ERROR", message);
         }
     }
     
@@ -40,6 +72,7 @@ public class Debug {
     public static void warning(String message) {
         if (DEBUG) {
             System.out.println("[WARNING] " + message);
+            writeToLog("WARNING", message);
         }
     }
 }

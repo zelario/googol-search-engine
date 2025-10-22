@@ -20,25 +20,33 @@ public class Client {
             Debug.info("[CLIENT] Connected to gateway on port " + Ports.GATEWAY_PORT);
 
             System.out.print("---- Welcome to Googol! ----\n\n");
-            System.out.print("STATS: To see statistics\nEXIT: To exit the app\n\n> ");
+            System.out.print("STATS: To see statistics\nEXIT: To exit the app\n\n");
 
             boolean run = true;
-            Scanner scanner = new Scanner(System.in);
-            while (run) {
-                String query = scanner.nextLine().trim();
-                switch (query) {
-                    case "STATS" -> {
-                        String stats = gateway.stats();
-                        System.out.println(stats);
+            try (Scanner scanner = new Scanner(System.in)) {
+
+                System.out.print("Firstly, enter your client ID for logging purposes: ");
+                String clientId = scanner.nextLine().trim();
+                Debug.info("[CLIENT] Client " + clientId + " has connected.");
+
+                System.out.print("\n>  ");
+
+                while (run) {
+                    String query = scanner.nextLine().trim();
+                    switch (query) {
+                        case "STATS" -> {
+                            String stats = gateway.stats(clientId);
+                            System.out.println(stats);
+                        }
+                        case "EXIT" -> {
+                            run = false;
+                            System.out.println("Exiting the application. Goodbye!");
+                            Debug.info("[CLIENT] Client " + clientId + " has disconnected.");
+                        }
+                        default -> gateway.search(clientId, query);
                     }
-                    case "EXIT" -> {
-                        run = false;
-                        System.out.println("Exiting the application. Goodbye!");
-                    }
-                    default -> gateway.search(query);
                 }
             }
-            scanner.close();
         } catch (NotBoundException | RemoteException e) {
             Debug.error("[CLIENT] Gateway not available: " + e.getMessage());
         }

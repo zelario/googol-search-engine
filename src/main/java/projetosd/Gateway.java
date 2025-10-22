@@ -150,12 +150,14 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @throws RemoteException 
      */
     @Override
-    public List<List<Page>> search(String query) throws RemoteException {
+    public List<List<Page>> search(String clientId, String query) throws RemoteException {
         BarrelInterface barrel = selectAvailableBarrel();
         if (barrel == null) {
             Debug.warning("[GATEWAY] No available barrels for search.");
             return new ArrayList<>();
         }
+
+        Debug.info("[GATEWAY] Client " + clientId + " searching for query: " + query);
 
         try {
             String[] terms = Arrays.stream(query.split("\\s+"))
@@ -173,7 +175,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 int to = Math.min(i + 10, pages.size());
                 pageLists.add(new ArrayList<>(pages.subList(i, to)));
             }
-            Debug.info("[GATEWAY] Search completed successfully.");
+            Debug.info("[GATEWAY] Client " + clientId + " search completed successfully.");
             return pageLists; //TODO backlinks depois do resultado
 
         } catch (RemoteException e) {
@@ -188,10 +190,12 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @throws RemoteException 
      */
     @Override
-    public String stats() throws RemoteException {
+    public String stats(String clientId) throws RemoteException {
         Map<String, Long> topSearches = stats.getTopSearches();
         Map<Integer, Long> activeBarrels = stats.getActiveBarrels();
         Map<Integer, Long> responseTimes = stats.getAverageResponse();
+
+        Debug.info("[GATEWAY] Client " + clientId + " requested stats.");
 
         StringBuilder sb = new StringBuilder();
         sb.append("=== Gateway Statistics ===\n\n");
@@ -207,6 +211,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         for (Map.Entry<Integer, Long> entry : responseTimes.entrySet()) {
             sb.append(String.format("  \"%s\" - %d tenths\n", entry.getKey(), entry.getValue()));
         }
+
+        Debug.info("[GATEWAY] Client " + clientId + " stats retrieved successfully.");
 
         return sb.toString();
     }
