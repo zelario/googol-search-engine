@@ -20,7 +20,7 @@ public class Client {
             Debug.info("[CLIENT] Connected to gateway on port " + Ports.GATEWAY_PORT);
 
             System.out.print("---- Welcome to Googol! ----\n\n");
-            System.out.print("STATS: To see statistics\nEXIT: To exit the app\n\n");
+            System.out.print("URL: To add new url\nSTATS: To see statistics\nEXIT: To exit the app\n\n");
 
             boolean run = true;
             try (Scanner scanner = new Scanner(System.in)) {
@@ -34,6 +34,12 @@ public class Client {
                 while (run) {
                     String query = scanner.nextLine().trim();
                     switch (query) {
+                        case "INDEX" -> {
+                            System.out.print("Enter URL to add: ");
+                            String url = scanner.nextLine().trim();
+                            gateway.index(url);
+                            System.out.print("URL added successfully.\n");
+                        }
                         case "STATS" -> {
                             String stats = gateway.stats(clientId);
                             System.out.println(stats);
@@ -45,6 +51,7 @@ public class Client {
                         }
                         default -> gateway.search(clientId, query);
                     }
+                    System.out.print("> ");
                 }
             }
         } catch (NotBoundException | RemoteException e) {

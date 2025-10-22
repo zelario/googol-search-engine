@@ -20,6 +20,12 @@ import java.util.List;
  * @version 1.0
  */
 public class Barrel extends UnicastRemoteObject implements BarrelInterface {
+
+    /*
+     * Port where this barrel is running
+     */
+    public static int barrelPort;
+
     /**
      * Constructs the Barrel.
      * @throws RemoteException RMI exception
@@ -114,7 +120,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     /**
      *  Fetches from the barrel (DB) all the pages that contain all the terms in the search query
      * @param terms The search terms
-     * @return      List of Page objects
+     * @return List of Page objects
      */
     @Override
     public List<Page> searchQuery(String[] terms) {
@@ -193,23 +199,23 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      */
     public static void main(String[] args) {
         try {
-            int port = Ports.claimBarrelPort();
-            if (port == -1) {
+            barrelPort = Ports.claimBarrelPort();
+            if (barrelPort == -1) {
                 Debug.error("[BARREL] No available ports. All barrel ports are in use.");
                 return;
             }
 
             Barrel barrel = new Barrel();
-            Registry registry = LocateRegistry.createRegistry(port);
+            Registry registry = LocateRegistry.createRegistry(barrelPort);
             registry.rebind("barrel", barrel);
-            Debug.info("[BARREL] Running on port: " + port);
+            Debug.info("[BARREL] Running on port: " + barrelPort);
 
             GatewayInterface gateway;
             try {
                 registry = LocateRegistry.getRegistry(Ports.GATEWAY_PORT);
                 gateway = (GatewayInterface) registry.lookup("gateway");
-                Debug.info("[BARREL] Connected to gateway on port " + Ports.GATEWAY_PORT);
-                gateway.callbackBarrelStatus(port, true);
+                Debug.info("[BARREL] Connected to gateway on port: " + Ports.GATEWAY_PORT);
+                gateway.callbackBarrelStatus(barrelPort, true);
             } catch (NotBoundException | RemoteException e) {
                 Debug.error("[BARREL] Gateway not available: " + e.getMessage());
             }
