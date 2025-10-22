@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Implementation of the Index barrel remote interface.
@@ -194,10 +193,10 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      */
     public static void main(String[] args) {
         try {
-            int port;
-            try (Scanner scanner = new Scanner(System.in)) {
-                System.out.print("Enter the port for this barrel: ");
-                port = scanner.nextInt();
+            int port = Ports.claimBarrelPort();
+            if (port == -1) {
+                Debug.error("[BARREL] No available ports. All barrel ports are in use.");
+                return;
             }
 
             Barrel barrel = new Barrel();
