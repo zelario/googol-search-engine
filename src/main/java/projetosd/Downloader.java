@@ -115,7 +115,7 @@ public class Downloader extends Thread {
 
                 // TODO: add failback logic
                 if(!barrel.addEntry(url, pageWords, title, description, relatedUrls)){
-                    Debug.info("[DOWNLOADER " + threadNumber + "] Failed to parse and store an url");
+                    Debug.info("[DOWNLOADER " + threadNumber + "] Failed to parse and/or store an url");
                 }
             }
         } catch (IOException | NotBoundException e) {

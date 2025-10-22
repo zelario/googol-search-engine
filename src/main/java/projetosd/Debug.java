@@ -31,7 +31,7 @@ public class Debug {
 
     /**
      * Writes a message to the log file.
-     * @param level The log type (INFO, ERROR, WARNING)
+     * @param type The log type (INFO, ERROR, WARNING)
      * @param message The message to log
      */
     private static synchronized void writeToLog(String type, String message) {
