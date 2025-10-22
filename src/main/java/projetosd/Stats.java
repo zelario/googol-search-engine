@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Statistics collector for search queries and barrel performance.
  * 
- * @author Jose Amado e José Capinha
+ * @author Jose Amado & José Capinha
  * @version 1.0
  */
 public class Stats {
@@ -33,7 +33,9 @@ public class Stats {
 		final AtomicLong total = new AtomicLong(0);
 		final AtomicLong count = new AtomicLong(0);
 	}
-
+	/*
+	 * Barrel response times
+	 */
 	private final ConcurrentMap<Integer, ResponseTime> barrelTimes = new ConcurrentHashMap<>();
 
 	/**

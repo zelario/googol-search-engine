@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Remote interface for the Gateway for clients.
  * 
- * @author Jose Amado e José Capinha
+ * @author Jose Amado & José Capinha
  * @version 1.0
  */
 public interface GatewayInterface extends Remote {

@@ -3,6 +3,13 @@ package projetosd;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * Ports management class.
+ * Contains constants for RMI ports and methods to claim barrel ports.
+ * 
+ * @author Jose Amado & José Capinha
+ * @version 1.0
+ */
 public class Ports {
 
     /*

@@ -16,7 +16,7 @@ import java.util.List;
  * Implementation of the Index barrel remote interface.
  * Handles indexing and searching of words across URLs.
  * 
- * @author Jose Amado e José Capinha
+ * @author Jose Amado & José Capinha
  * @version 1.0
  */
 public class Barrel extends UnicastRemoteObject implements BarrelInterface {
@@ -42,6 +42,15 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     public void ping() throws java.rmi.RemoteException {
     }
 
+    /**
+     * Adds all necessary info into a barrel
+     * @param url           Page URL
+     * @param words         Words found in page
+     * @param title         Page title
+     * @param citation      Short citation from the page
+     * @param relatedUrls   All urls in that page
+     * @return              Boolean to indicate success or not
+     */
     @Override
     public boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls){
         Database db = new Database();
@@ -109,6 +118,11 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         }
     }
 
+    /**
+     * Search for pages where url contains all terms.
+     * @param terms The search terms
+     * @return Returns a list of pages (urls and metadata).
+     */
     @Override
     public List<Page> searchQuery(String[] terms) {
         Database db = new Database();
@@ -149,6 +163,11 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         return pages;
     }
 
+    /**
+     * Returns all pages that reference the given page
+     * @param page Page that is referenced
+     * @return List of pages that reference the given page
+     */
     @Override
     public List<Page> getBacklinks(Page page){
         Database db = new Database();

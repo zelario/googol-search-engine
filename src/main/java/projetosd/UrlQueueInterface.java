@@ -5,7 +5,7 @@ import java.rmi.Remote;
 /**
  * Remote interface for a distributed URL queue.
  * 
- * @author Jose Amado e José Capinha
+ * @author Jose Amado & José Capinha
  * @version 1.0
  */
 public interface UrlQueueInterface extends Remote {

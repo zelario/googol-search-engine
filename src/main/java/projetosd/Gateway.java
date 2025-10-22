@@ -13,7 +13,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Implementation of the GatewayInterface for clients.
- * Exposes RMI methods for adding URLs and searching (paginated groups of 10).
+ * Exposes RMI methods for adding URLs and searching.
+ * 
+ * @author Jose Amado & José Capinha
+ * @version 1.0
  */
 public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 

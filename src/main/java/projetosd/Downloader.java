@@ -16,7 +16,7 @@ import org.jsoup.select.Elements;
  * Downloader for fetching and processing web pages.
  * Handles downloading, parsing, indexing, and queueing new URLs.
  * 
- * @author Jose Amado e José Capinha
+ * @author Jose Amado & José Capinha
  * @version 1.0
  */
 public class Downloader extends Thread {
@@ -35,16 +35,20 @@ public class Downloader extends Thread {
     }
 
     /**
-     * Main for Downloader. Starts multiple Downloader threads.
-     * @param args Command-line arguments
+     *  Truncates description to reduce citation size
+     *
+     * @param description   Text to be truncated or not
+     * @return              (If necessary) Trimmed text
      */
-    public static void main(String[] args) {
-        // CHANGE THREAD NUMBER HERE
-        int threadCounter = 3;
+    private static String truncateDescription(String description){
+        int maxLength = 30;
 
-        for (int i = 0; i < threadCounter; i++) {
-            new Downloader(i + 1).start();
-        }
+        if (description.length() < maxLength) return description;
+
+        int periodIndex = description.indexOf(".", maxLength);
+        if(periodIndex != -1) return description.substring(0, periodIndex + 1).trim();
+
+        return description.substring(0, maxLength).trim() + "...";
     }
 
     /**
@@ -120,19 +124,15 @@ public class Downloader extends Thread {
     }
 
     /**
-     *  Truncates description to reduce citation size
-     *
-     * @param description   Text to be truncated or not
-     * @return              (If necessary) Trimmed text
+     * Main for Downloader. Starts multiple Downloader threads.
+     * @param args Command-line arguments
      */
-    private static String truncateDescription(String description){
-        int maxLength = 30;
+    public static void main(String[] args) {
+        // CHANGE THREAD NUMBER HERE
+        int threadCounter = 3;
 
-        if (description.length() < maxLength) return description;
-
-        int periodIndex = description.indexOf(".", maxLength);
-        if(periodIndex != -1) return description.substring(0, periodIndex + 1).trim();
-
-        return description.substring(0, maxLength).trim() + "...";
+        for (int i = 0; i < threadCounter; i++) {
+            new Downloader(i + 1).start();
+        }
     }
 }

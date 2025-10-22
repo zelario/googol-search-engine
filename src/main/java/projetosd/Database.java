@@ -13,18 +13,35 @@ import io.github.cdimascio.dotenv.Dotenv;
  * @version 1.0
  */
 public class Database {
+    /**
+     * Hostname of the database server
+     */
     private final String hostname;
+
+    /**
+     * Port of the database server
+     */
     private final String port;
+
+    /**
+     * Name of the database
+     */
     private final String dbName;
+
+    /**
+     * Username for the database
+     */
     private final String username;
+
+    /**
+     * Password for the database
+     */
     private final String password;
 
     /**
      * Database Class Constructor
-     *
      */
     public Database() {
-        // Load .env
         Dotenv dotenv = Dotenv.configure().directory("../../../../../config/").load();
 
         this.hostname = dotenv.get("DB_HOSTNAME");
@@ -35,9 +52,9 @@ public class Database {
     }
 
     /**
-     * Gets connection for database (barrel) instance
+     * Gets connection for database instance
      *
-     * @return DB (Barrel) Connection Object
+     * @return DB Connection Object
      */
     public Connection getConnection(){
         Connection connection;

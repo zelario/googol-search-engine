@@ -9,10 +9,14 @@ import java.util.Scanner;
 /**
  * Console for the Gateway RMI server.
  * 
- * @author Jose Amado e José Capinha
+ * @author Jose Amado & José Capinha
  * @version 1.0
  */
 public class Client {
+    /**
+     * Main to run the client console.
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
         try {
             Registry registry = LocateRegistry.getRegistry(Ports.GATEWAY_PORT);
