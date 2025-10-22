@@ -27,6 +27,11 @@ public class Downloader extends Thread {
     private final int threadNumber;
 
     /**
+     * The port of the connected barrel.
+     */
+    private int connectedBarrelPort;
+
+    /**
      * Constructs a Downloader.
      * @param threadNum The thread number
      */
@@ -57,15 +62,18 @@ public class Downloader extends Thread {
     @Override
     public void run() {
         try {
+            Debug.info("[DOWNLOADER " + threadNumber + "] Starting downloader thread.");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Ports.URL_QUEUE_PORT).lookup("queue");
-            BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Ports.lookBarrels()).lookup("barrel");
+            connectedBarrelPort = Ports.lookBarrels();
+            BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(connectedBarrelPort).lookup("barrel");
+            Debug.info("[DOWNLOADER " + threadNumber + "] Connected to Barrel on port " + connectedBarrelPort);
             ArrayList<String> pageWords = new ArrayList<>();
             ArrayList<String> relatedUrls = new ArrayList<>();
 
             while (true) {
                 String url = queue.takeUrl();
 
-                Debug.info("[DOWNLOADER " + threadNumber + "] " + url);
+                Debug.info("[DOWNLOADER " + threadNumber + "] downloading URL: " + url);
                 Document doc;
                 try {
                     doc = Jsoup.connect(url).get();
