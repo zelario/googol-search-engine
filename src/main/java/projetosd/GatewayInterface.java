@@ -11,13 +11,6 @@ import java.util.List;
  * @version 1.0
  */
 public interface GatewayInterface extends Remote {
-    /*
-     * CALLBACK: Notifies the Gateway to update statistics from a Barrel.
-     * @param barrelPort Barrel port
-     * @param indexSize Size of Barrel index
-     * @param urlsParsed Number of URLs processed
-     */
-    void callbackStats(int barrelPort, int indexSize, long urlsParsed) throws RemoteException;
 
     /**
      * CALLBACK: Notifies the Gateway about a Barrel's status change.
@@ -26,6 +19,14 @@ public interface GatewayInterface extends Remote {
      * @throws RemoteException
      */
     void callbackBarrelStatus(int barrelPort, boolean status) throws RemoteException;
+
+    /*
+     * CALLBACK: Notifies the Gateway to update statistics from a Barrel.
+     * @param barrelPort Barrel port
+     * @param indexSize Size of Barrel index
+     * @param urlsParsed Number of URLs processed
+     */
+    void callbackBarrelStats(int barrelPort, int indexSize, long urlsParsed) throws RemoteException;
 
     /**
      * CALLBACK: Notifies the Gateway that a search has been completed by a Barrel.

@@ -67,12 +67,8 @@ public class Stats {
 	 * @param indexSize Number of indexed pages
 	 */
 	public void updateBarrelIndexSize(int barrelPort, long indexSize) {
-		Long current = barrelIndexSizes.get(barrelPort);
-		if (current == null) {
-			barrelIndexSizes.put(barrelPort, 1L);
-		} else {
-			barrelIndexSizes.put(barrelPort, current + 1L);
-		}
+		// Store the reported index size (overwrite) instead of incrementing; callers should report the current size.
+		barrelIndexSizes.put(barrelPort, indexSize);
 	}
 
 	/**
@@ -126,7 +122,7 @@ public class Stats {
 	/**
 	 * Remove a barrel from active list.
 	 */
-	public void removeBarrel(int barrelPort) {
+	public void removeBarrelStats(int barrelPort) {
 		barrelIndexSizes.remove(barrelPort);
 		barrelTimes.remove(barrelPort);
 	}

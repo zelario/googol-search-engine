@@ -82,7 +82,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @throws RemoteException RMI exception
      */
     @Override
-    public void callbackBarrelStatus(int barrelPort, boolean status) throws RemoteException {
+    public void callbackBarrelStatus(int barrelPort, boolean status) throws RemoteException {  //TODO se barrel morrer tem de mandar isto 
         if (status) {
             try {
                 Registry registry = LocateRegistry.getRegistry(barrelPort);
@@ -94,6 +94,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             }
         } else {
             barrels.remove(barrelPort);
+            stats.removeBarrelStats(barrelPort);
             Debug.info("[GATEWAY] Barrel unregistered on port " + barrelPort);
         }
     }
@@ -105,7 +106,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @param urlsParsed Total URLs parsed
      */
     @Override
-    public void callbackStats(int barrelPort, int indexSize, long urlsParsed) throws RemoteException {
+    public void callbackBarrelStats(int barrelPort, int indexSize, long urlsParsed) throws RemoteException {
         stats.updateBarrelIndexSize(barrelPort, indexSize);
         Debug.info("[GATEWAY] Stats updated from barrel " + barrelPort + ": indexSize=" + indexSize + ", urlsParsed=" + urlsParsed);
     }
@@ -119,6 +120,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     @Override
     public void callbackSearchCompleted(int barrelPort, String query, long responseTime) throws RemoteException {
+        stats.updateQueryOccurrence(query);
         stats.updateSearchTime(barrelPort, responseTime);
         Debug.info("[GATEWAY] Search completed on barrel" + barrelPort + " for query " + query + " in " + responseTime + " ms");
     }
@@ -168,7 +170,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                     .map(String::toLowerCase)
                     .toArray(String[]::new);
 
-            List<Page> pages = barrel.searchQuery(terms);
+            List<Page> pages = barrel.searchQuery(query, terms);
             if (pages == null || pages.isEmpty()) {
                 return new ArrayList<>();
             }

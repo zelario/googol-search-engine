@@ -40,12 +40,12 @@ public class Client {
 
                 while (run) {
                     String query = scanner.nextLine().trim();
-                    
-                    if (!mode.equals("SEARCH") && query.equals("SEARCH")) {
+
+                    if (!mode.equals("SEARCH") && (query.equals("SEARCH") || query.equals("search"))) {
                         mode = "SEARCH";
                         System.out.print("\n=== SEARCH MODE ===\n\n> ");
                         continue;
-                    } else if (!mode.equals("INDEX") && query.equals("INDEX")) {
+                    } else if (!mode.equals("INDEX") && (query.equals("INDEX") || query.equals("index"))) {
                         mode = "INDEX";
                         System.out.print("\n=== INDEX MODE ===\n\n> ");
                         continue;

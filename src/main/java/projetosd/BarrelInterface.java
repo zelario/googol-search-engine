@@ -13,10 +13,11 @@ import java.util.List;
 public interface BarrelInterface extends Remote {
     /**
      * Search for pages where url contains all terms.
+     * @param rawQuery The raw user query
      * @param terms The search terms
      * @return Returns a list of pages (urls and metadata).
      */
-    List<Page> searchQuery(String[] terms) throws java.rmi.RemoteException;
+    List<Page> searchQuery(String rawQuery, String[] terms) throws java.rmi.RemoteException;
 
     /**
      * Pings the barrel to check if working.

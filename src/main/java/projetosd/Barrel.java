@@ -23,6 +23,11 @@ import java.util.List;
 public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
     /*
+     * Reference to the Gateway for callbacks
+     */
+    public static GatewayInterface gateway;
+
+    /*
      * Port where this barrel is running
      */
     public static int barrelPort;
@@ -165,7 +170,9 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @return Returns a list of pages (urls and metadata).
      */
     @Override
-    public List<Page> searchQuery(String[] terms) {
+    public List<Page> searchQuery(String rawQuery, String[] terms) {
+        long startTime = System.currentTimeMillis();
+
         Database db = new Database();
         List<Page> pages = new ArrayList<>();
 
@@ -199,6 +206,14 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             }
         } catch (Exception e) {
             System.out.println("[DOWNLOADER] Error fetching pages: " + e.getMessage());
+        }
+
+        long responseTime = System.currentTimeMillis() - startTime;
+
+        try {
+            gateway.callbackSearchCompleted(barrelPort, rawQuery, responseTime);
+        } catch (RemoteException e) {
+            Debug.error("[BARREL] Failed to callback gateway: " + e.getMessage());
         }
 
         return pages;
@@ -253,7 +268,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             registry.rebind("barrel", barrel);
             Debug.info("[BARREL] Running on port: " + barrelPort);
 
-            GatewayInterface gateway;
             try {
                 registry = LocateRegistry.getRegistry(Ports.GATEWAY_PORT);
                 gateway = (GatewayInterface) registry.lookup("gateway");
