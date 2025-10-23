@@ -27,11 +27,6 @@ public class Downloader extends Thread {
     private final int threadNumber;
 
     /**
-     * The port of the connected barrel.
-     */
-    private int connectedBarrelPort;
-
-    /**
      * Constructs a Downloader.
      * @param threadNum The thread number
      */
@@ -50,8 +45,8 @@ public class Downloader extends Thread {
 
         if (description.length() < maxLength) return description;
 
-        int periodIndex = description.indexOf(".", maxLength);
-        if(periodIndex != -1) return description.substring(0, periodIndex + 1).trim();
+        int periodIndex = description.indexOf(".");
+        if(periodIndex != -1 && periodIndex <= maxLength) return description.substring(0, periodIndex + 1).trim();
 
         return description.substring(0, maxLength).trim() + "...";
     }
@@ -64,9 +59,11 @@ public class Downloader extends Thread {
         try {
             Debug.info("[DOWNLOADER " + threadNumber + "] Starting downloader thread.");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Ports.URL_QUEUE_PORT).lookup("queue");
-            connectedBarrelPort = Ports.lookBarrels();
+
+            int connectedBarrelPort = Ports.lookBarrels();
             BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(connectedBarrelPort).lookup("barrel");
             Debug.info("[DOWNLOADER " + threadNumber + "] Connected to Barrel on port " + connectedBarrelPort);
+
             ArrayList<String> pageWords = new ArrayList<>();
             ArrayList<String> relatedUrls = new ArrayList<>();
 
@@ -86,7 +83,9 @@ public class Downloader extends Thread {
                 StringTokenizer st = new StringTokenizer(text, " \t\n\r\f,.:;?![]'\"");
 
                 while (st.hasMoreTokens()) {
-                    pageWords.add(st.nextToken());
+                    String token = st.nextToken();
+                    // Word max lenght is 64
+                    if(token.length() <= 64 ) pageWords.add(token);
                 }
 
                 Elements links = doc.select("a[href]");
@@ -101,6 +100,7 @@ public class Downloader extends Thread {
 
                 // Fetch title and description
                 String title = doc.title();
+                if(title.length() > 128) title =  title.substring(0, 128).trim();
                 String description = "";
 
                 // Try different descriptions/citations from the pages

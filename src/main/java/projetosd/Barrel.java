@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,67 +56,107 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     public boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls){
         Database db = new Database();
 
-        String insertUrlQuery = "INSERT INTO url(url, title, citation) VALUES (?, ?, ?)";
-        String insertPageUrlsQuery = "INSERT INTO url_url(url_url, url_url1) VALUES (?, ?)";
+        // Because the downloader might insert urls that are in pages before they've been parsed...
+        // Here we manage conflicts by updating the remaining info with the excluded insertion
+        // Also every query has handling of conflicts because duplicates are common
+        String insertUrlQuery = "INSERT INTO url(url, title, citation) VALUES (?, ?, ?) ON CONFLICT (url) DO UPDATE SET title = EXCLUDED.title, citation = EXCLUDED.citation";
+        // Insert page urls before to avoid breaking foreign keys constraints
+        String preInsertPageUrlsQuery = "INSERT INTO url(url) VALUES (?) ON CONFLICT (url) DO NOTHING";
+        String insertPageUrlsQuery = "INSERT INTO url_url(url_url, url_url1) VALUES (?, ?) ON CONFLICT DO NOTHING";
         String insertWordsQuery = "INSERT INTO words(word) VALUES (?) ON CONFLICT (word) DO NOTHING";
-        String insertWordsUrlQuery = "INSERT INTO words_url(words_word, url_url) VALUES (?, ?)";
+        String insertWordsUrlQuery = "INSERT INTO words_url(words_word, url_url) VALUES (?, ?) ON CONFLICT DO NOTHING ";
 
-        // There is also a Connection object of jsoup so it is better to explicitly declare it as sql connction object
-        try (java.sql.Connection conn = db.getConnection()){
-            // Begin transaction
-            conn.setAutoCommit(false);
+        // deadlocks...
+        int attempt = 0;
+        while(attempt < 3){
+            // There is also a Connection object of jsoup so it is better to explicitly declare it as sql connction object
+            try (Connection conn = db.getConnection()){
+                // Begin transaction (if it fails jdbc rollbacks automatically)
+                conn.setAutoCommit(false);
+                // Set transactions to READ_COMMITED (default apparently but here anyway to make sure, some drivers can overlap)
+                conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
-            try (PreparedStatement psUrl = conn.prepareStatement(insertUrlQuery)) {
-                psUrl.setString(1, url);
-                psUrl.setString(2, title);
-                psUrl.setString(3, citation);
+                try (PreparedStatement psUrl = conn.prepareStatement(insertUrlQuery)) {
+                    psUrl.setString(1, url);
+                    psUrl.setString(2, title);
+                    psUrl.setString(3, citation);
 
-                try (ResultSet rs = psUrl.executeQuery()) {
-                    rs.next();
+                    psUrl.executeUpdate();
                 }
-            }
+                conn.commit();
 
-            if (relatedUrls != null && !relatedUrls.isEmpty()) {
-                try (PreparedStatement psPageUrls = conn.prepareStatement(insertPageUrlsQuery)) {
-                    for (String relatedUrl : relatedUrls) {
-                        psPageUrls.setString(1, url);
-                        psPageUrls.setString(2, relatedUrl);
-                        psPageUrls.addBatch();
+                // noinspection  DuplicatedCode
+                if (relatedUrls != null && !relatedUrls.isEmpty()) {
+                    try(PreparedStatement psPrePageUrls = conn.prepareStatement(preInsertPageUrlsQuery)){
+                        // Insert before to keep integrity
+                        for(String relurl: relatedUrls){
+                            psPrePageUrls.setString(1, relurl);
+
+                            psPrePageUrls.addBatch();
+                        }
+                        psPrePageUrls.executeBatch();
+                        conn.commit();
                     }
 
-                    psPageUrls.executeBatch();
-                }
-            }
 
-            if(words != null && !words.isEmpty()) {
-                try (PreparedStatement psWords = conn.prepareStatement(insertWordsQuery)) {
-                    for (String word : words) {
-                        psWords.setString(1, word);
-                        psWords.addBatch();
+                    try (PreparedStatement psPageUrls = conn.prepareStatement(insertPageUrlsQuery)) {
+                        for (String relatedUrl : relatedUrls) {
+                            psPageUrls.setString(1, url);
+                            psPageUrls.setString(2, relatedUrl);
+                            psPageUrls.addBatch();
+                        }
+
+                        psPageUrls.executeBatch();
+                        conn.commit();
+                    }
+                }
+
+                // noinspection  DuplicatedCode
+                if(words != null && !words.isEmpty()) {
+                    try (PreparedStatement psWords = conn.prepareStatement(insertWordsQuery)) {
+                        for (String word : words) {
+                            psWords.setString(1, word);
+                            psWords.addBatch();
+                        }
+
+                        psWords.executeBatch();
+                        conn.commit();
                     }
 
-                    psWords.executeBatch();
+                    try(PreparedStatement psWordsUrls = conn.prepareStatement(insertWordsUrlQuery)) {
+                        for (String word : words) {
+                            psWordsUrls.setString(1, word);
+                            psWordsUrls.setString(2, url);
+                            psWordsUrls.addBatch();
+                        }
+
+                        psWordsUrls.executeBatch();
+                        conn.commit();
+                    }
                 }
 
-                try(PreparedStatement psWordsUrls = conn.prepareStatement(insertWordsUrlQuery)) {
-                    for (String word : words) {
-                        psWordsUrls.setString(1, word);
-                        psWordsUrls.setString(2, url);
-                        psWordsUrls.addBatch();
-                    }
+                Debug.info("[BARREL] Inserted url into database: " + url);
+                return true;
 
-                    psWordsUrls.executeBatch();
+            } catch (SQLException e){
+                String errorMsg = e.getMessage();
+                if(errorMsg != null &&  errorMsg.contains("deadlock detected")){
+                    attempt++;
+                    Debug.warning("[BARREL] Deadlock detected on insertion");
+
+                    try{ Thread.sleep((long) (100 * Math.pow(2, attempt)));}
+                    catch (InterruptedException ignored){}
+                }
+                else {
+                    // Non-deadlock error
+                    Debug.error("[DOWNLOADER] Error adding entry to barrels: " + e.getMessage());
+                    return false;
                 }
             }
-
-            conn.commit();
-            return true;
-
-        } catch (Exception e){
-            System.out.println("[DOWNLOADER] Error adding entry to barrels: " + e.getMessage());
-            try { db.getConnection().rollback(); } catch (SQLException e1) {System.out.println("[DOWNLOADER] Barrel could not rollback" + e1.getMessage());}
-            return false;
         }
+
+        Debug.error("[BARREL] Multiple deadlocks retries for url: " + url);
+        return false;
     }
 
     /**

@@ -1,7 +1,7 @@
 CREATE TABLE url (
                      url	 VARCHAR(2048),
                      title	 VARCHAR(128) DEFAULT 'Page',
-                     citation VARCHAR(256),
+                     citation VARCHAR(256) DEFAULT '',
                      PRIMARY KEY(url)
 );
 
