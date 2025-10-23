@@ -41,7 +41,7 @@ public class Downloader extends Thread {
      * @return              (If necessary) Trimmed text
      */
     private static String truncateDescription(String description){
-        int maxLength = 30;
+        int maxLength = 60;
 
         if (description.length() < maxLength) return description;
 
