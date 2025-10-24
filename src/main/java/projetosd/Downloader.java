@@ -64,11 +64,10 @@ public class Downloader extends Thread {
             BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(connectedBarrelPort).lookup("barrel");
             Debug.info("[DOWNLOADER " + threadNumber + "] Connected to Barrel on port " + connectedBarrelPort);
 
-            ArrayList<String> pageWords = new ArrayList<>();
-            ArrayList<String> relatedUrls = new ArrayList<>();
-
             while (true) {
                 String url = queue.takeUrl();
+
+                if(!url.startsWith("http")) continue;
 
                 Debug.info("[DOWNLOADER " + threadNumber + "] downloading URL: " + url);
                 Document doc;
@@ -78,6 +77,9 @@ public class Downloader extends Thread {
                 } catch (HttpStatusException e) {
                     continue;
                 }
+
+                ArrayList<String> pageWords = new ArrayList<>();
+                ArrayList<String> relatedUrls = new ArrayList<>();
 
                 String text = doc.body().text();
                 StringTokenizer st = new StringTokenizer(text, " \t\n\r\f,.:;?![]'\"");
