@@ -145,13 +145,13 @@ public class Client {
                 Debug.error("[CLIENT] Gateway call failed at attempt " + attempt + ": " + e.getMessage());
                 try {
                     lookupGateway();
-                } catch (Exception lookupEx) {
-                    Debug.error("[CLIENT] Re-lookup failed: " + lookupEx.getMessage());
+                } catch (Exception er) {
+                    Debug.error("[CLIENT] Re-lookup failed: " + er.getMessage());
                 }
                 if (attempt == MAX_RETRIES) break;
                 try {
                     Thread.sleep((long) (BACKOFF_TIME * Math.pow(2, attempt - 1)));
-                } catch (InterruptedException ie) {
+                } catch (InterruptedException err) {
                     break;
                 }
             }
