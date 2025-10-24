@@ -22,7 +22,7 @@ public class Debug {
     /**
      * Log file path.
      */
-    private static final String LOG_FILE = "config/Googol.log";
+    private static final String LOG_FILE = "logs/Googol.log";
     
     /**
      * Date/time formatter.
