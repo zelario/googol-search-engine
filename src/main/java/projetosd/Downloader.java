@@ -58,9 +58,9 @@ public class Downloader extends Thread { //TODO Downloaders tem de ser capazes d
     public void run() {
         try {
             Debug.info("[DOWNLOADER " + threadNumber + "] Starting downloader thread.");
-            UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Ports.URL_QUEUE_PORT).lookup("queue");
+            UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Config.URL_QUEUE_PORT).lookup("queue");
 
-            int connectedBarrelPort = Ports.lookBarrels();
+            int connectedBarrelPort = Config.lookBarrels();
             BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(connectedBarrelPort).lookup("barrel");
             Debug.info("[DOWNLOADER " + threadNumber + "] Connected to Barrel on port " + connectedBarrelPort);
 

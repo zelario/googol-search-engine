@@ -36,21 +36,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     private final Map<Integer, BarrelInterface> barrels = new ConcurrentHashMap<>();
 
     /**
-     * Ping retry attempts.
-     */
-    private static final int PING_RETRIES = 3;
-
-    /**
-     * Search retry attempts.
-     */
-    private static final int SEARCH_RETRIES = 2;
-
-    /**
-     * Initial backoff time in milliseconds for both ping and search retries.
-     */
-    private static final long BACKOFF_TIME = 200;
-
-    /**
      * Constructs the Gateway.
      * @throws RemoteException RMI exception
      */
@@ -73,8 +58,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
             boolean available = false;
             int attempts = 0;
-            long backoff = BACKOFF_TIME;
-            while (attempts < PING_RETRIES) {
+            while (attempts < Config.GATEWAY_RETRIES) {
                 try {
                     barrel.ping();
                     available = true;
@@ -82,14 +66,13 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 } catch (RemoteException e) {
                     attempts++;
                     Debug.warning("[GATEWAY] Ping failed for barrel " + port + " on attempt " + attempts + ": " + e.getMessage());
-                    if (attempts >= PING_RETRIES) break;
+                    if (attempts >= Config.GATEWAY_RETRIES) break;
                     try {
-                        Thread.sleep(backoff);
+                        Thread.sleep((long) (Config.GATEWAY_BACKOFF * Math.pow(2, attempts - 1)));
                     } catch (InterruptedException ie) {
                         Thread.currentThread().interrupt();
                         break;
                     }
-                    backoff *= 2;
                 }
             }
             
@@ -196,8 +179,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 .map(String::toLowerCase)
                 .toArray(String[]::new);
 
-        long backoff = BACKOFF_TIME;
-        for (int attempt = 1; attempt <= SEARCH_RETRIES; attempt++) {
+        for (int attempt = 1; attempt <= Config.GATEWAY_RETRIES; attempt++) {
             Map.Entry<Integer, BarrelInterface> entry = selectBarrel();
             if (entry == null) {
                 Debug.warning("[GATEWAY] No available barrels for search on attempt " + attempt + ".");
@@ -223,14 +205,13 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             } catch (RemoteException e) {
                 Debug.error("[GATEWAY] Search failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying.");
 
-                if (attempt < SEARCH_RETRIES) {
+                if (attempt < Config.GATEWAY_RETRIES) {
                     try {
-                        Thread.sleep(backoff);
+                        Thread.sleep((long) (Config.GATEWAY_BACKOFF * Math.pow(2, attempt - 1)));
                     } catch (InterruptedException ie) {
                         Thread.currentThread().interrupt();
                         break;
                     }
-                    backoff *= 2;
                 }
             }
         }
@@ -280,14 +261,14 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         try {
             Gateway gateway = new Gateway();
 
-            Registry registry = LocateRegistry.createRegistry(Ports.GATEWAY_PORT);
+            Registry registry = LocateRegistry.createRegistry(Config.GATEWAY_PORT);
             registry.rebind("gateway", gateway);
-            Debug.info("[GATEWAY] Gateway ready on port " + Ports.GATEWAY_PORT);
+            Debug.info("[GATEWAY] Gateway ready on port " + Config.GATEWAY_PORT);
 
             try {
-                registry = LocateRegistry.getRegistry(Ports.URL_QUEUE_PORT);
+                registry = LocateRegistry.getRegistry(Config.URL_QUEUE_PORT);
                 gateway.queue = (UrlQueueInterface) registry.lookup("queue");
-                Debug.info("[GATEWAY] Connected to URL Queue on port " + Ports.URL_QUEUE_PORT);
+                Debug.info("[GATEWAY] Connected to URL Queue on port " + Config.URL_QUEUE_PORT);
             } catch (NotBoundException | RemoteException e) {
                 Debug.error("[GATEWAY] URL Queue not available: " + e.getMessage());
             }

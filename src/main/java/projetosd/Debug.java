@@ -14,10 +14,6 @@ import java.time.format.DateTimeFormatter;
  * @version 1.0
  */
 public class Debug {
-    /**
-     * If true prints on terminal, if false just logs.
-     */
-    public static boolean DEBUG = true;
     
     /**
      * Log file path.
@@ -57,7 +53,7 @@ public class Debug {
      * @param message The message to print
      */
     public static void info(String message) {
-        if (DEBUG) {
+        if (Config.DEBUG) {
             System.out.println("[INFO] " + message);
         }
         writeToLog("INFO", message);
@@ -68,7 +64,7 @@ public class Debug {
      * @param message The error message to print
      */
     public static void error(String message) {
-        if (DEBUG) {
+        if (Config.DEBUG) {
             System.err.println("[ERROR] " + message);
         }
         writeToLog("ERROR", message);
@@ -79,14 +75,14 @@ public class Debug {
      * @param message The warning message to print
      */
     public static void warning(String message) {
-        if (DEBUG) {
+        if (Config.DEBUG) {
             System.out.println("[WARNING] " + message);
         }
         writeToLog("WARNING", message);
     }
 
     public static void url(String message) {
-        if (DEBUG) {
+        if (Config.DEBUG) {
             System.out.println("[URL] " + message);
         }
     }

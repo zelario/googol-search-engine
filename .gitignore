@@ -6,7 +6,7 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # Idk maybe maven files
-*.properties
+!config/config.properties.example
 *.lst
 
 # User-specific stuff

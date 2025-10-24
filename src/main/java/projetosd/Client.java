@@ -27,16 +27,6 @@ public class Client {
     private static GatewayInterface gateway = null;
 
     /**
-     * Maximum number of retries for RMI calls.
-     */
-    private static final int MAX_RETRIES = 5;
-
-    /**
-     * Backoff time between retries.
-     */
-    private static final long BACKOFF_TIME = 500;
-
-    /**
      * Main to run the client console.
      * @param args Command line arguments
      */
@@ -116,18 +106,18 @@ public class Client {
      */
     private static void lookupGateway() throws Exception {
         Exception exception = null;
-        for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+        for (int attempt = 1; attempt <= Config.CLIENT_RETRIES; attempt++) {
             try {
-                Registry registry = LocateRegistry.getRegistry(Ports.GATEWAY_PORT);
+                Registry registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
                 gateway = (GatewayInterface) registry.lookup("gateway");
-                Debug.info("[CLIENT] Connected to gateway on port " + Ports.GATEWAY_PORT + " on attempt " + attempt);
+                Debug.info("[CLIENT] Connected to gateway on port " + Config.GATEWAY_PORT + " on attempt " + attempt);
                 return;
             } catch (NotBoundException | RemoteException e) {
                 exception = e;
                 Debug.warning("[CLIENT] Gateway lookup failed on attempt " + attempt + ": " + e.getMessage());
-                if (attempt == MAX_RETRIES) break;
+                if (attempt == Config.CLIENT_RETRIES) break;
                 try {
-                    Thread.sleep((long) (BACKOFF_TIME * Math.pow(2, attempt - 1)));
+                    Thread.sleep((long) (Config.CLIENT_BACKOFF * Math.pow(2, attempt - 1)));
                 } catch (InterruptedException er) {
                     break;
                 }
@@ -141,7 +131,7 @@ public class Client {
      */
     private static <T> T callGateway(Callable<T> action) throws Exception {
         Exception exception = null;
-        for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+        for (int attempt = 1; attempt <= Config.CLIENT_RETRIES; attempt++) {
             try {
                 if (gateway == null){
                     lookupGateway();
@@ -155,9 +145,9 @@ public class Client {
                 } catch (Exception er) {
                     Debug.error("[CLIENT] Re-lookup failed: " + er.getMessage());
                 }
-                if (attempt == MAX_RETRIES) break;
+                if (attempt == Config.CLIENT_RETRIES) break;
                 try {
-                    Thread.sleep((long) (BACKOFF_TIME * Math.pow(2, attempt - 1)));
+                    Thread.sleep((long) (Config.CLIENT_BACKOFF * Math.pow(2, attempt - 1)));
                 } catch (InterruptedException err) {
                     break;
                 }

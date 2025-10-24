@@ -260,7 +260,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         try {
             Barrel barrel = new Barrel();
 
-            barrel.port = Ports.claimBarrelPort();
+            barrel.port = Config.claimBarrelPort();
             if (barrel.port == -1) {
                 Debug.error("[BARREL] No available ports. All barrel ports are in use.");
                 return;
@@ -271,9 +271,9 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             Debug.info("[BARREL " + barrel.port + "] Running on port: " + barrel.port);
 
             try {
-                registry = LocateRegistry.getRegistry(Ports.GATEWAY_PORT);
+                registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
                 barrel.gateway = (GatewayInterface) registry.lookup("gateway");
-                Debug.info("[BARREL " + barrel.port + "] Connected to gateway on port: " + Ports.GATEWAY_PORT);
+                Debug.info("[BARREL " + barrel.port + "] Connected to gateway on port: " + Config.GATEWAY_PORT);
                 barrel.gateway.callbackBarrelStatus(barrel.port, true);
             } catch (NotBoundException | RemoteException e) {
                 Debug.error("[BARREL " + barrel.port + "] Gateway not available: " + e.getMessage());
@@ -282,7 +282,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
                     if (barrel.gateway == null) {
-                        Registry reg = LocateRegistry.getRegistry(Ports.GATEWAY_PORT);
+                        Registry reg = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
                         barrel.gateway = (GatewayInterface) reg.lookup("gateway");
                     }
                     barrel.gateway.callbackBarrelStatus(barrel.port, false);

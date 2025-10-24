@@ -17,3 +17,59 @@
 	java.net.SocketException: Connection reset
 [2025-10-24 18:20:16] [ERROR] [DOWNLOADER 3] Error unmarshaling return header; nested exception is: 
 	java.net.SocketException: Connection reset
+[2025-10-24 19:46:18] [WARNING] [CLIENT] Gateway lookup failed on attempt 1: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:46:21] [WARNING] [CLIENT] Gateway lookup failed on attempt 2: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:46:24] [WARNING] [CLIENT] Gateway lookup failed on attempt 3: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:46:28] [WARNING] [CLIENT] Gateway lookup failed on attempt 4: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:46:34] [WARNING] [CLIENT] Gateway lookup failed on attempt 5: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:46:34] [ERROR] [CLIENT] Could not contact gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:46:56] [WARNING] [CLIENT] Gateway lookup failed on attempt 1: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:46:58] [WARNING] [CLIENT] Gateway lookup failed on attempt 2: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:47:00] [WARNING] [CLIENT] Gateway lookup failed on attempt 3: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:47:02] [WARNING] [CLIENT] Gateway lookup failed on attempt 4: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:47:04] [WARNING] [CLIENT] Gateway lookup failed on attempt 5: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:47:04] [ERROR] [CLIENT] Could not contact gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:47:34] [WARNING] [CLIENT] Gateway lookup failed on attempt 1: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:47:36] [WARNING] [CLIENT] Gateway lookup failed on attempt 2: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:47:38] [WARNING] [CLIENT] Gateway lookup failed on attempt 3: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:47:40] [WARNING] [CLIENT] Gateway lookup failed on attempt 4: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:47:42] [WARNING] [CLIENT] Gateway lookup failed on attempt 5: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:47:42] [ERROR] [CLIENT] Could not contact gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:49:28] [WARNING] [CLIENT] Gateway lookup failed on attempt 1: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:49:30] [WARNING] [CLIENT] Gateway lookup failed on attempt 2: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:49:32] [WARNING] [CLIENT] Gateway lookup failed on attempt 3: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:49:35] [WARNING] [CLIENT] Gateway lookup failed on attempt 4: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:49:37] [WARNING] [CLIENT] Gateway lookup failed on attempt 5: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:49:37] [ERROR] [CLIENT] Could not contact gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:50:00] [WARNING] [CLIENT] Gateway lookup failed on attempt 1: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:50:03] [WARNING] [CLIENT] Gateway lookup failed on attempt 2: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:50:06] [WARNING] [CLIENT] Gateway lookup failed on attempt 3: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-24 19:50:06] [ERROR] [CLIENT] Could not contact gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
