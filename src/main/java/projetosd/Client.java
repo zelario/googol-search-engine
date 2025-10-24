@@ -15,9 +15,20 @@ import java.util.concurrent.Callable;
  * @version 1.0
  */
 public class Client {
+    /**
+     * Maximum number of retries for RMI calls.
+     */
     private static final int MAX_RETRIES = 5;
-    private static final long BACKOFF_TIME = 500; 
-    private static GatewayInterface gateway;
+
+    /**
+     * Backoff time between retries.
+     */
+    private static final long BACKOFF_TIME = 500;
+
+    /**
+     * Gateway remote interface.
+     */
+    private static GatewayInterface gateway = null;
 
     /**
      * Main to run the client console.
@@ -26,7 +37,7 @@ public class Client {
     public static void main(String[] args) {
 
         try {
-            lookupGatewayWithRetries();
+            lookupGateway();
         } catch (Exception e) {
             Debug.error("[CLIENT] Could not contact gateway: " + e.getMessage());
             return;
@@ -59,7 +70,7 @@ public class Client {
                         continue;
                     } else if (query.equals("STATS")) {
                         try {
-                            callGatewayWithRetries(() -> { gateway.stats(clientId); return null; });
+                            callGateway(() -> { gateway.stats(clientId); return null; });
                         } catch (Exception e) {
                             Debug.error("[CLIENT] Stats failed after retries: " + e.getMessage());
                         }
@@ -72,7 +83,7 @@ public class Client {
                     switch (mode) {
                         case "SEARCH" -> {
                             try {
-                                List<List<Page>> results = callGatewayWithRetries(() -> gateway.search(clientId, query));
+                                List<List<Page>> results = callGateway(() -> gateway.search(clientId, query));
                                 System.out.println("- Search results: " + results);
                             } catch (Exception e) {
                                 Debug.error("[CLIENT] Search failed after retries: " + e.getMessage());
@@ -80,7 +91,7 @@ public class Client {
                         }
                         case "INDEX" -> {
                             try {
-                                callGatewayWithRetries(() -> { gateway.index(query); return null; });
+                                callGateway(() -> { gateway.index(query); return null; });
                                 System.out.print("- URL sent for indexing.\n");
                             } catch (Exception e) {
                                 Debug.error("[CLIENT] Index failed after retries: " + e.getMessage());
@@ -96,7 +107,7 @@ public class Client {
     /**
      * Lookup the gateway with retry/backoff.
      */
-    private static void lookupGatewayWithRetries() throws Exception {
+    private static void lookupGateway() throws Exception {
         Exception exception = null;
         for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
             try {
@@ -119,20 +130,21 @@ public class Client {
     }
 
     /**
-     * Execute a gateway call with automatic retries. If a RemoteException/NotBoundException
-     * occurs the client will try to re-lookup the gateway and retry the call.
+     * Execute a gateway call with automatic retries. If an exception occurs the client will try to re-lookup the gateway and retry the call.
      */
-    private static <T> T callGatewayWithRetries(Callable<T> action) throws Exception {
+    private static <T> T callGateway(Callable<T> action) throws Exception {
         Exception exception = null;
         for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
             try {
-                if (gateway == null) lookupGatewayWithRetries();
+                if (gateway == null){
+                    lookupGateway();
+                }
                 return action.call();
             } catch (RemoteException | NotBoundException e) {
                 exception = e;
-                Debug.error("[CLIENT] Gateway call failed (attempt " + attempt + "): " + e.getMessage());
+                Debug.error("[CLIENT] Gateway call failed at attempt " + attempt + ": " + e.getMessage());
                 try {
-                    lookupGatewayWithRetries();
+                    lookupGateway();
                 } catch (Exception lookupEx) {
                     Debug.error("[CLIENT] Re-lookup failed: " + lookupEx.getMessage());
                 }
