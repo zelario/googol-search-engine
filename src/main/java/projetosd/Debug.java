@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class Debug {
     /**
-     * Global debug flag. Set to false to disable debug output.
+     * If true prints on terminal, if false just logs.
      */
     public static boolean DEBUG = true;
     
@@ -50,8 +50,8 @@ public class Debug {
     public static void info(String message) {
         if (DEBUG) {
             System.out.println("[INFO] " + message);
-            writeToLog("INFO", message);
         }
+        writeToLog("INFO", message);
     }
     
     /**
@@ -61,10 +61,10 @@ public class Debug {
     public static void error(String message) {
         if (DEBUG) {
             System.err.println("[ERROR] " + message);
-            writeToLog("ERROR", message);
         }
+        writeToLog("ERROR", message);
     }
-    
+
     /**
      * Prints a warning message 
      * @param message The warning message to print
@@ -72,7 +72,13 @@ public class Debug {
     public static void warning(String message) {
         if (DEBUG) {
             System.out.println("[WARNING] " + message);
-            writeToLog("WARNING", message);
+        }
+        writeToLog("WARNING", message);
+    }
+
+    public static void url(String message) {
+        if (DEBUG) {
+            System.out.println("[URL] " + message);
         }
     }
 }
