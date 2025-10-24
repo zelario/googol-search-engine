@@ -185,6 +185,8 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     public List<Page> searchQuery(String rawQuery, String[] terms) {
         long startTime = System.currentTimeMillis();
 
+        if(terms == null || terms.length == 0) return Collections.emptyList();
+
         Database db = new Database();
         List<Page> pages = new ArrayList<>();
 
@@ -204,7 +206,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             PreparedStatement stmt = conn.prepareStatement(query);
 
             for (int i = 0; i < terms.length; i++) {
-                stmt.setString(i + 1, terms[i]);
+                stmt.setString(i + 1, terms[i].toLowerCase());
             }
 
             stmt.setInt(terms.length + 1, terms.length);
@@ -214,10 +216,10 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                     pages.add(new Page(rs.getString("url"), rs.getString("title"), rs.getString("citation")));
                 }
             } catch (SQLException e) {
-                System.out.println("[DOWNLOADER] Error fetching pages: " + e.getMessage());
+                Debug.error("[DOWNLOADER] Error fetching pages: " + e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("[DOWNLOADER] Error fetching pages: " + e.getMessage());
+            Debug.error("[DOWNLOADER] Error fetching pages: " + e.getMessage());
             try {
                 if (gateway == null) {
                     try {

@@ -85,7 +85,7 @@ public class Downloader extends Thread {
                 while (st.hasMoreTokens()) {
                     String token = st.nextToken();
                     // Word max lenght is 64
-                    if(token.length() <= 64 ) pageWords.add(token);
+                    if(token.length() <= 64 ) pageWords.add(token.toLowerCase());
                 }
 
                 Elements links = doc.select("a[href]");

@@ -59,7 +59,7 @@ public class Client {
 
                     switch (mode) {
                         case "SEARCH" -> {
-                            List<List<Page>> results = gateway.search(query, clientId);
+                            List<List<Page>> results = gateway.search(clientId, query);
                             System.out.println("- Search results: " + results);
                         }
                         case "INDEX" -> {
