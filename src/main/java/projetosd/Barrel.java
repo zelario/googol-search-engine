@@ -25,12 +25,12 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     /*
      * Reference to the Gateway for callbacks
      */
-    public static GatewayInterface gateway = null;
+    private GatewayInterface gateway = null;
 
     /*
      * Port where this barrel is running
      */
-    public static int barrelPort;
+    private int port = -1;
 
     /**
      * Constructs the Barrel.
@@ -140,14 +140,14 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                     }
                 }
 
-                Debug.url("[BARREL " + barrelPort + "] Inserted url into database: " + url);
+                Debug.url("[BARREL " + port + "] Inserted url into database: " + url);
                 return true;
 
             } catch (SQLException e){
                 String errorMsg = e.getMessage();
                 if(errorMsg != null &&  errorMsg.contains("deadlock detected")){
                     attempt++;
-                    Debug.warning("[BARREL " + barrelPort + "] Deadlock detected on insertion");
+                    Debug.warning("[BARREL " + port + "] Deadlock detected on insertion");
 
                     try{ Thread.sleep((long) (100 * Math.pow(2, attempt)));}
                     catch (InterruptedException ignored){}
@@ -159,7 +159,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             }
     }
 
-        Debug.error("[BARREL " + barrelPort + "] Multiple deadlocks retries for url: " + url);
+        Debug.error("[BARREL " + port + "] Multiple deadlocks retries for url: " + url);
         return false;
     }
 
@@ -212,9 +212,9 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         long responseTime = System.currentTimeMillis() - startTime;
 
         try {
-            gateway.callbackSearchCompleted(barrelPort, rawQuery, responseTime);
+            gateway.callbackSearchCompleted(port, rawQuery, responseTime);
         } catch (RemoteException e) {
-            Debug.error("[BARREL " + barrelPort + "] Failed to callback gateway: " + e.getMessage());
+            Debug.error("[BARREL " + port + "] Failed to callback gateway: " + e.getMessage());
         }
 
         return pages;
@@ -258,36 +258,37 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      */
     public static void main(String[] args) {
         try {
-            barrelPort = Ports.claimBarrelPort();
-            if (barrelPort == -1) {
+            Barrel barrel = new Barrel();
+
+            barrel.port = Ports.claimBarrelPort();
+            if (barrel.port == -1) {
                 Debug.error("[BARREL] No available ports. All barrel ports are in use.");
                 return;
             }
 
-            Barrel barrel = new Barrel();
-            Registry registry = LocateRegistry.createRegistry(barrelPort);
+            Registry registry = LocateRegistry.createRegistry(barrel.port);
             registry.rebind("barrel", barrel);
-            Debug.info("[BARREL " + barrelPort + "] Running on port: " + barrelPort);
+            Debug.info("[BARREL " + barrel.port + "] Running on port: " + barrel.port);
 
             try {
                 registry = LocateRegistry.getRegistry(Ports.GATEWAY_PORT);
-                gateway = (GatewayInterface) registry.lookup("gateway");
-                Debug.info("[BARREL " + barrelPort + "] Connected to gateway on port: " + Ports.GATEWAY_PORT);
-                gateway.callbackBarrelStatus(barrelPort, true);
+                barrel.gateway = (GatewayInterface) registry.lookup("gateway");
+                Debug.info("[BARREL " + barrel.port + "] Connected to gateway on port: " + Ports.GATEWAY_PORT);
+                barrel.gateway.callbackBarrelStatus(barrel.port, true);
             } catch (NotBoundException | RemoteException e) {
-                Debug.error("[BARREL " + barrelPort + "] Gateway not available: " + e.getMessage());
+                Debug.error("[BARREL " + barrel.port + "] Gateway not available: " + e.getMessage());
             }
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
-                    if (gateway == null) {
+                    if (barrel.gateway == null) {
                         Registry reg = LocateRegistry.getRegistry(Ports.GATEWAY_PORT);
-                        gateway = (GatewayInterface) reg.lookup("gateway");
+                        barrel.gateway = (GatewayInterface) reg.lookup("gateway");
                     }
-                    gateway.callbackBarrelStatus(barrelPort, false);
-                    Debug.info("[BARREL " + barrelPort + "] Shutdown notification sent to gateway. Exiting.");
+                    barrel.gateway.callbackBarrelStatus(barrel.port, false);
+                    Debug.info("[BARREL " + barrel.port + "] Shutdown notification sent to gateway. Exiting.");
                 } catch (NotBoundException | RemoteException e) {
-                    Debug.error("[BARREL " + barrelPort + "] Failed to notify gateway on shutdown: " + e.getMessage());
+                    Debug.error("[BARREL " + barrel.port + "] Failed to notify gateway on shutdown: " + e.getMessage());
                 }
             }));
 

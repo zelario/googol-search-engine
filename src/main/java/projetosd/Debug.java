@@ -44,6 +44,15 @@ public class Debug {
     }
 
     /**
+     * Clears the log file.
+     */
+    public static void clearLog() {
+        try (FileWriter fw = new FileWriter(LOG_FILE, false)) {
+            fw.write("");
+        } catch (IOException e) {}
+    }
+
+    /**
      * Prints a debug message if DEBUG is enabled.
      * @param message The message to print
      */

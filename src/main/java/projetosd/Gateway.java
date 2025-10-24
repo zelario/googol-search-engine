@@ -57,13 +57,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     public Gateway() throws RemoteException {
         super();
         stats = new Stats();
-        try {
-            Registry registry = LocateRegistry.getRegistry(Ports.URL_QUEUE_PORT);
-            queue = (UrlQueueInterface) registry.lookup("queue");
-            Debug.info("[GATEWAY] Connected to URL Queue on port " + Ports.URL_QUEUE_PORT);
-        } catch (NotBoundException | RemoteException e) {
-            Debug.error("[GATEWAY] URL Queue not available: " + e.getMessage());
-        }
     }
 
     /**
@@ -285,11 +278,19 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     public static void main(String[] args) {
         try {
-            Gateway server = new Gateway();
+            Gateway gateway = new Gateway();
 
             Registry registry = LocateRegistry.createRegistry(Ports.GATEWAY_PORT);
-            registry.rebind("gateway", server);
+            registry.rebind("gateway", gateway);
             Debug.info("[GATEWAY] Gateway ready on port " + Ports.GATEWAY_PORT);
+
+            try {
+                registry = LocateRegistry.getRegistry(Ports.URL_QUEUE_PORT);
+                gateway.queue = (UrlQueueInterface) registry.lookup("queue");
+                Debug.info("[GATEWAY] Connected to URL Queue on port " + Ports.URL_QUEUE_PORT);
+            } catch (NotBoundException | RemoteException e) {
+                Debug.error("[GATEWAY] URL Queue not available: " + e.getMessage());
+            }
 
         } catch (RemoteException e) {
             Debug.error("[GATEWAY] Failed to start Gateway: " + e.getMessage());
