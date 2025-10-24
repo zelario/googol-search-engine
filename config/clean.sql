@@ -1,0 +1,1 @@
+TRUNCATE TABLE words_url, url_url, words, url;

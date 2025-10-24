@@ -25,7 +25,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     /*
      * Reference to the Gateway for callbacks
      */
-    public static GatewayInterface gateway;
+    public static GatewayInterface gateway = null;
 
     /*
      * Port where this barrel is running
@@ -277,6 +277,19 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             } catch (NotBoundException | RemoteException e) {
                 Debug.error("[BARREL " + barrelPort + "] Gateway not available: " + e.getMessage());
             }
+
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                try {
+                    if (gateway == null) {
+                        Registry reg = LocateRegistry.getRegistry(Ports.GATEWAY_PORT);
+                        gateway = (GatewayInterface) reg.lookup("gateway");
+                    }
+                    gateway.callbackBarrelStatus(barrelPort, false);
+                    Debug.info("[BARREL " + barrelPort + "] Shutdown notification sent to gateway. Exiting.");
+                } catch (NotBoundException | RemoteException e) {
+                    Debug.error("[BARREL " + barrelPort + "] Failed to notify gateway on shutdown: " + e.getMessage());
+                }
+            }));
 
         } catch (RemoteException e) {
             Debug.error("[BARREL] Failed to start: " + e.getMessage());
