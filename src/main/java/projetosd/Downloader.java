@@ -69,7 +69,7 @@ public class Downloader extends Thread {
 
                 if(!url.startsWith("http")) continue;
 
-                Debug.info("[DOWNLOADER " + threadNumber + "] Downloading URL: " + url);
+                Debug.url("[DOWNLOADER " + threadNumber + "] Downloading URL: " + url);
                 Document doc;
                 try {
                     doc = Jsoup.connect(url).get();
