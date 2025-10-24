@@ -101,10 +101,10 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             }
             
             if (available == true) {
-                Debug.info("[GATEWAY] Chosen barrel is fine. Selected barrel on port " + port);
+                Debug.info("[GATEWAY] Chosen barrel is fine. Selected barrel " + port);
                 return entry;
             } else {
-                Debug.error("[GATEWAY] Barrel on port " + port + " not available after retries. Removing from registry.");
+                Debug.error("[GATEWAY] Barrel " + port + " not available after retries. Removing from registry.");
                 entries.remove(index);
                 barrels.remove(port);
                 stats.removeBarrelStats(port);
@@ -128,14 +128,14 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 Registry registry = LocateRegistry.getRegistry(barrelPort);
                 BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
                 barrels.put(barrelPort, barrel);
-                Debug.info("[GATEWAY] Barrel registered on port " + barrelPort);
+                Debug.info("[GATEWAY] Barrel " + barrelPort + " registered.");
             } catch (NotBoundException | RemoteException e) {
-                Debug.error("[GATEWAY] Failed to register barrel on port " + barrelPort + ": " + e.getMessage());
+                Debug.error("[GATEWAY] Failed to register barrel " + barrelPort + ": " + e.getMessage());
             }
         } else {
             barrels.remove(barrelPort);
             stats.removeBarrelStats(barrelPort);
-            Debug.info("[GATEWAY] Barrel unregistered on port " + barrelPort);
+            Debug.info("[GATEWAY] Barrel " + barrelPort + " unregistered.");
         }
     }
 
