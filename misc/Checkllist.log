@@ -1,0 +1,50 @@
+==== Sistemas Distribuídos 2025/26 - Meta 1 ====
+
+--- Requisitos Funcionais ---
+
+1 - Indexar novo URL introduzido por utilizador
+1 - Indexar iterativamente ou recursivamente todos os URLs encontrados
+1 - Pesquisar páginas que contenham um conjunto de palavras
+0 - Páginas ordenadas por número de ligações recebidas de outras páginas
+0 - Consultar lista de páginas com ligações para uma página específica
+0 - Página de estatísticas atualizada em tempo real
+1 - Resultados da pesquisa agrupados de 10 em 10
+
+--- Tolerância a Falhas e Processamento Paralelo ---
+
+0 - A informação é idêntica em todos os storage barrels (reliable multicast)
+1 - Serviço correto se funcionar pelo menos um storage barrel e a gateway
+0 - Os storage barrels recuperam o seu estado se avariarem (crash)
+0 - Balanceamento da carga nas pesquisas sobre os storage barrels
+0 - Os downloaders executam em paralelo
+1 - A gateway recupera de quaisquer avarias internas (não têm efeito nos clientes)
+1 - Pedidos de indexação são respondidos apenas por um downloader
+
+--- Relatório ---
+
+0 - Testes de software (tabela com descrição + pass/fail de cada teste)
+0 - Arquitetura de software detalhadamente descrita
+0 - Detalhes do funcionamento do RPC/RMI (interfaces, componentes, etc.)
+0 - Detalhes do funcionamento da replicação (reliable multicast)
+0 - Distribuição de tarefas pelos elementos do grupo
+
+--- Extra (até 5 pontos) ---
+
+0 - Aprendizagem computacional distribuída num trabalho de grupo de 2 alunos (5p)
+0 - Uso de estruturas avançadas tais como filtro de Bloom, mapa WordID->DocIDs (5p)
+0 - Pesquisas avançadas e melhores algoritmos de ranking de páginas (4p)
+0 - Novo storage barrel sincroniza-se com os existentes (5p)
+
+--- Pontos Obrigatórios---
+
+0 - O projeto corre distribuído por várias máquinas (-10)
+0 - Configuração em ".properties files" não requer recompilação (-5)
+0 - A aplicação não apresenta erros/exceções/avarias (-5)
+1 - Código legível e bem documentado (-5)
+
+--- No dia da defesa ---
+
+Trazem duas máquinas (e.g., dois portáteis ou um portátil com uma VM)
+Máquina #1 corre 1 downloader, 1 storage barrel e a gateway
+Máquina #2 corre 1 downloader, 1 storage barrel e 1 cliente RPC/RMI
+Há dados de teste (o índice contém dezenas de páginas)

@@ -36,6 +36,21 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     private final Map<Integer, BarrelInterface> barrels = new ConcurrentHashMap<>();
 
     /**
+     * Ping retry attempts.
+     */
+    private static final int PING_RETRIES = 3;
+
+    /**
+     * Search retry attempts.
+     */
+    private static final int SEARCH_RETRIES = 2;
+
+    /**
+     * Initial backoff time in milliseconds for both ping and search retries.
+     */
+    private static final long BACKOFF_TIME = 200;
+
+    /**
      * Constructs the Gateway.
      * @throws RemoteException RMI exception
      */
@@ -52,22 +67,47 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     }
 
     /**
-     * Select an available barrel by pinging them.
-     * @return an available barrel or null
+     * Select an available barrel entry (port + barrel instance) by pinging them.
+     * @return Map entry of selected barrel port and instance, or null if none available
      */
-    private BarrelInterface selectAvailableBarrel() { //TODO Fazer timeout e backoff ao conectar barrels
+    private Map.Entry<Integer, BarrelInterface> selectBarrel() { 
         List<Map.Entry<Integer, BarrelInterface>> entries = new ArrayList<>(barrels.entrySet());
         while (!entries.isEmpty()) {
-            int idx = (int) (Math.random() * entries.size());
-            Map.Entry<Integer, BarrelInterface> entry = entries.get(idx);
-            try {
-                entry.getValue().ping();
-                Debug.info("[GATEWAY] Selected barrel: port " + entry.getKey());
-                return entry.getValue();
-            } catch (RemoteException e) {
-                Debug.error("[GATEWAY] Barrel on port " + entry.getKey() + " not available: " + e.getMessage());
-                entries.remove(idx);
-                barrels.remove(entry.getKey());
+            int index = (int) (Math.random() * entries.size());
+            Map.Entry<Integer, BarrelInterface> entry = entries.get(index);
+            int port = entry.getKey();
+            BarrelInterface barrel = entry.getValue();
+
+            boolean available = false;
+            int attempts = 0;
+            long backoff = BACKOFF_TIME;
+            while (attempts < PING_RETRIES) {
+                try {
+                    barrel.ping();
+                    available = true;
+                    break;
+                } catch (RemoteException e) {
+                    attempts++;
+                    Debug.warning("[GATEWAY] Ping failed for barrel " + port + " on attempt " + attempts + ": " + e.getMessage());
+                    if (attempts >= PING_RETRIES) break;
+                    try {
+                        Thread.sleep(backoff);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                    backoff *= 2;
+                }
+            }
+            
+            if (available == true) {
+                Debug.info("[GATEWAY] Chosen barrel is fine. Selected barrel on port " + port);
+                return entry;
+            } else {
+                Debug.error("[GATEWAY] Barrel on port " + port + " not available after retries. Removing from registry.");
+                entries.remove(index);
+                barrels.remove(port);
+                stats.removeBarrelStats(port);
             }
         }
         return null;
@@ -82,7 +122,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @throws RemoteException RMI exception
      */
     @Override
-    public void callbackBarrelStatus(int barrelPort, boolean status) throws RemoteException {  //TODO se barrel morrer tem de mandar isto 
+    public void callbackBarrelStatus(int barrelPort, boolean status) throws RemoteException {
         if (status) {
             try {
                 Registry registry = LocateRegistry.getRegistry(barrelPort);
@@ -156,37 +196,54 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     @Override
     public List<List<Page>> search(String clientId, String query) throws RemoteException {
-        BarrelInterface barrel = selectAvailableBarrel();
-        if (barrel == null) {
-            Debug.warning("[GATEWAY] No available barrels for search.");
-            return new ArrayList<>();
-        }
-
         Debug.info("[GATEWAY] Client " + clientId + " searching for query: " + query);
 
-        try {
-            String[] terms = Arrays.stream(query.split("\\s+"))
-                    .filter(s -> !s.isBlank())
-                    .map(String::toLowerCase)
-                    .toArray(String[]::new);
+        String[] terms = Arrays.stream(query.split("\\s+"))
+                .filter(s -> !s.isBlank())
+                .map(String::toLowerCase)
+                .toArray(String[]::new);
 
-            List<Page> pages = barrel.searchQuery(query, terms);
-            if (pages == null || pages.isEmpty()) {
+        long backoff = BACKOFF_TIME;
+        for (int attempt = 1; attempt <= SEARCH_RETRIES; attempt++) {
+            Map.Entry<Integer, BarrelInterface> entry = selectBarrel();
+            if (entry == null) {
+                Debug.warning("[GATEWAY] No available barrels for search on attempt " + attempt + ".");
                 return new ArrayList<>();
             }
 
-            List<List<Page>> pageLists = new ArrayList<>();
-            for (int i = 0; i < pages.size(); i += 10) {
-                int to = Math.min(i + 10, pages.size());
-                pageLists.add(new ArrayList<>(pages.subList(i, to)));
-            }
-            Debug.info("[GATEWAY] Client " + clientId + " search completed successfully.");
-            return pageLists; //TODO backlinks depois do resultado
+            BarrelInterface barrel = entry.getValue();
+            int barrelPort = entry.getKey();
+            try {
+                List<Page> pages = barrel.searchQuery(query, terms);
+                if (pages == null || pages.isEmpty()) {
+                    return new ArrayList<>();
+                }
 
-        } catch (RemoteException e) {
-            Debug.error("[GATEWAY] Search failed on barrel: " + e.getMessage());
-            return new ArrayList<>();
+                List<List<Page>> pageLists = new ArrayList<>();
+                for (int i = 0; i < pages.size(); i += 10) {
+                    int to = Math.min(i + 10, pages.size());
+                    pageLists.add(new ArrayList<>(pages.subList(i, to)));
+                }
+                Debug.info("[GATEWAY] Client " + clientId + " search completed successfully on barrel " + barrelPort + " on attempt " + attempt + ".");
+                return pageLists;
+
+            } catch (RemoteException e) {
+                Debug.error("[GATEWAY] Search failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying.");
+
+                if (attempt < SEARCH_RETRIES) {
+                    try {
+                        Thread.sleep(backoff);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                    backoff *= 2;
+                }
+            }
         }
+
+        Debug.error("[GATEWAY] Search not successful. All search attempts failed for query: " + query);
+        return new ArrayList<>();
     }
 
     /**
