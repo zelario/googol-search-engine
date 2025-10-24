@@ -19,7 +19,7 @@ import org.jsoup.select.Elements;
  * @author Jose Amado & José Capinha
  * @version 1.0
  */
-public class Downloader extends Thread {
+public class Downloader extends Thread { //TODO Downloaders tem de ser capazes de encontrar um barrel novo se o que estiver ligado falhar
 
     /**
      * The thread number for this downloader instance.

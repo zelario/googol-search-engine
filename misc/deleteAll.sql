@@ -1,4 +1,0 @@
-DELETE FROM words_url;
-DELETE FROM url_url;
-DELETE FROM url;
-DELETE FROM words;
