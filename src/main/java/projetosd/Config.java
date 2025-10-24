@@ -32,14 +32,29 @@ public class Config {
      */
     public static int[] BARREL_PORTS;
 
+    /*
+     * Client backoff settings
+     */
     public static int CLIENT_BACKOFF;
 
+    /*
+     * Client retry settings
+     */
     public static int CLIENT_RETRIES;
 
+    /*
+     * Gateway backoff settings
+     */
     public static int GATEWAY_BACKOFF;
 
+    /*
+     * Gateway retry settings
+     */
     public static int GATEWAY_RETRIES;
 
+    /*
+     * Debug mode
+     */
     public static boolean DEBUG;
 
     static {
@@ -110,7 +125,7 @@ public static synchronized void loadConfiguration() {
             try (ServerSocket ignored = new ServerSocket(port)) {
                 return port;
             } catch (IOException e) {
-                Debug.info("[PORTS] Port already in use: " + port);
+                Log.info("[PORTS] Port already in use: " + port);
             }
         }
         return -1; 

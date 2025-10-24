@@ -67,7 +67,7 @@ public class Database {
             return connection;
         }
         catch (SQLException e){
-            Debug.error("[DATABASE] " + e.getMessage());
+            Log.error("[DATABASE] " + e.getMessage());
             return null;
         }
     }

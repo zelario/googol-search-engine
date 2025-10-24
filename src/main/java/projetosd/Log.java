@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
  * @author Jose Amado & José Capinha
  * @version 1.0
  */
-public class Debug {
+public class Log {
     
     /**
      * Log file path.

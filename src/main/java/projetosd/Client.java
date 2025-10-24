@@ -36,7 +36,7 @@ public class Client {
         try {
             lookupGateway();
         } catch (Exception e) {
-            Debug.error("[CLIENT] Could not contact gateway: " + e.getMessage());
+            Log.error("[CLIENT] Could not contact gateway: " + e.getMessage());
             return;
         }
 
@@ -50,7 +50,7 @@ public class Client {
 
                 System.out.print("-Firstly, enter your client ID for logging purposes: ");
                 client.id = scanner.nextLine().trim();
-                Debug.info("[CLIENT " + client.id + "] Client " + client.id + " has connected.");
+                Log.info("[CLIENT " + client.id + "] Client " + client.id + " has connected.");
 
                 System.out.print("\n>  ");
 
@@ -69,7 +69,7 @@ public class Client {
                         try {
                             callGateway(() -> { gateway.stats(client.id); return null; });
                         } catch (Exception e) {
-                            Debug.error("[CLIENT " + client.id + "] Stats failed after retries: " + e.getMessage());
+                            Log.error("[CLIENT " + client.id + "] Stats failed after retries: " + e.getMessage());
                         }
                         continue;
                     } else if (query.equals("EXIT")) {
@@ -83,7 +83,7 @@ public class Client {
                                 List<List<Page>> results = callGateway(() -> gateway.search(client.id, query));
                                 System.out.println("- Search results: " + results);
                             } catch (Exception e) {
-                                Debug.error("[CLIENT " + client.id + "] Search failed after retries: " + e.getMessage());
+                                Log.error("[CLIENT " + client.id + "] Search failed after retries: " + e.getMessage());
                             }
                         }
                         case "INDEX" -> {
@@ -91,7 +91,7 @@ public class Client {
                                 callGateway(() -> { gateway.index(query); return null; });
                                 System.out.print("- URL sent for indexing.\n");
                             } catch (Exception e) {
-                                Debug.error("[CLIENT " + client.id + "] Index failed after retries: " + e.getMessage());
+                                Log.error("[CLIENT " + client.id + "] Index failed after retries: " + e.getMessage());
                             }
                         }
                     }
@@ -110,11 +110,11 @@ public class Client {
             try {
                 Registry registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
                 gateway = (GatewayInterface) registry.lookup("gateway");
-                Debug.info("[CLIENT] Connected to gateway on port " + Config.GATEWAY_PORT + " on attempt " + attempt);
+                Log.info("[CLIENT] Connected to gateway on port " + Config.GATEWAY_PORT + " on attempt " + attempt);
                 return;
             } catch (NotBoundException | RemoteException e) {
                 exception = e;
-                Debug.warning("[CLIENT] Gateway lookup failed on attempt " + attempt + ": " + e.getMessage());
+                Log.warning("[CLIENT] Gateway lookup failed on attempt " + attempt + ": " + e.getMessage());
                 if (attempt == Config.CLIENT_RETRIES) break;
                 try {
                     Thread.sleep((long) (Config.CLIENT_BACKOFF * Math.pow(2, attempt - 1)));
@@ -139,11 +139,11 @@ public class Client {
                 return action.call();
             } catch (RemoteException | NotBoundException e) {
                 exception = e;
-                Debug.error("[CLIENT] Gateway call failed at attempt " + attempt + ": " + e.getMessage());
+                Log.error("[CLIENT] Gateway call failed at attempt " + attempt + ": " + e.getMessage());
                 try {
                     lookupGateway();
                 } catch (Exception er) {
-                    Debug.error("[CLIENT] Re-lookup failed: " + er.getMessage());
+                    Log.error("[CLIENT] Re-lookup failed: " + er.getMessage());
                 }
                 if (attempt == Config.CLIENT_RETRIES) break;
                 try {

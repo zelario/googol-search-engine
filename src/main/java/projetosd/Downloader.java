@@ -57,19 +57,19 @@ public class Downloader extends Thread { //TODO Downloaders tem de ser capazes d
     @Override
     public void run() {
         try {
-            Debug.info("[DOWNLOADER " + threadNumber + "] Starting downloader thread.");
+            Log.info("[DOWNLOADER " + threadNumber + "] Starting downloader thread.");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Config.URL_QUEUE_PORT).lookup("queue");
 
             int connectedBarrelPort = Config.lookBarrels();
             BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(connectedBarrelPort).lookup("barrel");
-            Debug.info("[DOWNLOADER " + threadNumber + "] Connected to Barrel on port " + connectedBarrelPort);
+            Log.info("[DOWNLOADER " + threadNumber + "] Connected to Barrel on port " + connectedBarrelPort);
 
             while (true) {
                 String url = queue.takeUrl();
 
                 if(!url.startsWith("http")) continue;
 
-                Debug.url("[DOWNLOADER " + threadNumber + "] Downloading URL: " + url);
+                Log.url("[DOWNLOADER " + threadNumber + "] Downloading URL: " + url);
                 Document doc;
                 try {
                     doc = Jsoup.connect(url).get();
@@ -125,11 +125,11 @@ public class Downloader extends Thread { //TODO Downloaders tem de ser capazes d
 
                 // TODO: add failback logic
                 if(!barrel.addEntry(url, pageWords, title, description, relatedUrls)){
-                    Debug.info("[DOWNLOADER " + threadNumber + "] Failed to parse and/or store an url");
+                    Log.info("[DOWNLOADER " + threadNumber + "] Failed to parse and/or store an url");
                 }
             }
         } catch (IOException | NotBoundException e) {
-            Debug.error("[DOWNLOADER " + threadNumber + "] " + e.getMessage());
+            Log.error("[DOWNLOADER " + threadNumber + "] " + e.getMessage());
         }
     }
 

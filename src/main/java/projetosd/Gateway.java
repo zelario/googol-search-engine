@@ -65,7 +65,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                     break;
                 } catch (RemoteException e) {
                     attempts++;
-                    Debug.warning("[GATEWAY] Ping failed for barrel " + port + " on attempt " + attempts + ": " + e.getMessage());
+                    Log.warning("[GATEWAY] Ping failed for barrel " + port + " on attempt " + attempts + ": " + e.getMessage());
                     if (attempts >= Config.GATEWAY_RETRIES) break;
                     try {
                         Thread.sleep((long) (Config.GATEWAY_BACKOFF * Math.pow(2, attempts - 1)));
@@ -77,10 +77,10 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             }
             
             if (available == true) {
-                Debug.info("[GATEWAY] Chosen barrel is fine. Selected barrel " + port);
+                Log.info("[GATEWAY] Chosen barrel is fine. Selected barrel " + port);
                 return entry;
             } else {
-                Debug.error("[GATEWAY] Barrel " + port + " not available after retries. Removing from registry.");
+                Log.error("[GATEWAY] Barrel " + port + " not available after retries. Removing from registry.");
                 entries.remove(index);
                 barrels.remove(port);
                 stats.removeBarrelStats(port);
@@ -104,14 +104,14 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 Registry registry = LocateRegistry.getRegistry(barrelPort);
                 BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
                 barrels.put(barrelPort, barrel);
-                Debug.info("[GATEWAY] Barrel " + barrelPort + " registered.");
+                Log.info("[GATEWAY] Barrel " + barrelPort + " registered.");
             } catch (NotBoundException | RemoteException e) {
-                Debug.error("[GATEWAY] Failed to register barrel " + barrelPort + ": " + e.getMessage());
+                Log.error("[GATEWAY] Failed to register barrel " + barrelPort + ": " + e.getMessage());
             }
         } else {
             barrels.remove(barrelPort);
             stats.removeBarrelStats(barrelPort);
-            Debug.info("[GATEWAY] Barrel " + barrelPort + " unregistered.");
+            Log.info("[GATEWAY] Barrel " + barrelPort + " unregistered.");
         }
     }
 
@@ -124,7 +124,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     @Override
     public void callbackBarrelStats(int barrelPort, int indexSize, long urlsParsed) throws RemoteException {
         stats.updateBarrelIndexSize(barrelPort, indexSize);
-        Debug.info("[GATEWAY] Stats updated from barrel " + barrelPort + ": indexSize=" + indexSize + ", urlsParsed=" + urlsParsed);
+        Log.info("[GATEWAY] Stats updated from barrel " + barrelPort + ": indexSize=" + indexSize + ", urlsParsed=" + urlsParsed);
     }
 
     /**
@@ -138,7 +138,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     public void callbackSearchCompleted(int barrelPort, String query, long responseTime) throws RemoteException {
         stats.updateQueryOccurrence(query);
         stats.updateSearchTime(barrelPort, responseTime);
-        Debug.info("[GATEWAY] Search completed on barrel" + barrelPort + " for query " + query + " in " + responseTime + " ms");
+        Log.info("[GATEWAY] Search completed on barrel" + barrelPort + " for query " + query + " in " + responseTime + " ms");
     }
 
     //---------------- END CALLBACK FUNCTIONS -------------//
@@ -155,12 +155,12 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         if (queue != null) {
             try {
                 queue.addUrl(url, true);
-                Debug.info("[GATEWAY] Client added URL to queue: " + url);
+                Log.info("[GATEWAY] Client added URL to queue: " + url);
             } catch (RemoteException e) {
-                Debug.error("[GATEWAY] Failed to add URL to queue: " + e.getMessage());
+                Log.error("[GATEWAY] Failed to add URL to queue: " + e.getMessage());
             }
         } else {
-            Debug.error("[GATEWAY] Queue is not available.");
+            Log.error("[GATEWAY] Queue is not available.");
         }
     }
 
@@ -172,7 +172,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     @Override
     public List<List<Page>> search(String clientId, String query) throws RemoteException {
-        Debug.info("[GATEWAY] Client " + clientId + " searching for query: " + query);
+        Log.info("[GATEWAY] Client " + clientId + " searching for query: " + query);
 
         String[] terms = Arrays.stream(query.split("\\s+"))
                 .filter(s -> !s.isBlank())
@@ -182,7 +182,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         for (int attempt = 1; attempt <= Config.GATEWAY_RETRIES; attempt++) {
             Map.Entry<Integer, BarrelInterface> entry = selectBarrel();
             if (entry == null) {
-                Debug.warning("[GATEWAY] No available barrels for search on attempt " + attempt + ".");
+                Log.warning("[GATEWAY] No available barrels for search on attempt " + attempt + ".");
                 return new ArrayList<>();
             }
 
@@ -199,11 +199,11 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                     int to = Math.min(i + 10, pages.size());
                     pageLists.add(new ArrayList<>(pages.subList(i, to)));
                 }
-                Debug.info("[GATEWAY] Client " + clientId + " search completed successfully on barrel " + barrelPort + " on attempt " + attempt + ".");
+                Log.info("[GATEWAY] Client " + clientId + " search completed successfully on barrel " + barrelPort + " on attempt " + attempt + ".");
                 return pageLists;
 
             } catch (RemoteException e) {
-                Debug.error("[GATEWAY] Search failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying.");
+                Log.error("[GATEWAY] Search failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying.");
 
                 if (attempt < Config.GATEWAY_RETRIES) {
                     try {
@@ -216,7 +216,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             }
         }
 
-        Debug.error("[GATEWAY] Search not successful. All search attempts failed for query: " + query);
+        Log.error("[GATEWAY] Search not successful. All search attempts failed for query: " + query);
         return new ArrayList<>();
     }
 
@@ -231,7 +231,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         Map<Integer, Long> activeBarrels = stats.getActiveBarrels();
         Map<Integer, Long> responseTimes = stats.getAverageResponse();
 
-        Debug.info("[GATEWAY] Client " + clientId + " requested stats.");
+        Log.info("[GATEWAY] Client " + clientId + " requested stats.");
 
         StringBuilder sb = new StringBuilder();
         sb.append("=== Statistics ===\n\n");
@@ -248,7 +248,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             sb.append(String.format("  \"%s\" - %d tenths\n", entry.getKey(), entry.getValue()));
         }
 
-        Debug.info("[GATEWAY] Client " + clientId + " stats retrieved successfully.");
+        Log.info("[GATEWAY] Client " + clientId + " stats retrieved successfully.");
 
         return sb.toString();
     }
@@ -258,23 +258,24 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Main method for the Gateway.
      */
     public static void main(String[] args) {
+        Log.clearLog();
         try {
             Gateway gateway = new Gateway();
 
             Registry registry = LocateRegistry.createRegistry(Config.GATEWAY_PORT);
             registry.rebind("gateway", gateway);
-            Debug.info("[GATEWAY] Gateway ready on port " + Config.GATEWAY_PORT);
+            Log.info("[GATEWAY] Gateway ready on port " + Config.GATEWAY_PORT);
 
             try {
                 registry = LocateRegistry.getRegistry(Config.URL_QUEUE_PORT);
                 gateway.queue = (UrlQueueInterface) registry.lookup("queue");
-                Debug.info("[GATEWAY] Connected to URL Queue on port " + Config.URL_QUEUE_PORT);
+                Log.info("[GATEWAY] Connected to URL Queue on port " + Config.URL_QUEUE_PORT);
             } catch (NotBoundException | RemoteException e) {
-                Debug.error("[GATEWAY] URL Queue not available: " + e.getMessage());
+                Log.error("[GATEWAY] URL Queue not available: " + e.getMessage());
             }
 
         } catch (RemoteException e) {
-            Debug.error("[GATEWAY] Failed to start Gateway: " + e.getMessage());
+            Log.error("[GATEWAY] Failed to start Gateway: " + e.getMessage());
         }
     }
 }
