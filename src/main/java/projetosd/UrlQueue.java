@@ -41,7 +41,7 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
         } else {
             urlQueue.add(url);
         }
-        Debug.info("[URLQueue] Added to queue: " + url);
+        Debug.url("[URLQueue] Added to queue: " + url);
     }
 
     /**
