@@ -1,19 +1,5 @@
-[2025-10-24 21:52:25] [INFO] [GATEWAY] Gateway ready on port 1098
-[2025-10-24 21:52:25] [INFO] [GATEWAY] Connected to URL Queue on port 1099
-[2025-10-24 21:52:28] [INFO] [BARREL 1] Running on port: 1
-[2025-10-24 21:52:28] [INFO] [BARREL 1] Connected to gateway on port: 1098
-[2025-10-24 21:52:28] [INFO] [GATEWAY] Barrel 1 registered.
-[2025-10-24 21:52:33] [INFO] [PORTS] Port already in use: 1
-[2025-10-24 21:52:33] [INFO] [BARREL 2] Running on port: 2
-[2025-10-24 21:52:33] [INFO] [BARREL 2] Connected to gateway on port: 1098
-[2025-10-24 21:52:33] [INFO] [GATEWAY] Barrel 2 registered.
-[2025-10-24 21:52:41] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-10-24 21:52:41] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-10-24 21:52:41] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-10-24 21:52:41] [INFO] [DOWNLOADER 2] Connected to Barrel on port 1
-[2025-10-24 21:52:41] [INFO] [DOWNLOADER 1] Connected to Barrel on port 1
-[2025-10-24 21:52:41] [INFO] [DOWNLOADER 3] Connected to Barrel on port 1
-[2025-10-24 21:52:46] [INFO] [CLIENT] Connected to gateway on port 1098 on attempt 1
-[2025-10-24 21:54:09] [INFO] [CLIENT 1] Client 1 has connected.
-[2025-10-24 21:54:12] [INFO] [GATEWAY] Client added URL to queue: https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:P%C3%A1gina_principal
-[2025-10-25 19:53:47] [INFO] [URLQueue] RMI server ready.
+[2025-10-25 20:40:16] [INFO] [GATEWAY] Gateway ready on port 1098
+[2025-10-25 20:40:16] [INFO] [GATEWAY] Connected to URL Queue on port 1099
+[2025-10-25 20:40:19] [INFO] [BARREL 10000] Running on port: 10000
+[2025-10-25 20:40:19] [INFO] [BARREL 10000] Connected to gateway on port: 1098
+[2025-10-25 20:40:19] [INFO] [GATEWAY] Barrel 10000 registered.
