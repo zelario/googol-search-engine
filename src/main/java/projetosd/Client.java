@@ -32,7 +32,7 @@ public class Client {
      * 
      */
     public Client() {
-        this.id = String.valueOf(System.currentTimeMillis());
+        this.id = String.valueOf((int) ((System.currentTimeMillis() % 99) + 1));
 
         try {
             lookupGateway();
