@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import io.github.cdimascio.dotenv.Dotenv;
 
 /**
- * Database Class for Barrels Managment and Connection
+ * Database Class for Barrels Management and Connection
  *
  * @authors José Capinha & José Amado
  * @version 1.0
@@ -41,14 +41,16 @@ public class Database {
     /**
      * Database Class Constructor
      */
-    public Database() {
+    public Database(int identifier) {
         Dotenv dotenv = Dotenv.configure().directory("config/.env").load();
 
-        this.hostname = dotenv.get("DB_HOSTNAME");
-        this.port = dotenv.get("DB_PORT");
-        this.dbName = dotenv.get("DB_NAME");
-        this.username = dotenv.get("DB_USERNAME");
-        this.password = dotenv.get("DB_PASSWORD");
+        String placeholder = "DB" + identifier + "_";
+
+        this.hostname = dotenv.get(placeholder + "HOSTNAME");
+        this.port = dotenv.get(placeholder + "PORT");
+        this.dbName = dotenv.get(placeholder + "NAME");
+        this.username = dotenv.get(placeholder + "USERNAME");
+        this.password = dotenv.get(placeholder + "PASSWORD");
     }
 
     /**

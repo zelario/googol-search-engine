@@ -60,7 +60,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      */
     @Override
     public boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls){
-        Database db = new Database();
+        Database db = new Database(this.port);
 
         // Because the downloader might insert urls that are in pages before they've been parsed...
         // Here we manage conflicts by updating the remaining info with the excluded insertion
@@ -175,7 +175,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
         if(terms == null || terms.length == 0) return Collections.emptyList();
 
-        Database db = new Database();
+        Database db = new Database(this.port);
         List<Page> pages = new ArrayList<>();
 
         try (java.sql.Connection conn = db.getConnection()) {
@@ -228,7 +228,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      */
     @Override
     public List<Page> getBacklinks(Page page){
-        Database db = new Database();
+        Database db = new Database(this.port);
         List<Page> pages = new ArrayList<>();
 
         try (java.sql.Connection conn = db.getConnection()){
@@ -259,7 +259,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @return List of words related to the given page (url)
      */
     public List<String> getWordsInPage(Page page){
-        Database db = new Database();
+        Database db = new Database(this.port);
         List<String> words = new ArrayList<>();
 
         try (java.sql.Connection conn = db.getConnection()){
@@ -288,7 +288,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @return  Map with tables as keys as hashes as values
      */
     public Map<String, String> calcDataBaseMd5Hash(){
-        Database db = new Database();
+        Database db = new Database(this.port);
         Map<String, String> hashes = new HashMap<>();
         String[] tables = {"words", "url", "words_url", "url_url"};
 
