@@ -252,6 +252,31 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         return pages;
     }
 
+    public List<String> getWordsInPage(Page page){
+        Database db = new Database();
+        List<String> words = new ArrayList<>();
+
+        try (java.sql.Connection conn = db.getConnection()){
+            String query = "SELECT wu.words_word " +
+                    "FROM words_url wu " +
+                    "WHERE wu.url_url = ?; ";
+
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, page.getUrl());
+
+            try(ResultSet rs = stmt.executeQuery()){
+                while (rs.next()) {
+                    words.add(rs.getString("words_word"));
+                }
+            }
+        }
+        catch (Exception e){
+            Log.error("[DOWNLOADER] Error fetching pages: " + e.getMessage());
+        }
+
+        return words;
+    }
+
     /**
      * Main for Barrel. Starts the RMI registry and binds the barrel.
      * @param args Command-line arguments
