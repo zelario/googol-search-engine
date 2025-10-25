@@ -5,6 +5,7 @@ import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -25,6 +26,9 @@ public class Downloader extends Thread { //TODO Downloaders tem de ser capazes d
      * The thread number for this downloader instance.
      */
     private final int threadNumber;
+
+    //noinspection DuplicateCharacter
+    private static final Pattern VALID_WORDS = Pattern.compile("^\\p{L}[\\p{L}\\p{M}\\p{Pd}'’]{1,63}$");
 
     /**
      * Constructs a Downloader.
@@ -86,8 +90,8 @@ public class Downloader extends Thread { //TODO Downloaders tem de ser capazes d
 
                 while (st.hasMoreTokens()) {
                     String token = st.nextToken();
-                    // Word max lenght is 64
-                    if(token.length() <= 64 ) pageWords.add(token.toLowerCase());
+                    // Word max lenght is 64 (it is validated in the regex)
+                    if(VALID_WORDS.matcher(token).matches()) pageWords.add(token.toLowerCase());
                 }
 
                 Elements links = doc.select("a[href]");
