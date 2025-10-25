@@ -27,7 +27,9 @@ public class Downloader extends Thread { //TODO Downloaders tem de ser capazes d
      */
     private final int threadNumber;
 
-    //noinspection DuplicateCharacter
+    /**
+     * Regex pattern to validate parsed words
+     */
     private static final Pattern VALID_WORDS = Pattern.compile("^\\p{L}[\\p{L}\\p{M}\\p{Pd}'’]{1,63}$");
 
     /**

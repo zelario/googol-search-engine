@@ -252,6 +252,11 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         return pages;
     }
 
+    /**
+     *  Returns all words found in a page
+     * @param page Given Page
+     * @return List of words related to the given page (url)
+     */
     public List<String> getWordsInPage(Page page){
         Database db = new Database();
         List<String> words = new ArrayList<>();
@@ -276,6 +281,8 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
         return words;
     }
+
+
 
     /**
      * Main for Barrel. Starts the RMI registry and binds the barrel.
