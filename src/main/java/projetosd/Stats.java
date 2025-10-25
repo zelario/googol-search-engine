@@ -19,12 +19,12 @@ public class Stats {
 	/*
      * Count occurrences of search queries
      */
-	private final ConcurrentMap<String, AtomicLong> queryCounts = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, AtomicLong> queryCounts;
 
 	/*
      * Active barrels and their index sizes
      */
-	private final ConcurrentMap<Integer, Long> barrelIndexSizes = new ConcurrentHashMap<>();
+	private final ConcurrentMap<Integer, Long> barrelIndexSizes;
 
 	/*
      * Barrel response time stats class
@@ -36,7 +36,16 @@ public class Stats {
 	/*
 	 * Barrel response times
 	 */
-	private final ConcurrentMap<Integer, ResponseTime> barrelTimes = new ConcurrentHashMap<>();
+	private final ConcurrentMap<Integer, ResponseTime> barrelTimes;
+
+	/**
+	 * Constructs the Stats object.
+	 */
+	public Stats() {
+		queryCounts = new ConcurrentHashMap<>();
+		barrelIndexSizes = new ConcurrentHashMap<>();
+		barrelTimes = new ConcurrentHashMap<>();
+	}
 
 	/**
 	 * Record a search query occurrence.

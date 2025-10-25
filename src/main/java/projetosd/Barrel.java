@@ -1,5 +1,6 @@
 package projetosd;
 
+import java.nio.charset.StandardCharsets;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -7,12 +8,15 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of the Index barrel remote interface.
@@ -150,7 +154,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                     attempt++;
                     Log.warning("[BARREL " + port + "] Deadlock detected on insertion");
 
-                    try{ Thread.sleep((long) (100 * Math.pow(2, attempt)));}
+                    try{ Thread.sleep((long) (100 * Math.pow(2, attempt)));} //TODO backoff config de barrels
                     catch (InterruptedException ignored){}
                 }
                 else {

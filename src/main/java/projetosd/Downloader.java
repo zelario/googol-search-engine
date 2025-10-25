@@ -145,7 +145,7 @@ public class Downloader extends Thread { //TODO Downloaders tem de ser capazes d
      */
     public static void main(String[] args) {
         // CHANGE THREAD NUMBER HERE
-        int threadCounter = 3;
+        int threadCounter = 3; //TODO Passar para o config
 
         for (int i = 0; i < threadCounter; i++) {
             new Downloader(i + 1).start();
