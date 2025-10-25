@@ -9,9 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Implementation of the Index barrel remote interface.
@@ -282,7 +280,41 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         return words;
     }
 
+    /**
+     * Method to calculate MD5 hash for each table to later verify db states
+     * @return  Map with tables as keys as hashes as values
+     */
+    public Map<String, String> calcDataBaseMd5Hash(){
+        Database db = new Database();
+        Map<String, String> hashes = new HashMap<>();
 
+        try(java.sql.Connection conn = db.getConnection()){
+            String[] tables = {"words", "url", "words_url", "url_url"};
+
+            for(String table : tables){
+                String query = String.format("SELECT md5(string_agg(md5(row(t.*)::text), '' ORDER BY t.*::text)) AS table_hash\n" +
+                        "FROM %s t;", table);
+
+                try(PreparedStatement stmt = conn.prepareStatement(query)){
+                    ResultSet rs = stmt.executeQuery();
+
+                    if(rs.next()){
+                        hashes.put(table, rs.getString("table_hash"));
+                    }
+
+                    rs.close();
+                }
+                catch (SQLException e){
+                    Log.error("[BARREL] Error calculating table hash: " + e.getMessage());
+                }
+            }
+        }
+        catch (SQLException e){
+            Log.error("[BARREL] Error calculating db hashes: " + e.getMessage());
+        }
+
+        return hashes;
+    }
 
     /**
      * Main for Barrel. Starts the RMI registry and binds the barrel.

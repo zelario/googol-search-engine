@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
-    /*
+    /**
      * Stats object to track various statistics.
      */
     private Stats stats;
