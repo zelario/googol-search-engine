@@ -19,12 +19,27 @@ public class Client {
     /**
      * Client identifier for logging.
      */
-    private  String id = null;
+    private String id = null;
 
     /**
      * Gateway remote interface.
      */
     private static GatewayInterface gateway = null;
+
+    /**
+     * 
+     * @param args
+     * 
+     */
+    public Client() {
+        this.id = String.valueOf(System.currentTimeMillis());
+
+        try {
+            lookupGateway();
+        } catch (Exception e) {
+            Log.error("[CLIENT] Could not contact gateway: " + e.getMessage());
+        }
+    }
 
     /**
      * Main to run the client console.
@@ -33,10 +48,8 @@ public class Client {
     public static void main(String[] args) {
         Client client = new Client();
 
-        try {
-            lookupGateway();
-        } catch (Exception e) {
-            Log.error("[CLIENT] Could not contact gateway: " + e.getMessage());
+        if (gateway == null) {
+            Log.error("[CLIENT " + client.id + "] Exiting due to no gateway connection.");
             return;
         }
 
@@ -47,10 +60,6 @@ public class Client {
             String mode = "SEARCH";
 
             try (Scanner scanner = new Scanner(System.in)) {
-
-                System.out.print("-Firstly, enter your client ID for logging purposes: ");
-                client.id = scanner.nextLine().trim();
-                Log.info("[CLIENT " + client.id + "] Client " + client.id + " has connected.");
 
                 System.out.print("\n>  ");
 

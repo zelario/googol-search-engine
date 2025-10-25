@@ -9,7 +9,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of the Index barrel remote interface.
@@ -35,7 +39,19 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @throws RemoteException RMI exception
      */
     public Barrel() throws RemoteException {
-        super();
+        port = Config.claimBarrelPort();
+        if (port == -1) {
+            Log.error("[BARREL] No available ports. All barrel ports are in use.");
+        }
+
+        try {
+            Registry registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
+            gateway = (GatewayInterface) registry.lookup("gateway");
+            Log.info("[BARREL " + port + "] Connected to gateway on port: " + Config.GATEWAY_PORT);
+            gateway.callbackBarrelStatus(port, true);
+        } catch (NotBoundException | RemoteException e) {
+            Log.error("[BARREL " + port + "] Gateway not available: " + e.getMessage());
+        }
     }
 
     /**
@@ -324,24 +340,14 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         try {
             Barrel barrel = new Barrel();
 
-            barrel.port = Config.claimBarrelPort();
             if (barrel.port == -1) {
-                Log.error("[BARREL] No available ports. All barrel ports are in use.");
+                Log.error("[BARREL] Exiting due to lack of available ports.");
                 return;
             }
 
             Registry registry = LocateRegistry.createRegistry(barrel.port);
             registry.rebind("barrel", barrel);
             Log.info("[BARREL " + barrel.port + "] Running on port: " + barrel.port);
-
-            try {
-                registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
-                barrel.gateway = (GatewayInterface) registry.lookup("gateway");
-                Log.info("[BARREL " + barrel.port + "] Connected to gateway on port: " + Config.GATEWAY_PORT);
-                barrel.gateway.callbackBarrelStatus(barrel.port, true);
-            } catch (NotBoundException | RemoteException e) {
-                Log.error("[BARREL " + barrel.port + "] Gateway not available: " + e.getMessage());
-            }
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {

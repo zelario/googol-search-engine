@@ -28,20 +28,28 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     /**
      * Reference to the URL queue.
      */
-    private UrlQueueInterface queue;
+    private UrlQueueInterface queue = null;
 
     /**
      * Map of registered barrels by their port number.
      */
-    private final Map<Integer, BarrelInterface> barrels = new ConcurrentHashMap<>();
+    private final Map<Integer, BarrelInterface> barrels;
 
     /**
      * Constructs the Gateway.
      * @throws RemoteException RMI exception
      */
     public Gateway() throws RemoteException {
-        super();
         stats = new Stats();
+        barrels = new ConcurrentHashMap<>();
+
+        try {
+            Registry registry = LocateRegistry.getRegistry(Config.URL_QUEUE_PORT);
+            queue = (UrlQueueInterface) registry.lookup("queue");
+            Log.info("[GATEWAY] Connected to URL Queue on port " + Config.URL_QUEUE_PORT);
+        } catch (NotBoundException | RemoteException e) {
+            Log.error("[GATEWAY] URL Queue not available: " + e.getMessage());
+        }        
     }
 
     /**
@@ -262,17 +270,14 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         try {
             Gateway gateway = new Gateway();
 
+            if(gateway.queue == null){
+                Log.error("[GATEWAY] Exiting due to unavailable URL Queue."); 
+                return;
+            } 
+
             Registry registry = LocateRegistry.createRegistry(Config.GATEWAY_PORT);
             registry.rebind("gateway", gateway);
             Log.info("[GATEWAY] Gateway ready on port " + Config.GATEWAY_PORT);
-
-            try {
-                registry = LocateRegistry.getRegistry(Config.URL_QUEUE_PORT);
-                gateway.queue = (UrlQueueInterface) registry.lookup("queue");
-                Log.info("[GATEWAY] Connected to URL Queue on port " + Config.URL_QUEUE_PORT);
-            } catch (NotBoundException | RemoteException e) {
-                Log.error("[GATEWAY] URL Queue not available: " + e.getMessage());
-            }
 
         } catch (RemoteException e) {
             Log.error("[GATEWAY] Failed to start Gateway: " + e.getMessage());
