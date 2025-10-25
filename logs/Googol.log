@@ -1,22 +1,16 @@
-[2025-10-25 21:44:18] [INFO] [GATEWAY] Connected to URL Queue on port 1099
-[2025-10-25 21:44:18] [INFO] [GATEWAY] Gateway ready on port 1098
-[2025-10-25 21:44:24] [INFO] [BARREL 10000] Running on port: 10000
-[2025-10-25 21:44:24] [INFO] [BARREL 10000] Connected to gateway on port: 1098
-[2025-10-25 21:44:24] [INFO] [GATEWAY] Barrel 10000 registered.
-[2025-10-25 21:44:28] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-10-25 21:44:28] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-10-25 21:44:28] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-10-25 21:44:28] [INFO] [DOWNLOADER 3] Connected to Barrel on port 10000
-[2025-10-25 21:44:28] [INFO] [DOWNLOADER 1] Connected to Barrel on port 10000
-[2025-10-25 21:44:28] [INFO] [DOWNLOADER 2] Connected to Barrel on port 10000
-[2025-10-25 21:44:32] [INFO] [CLIENT 85] Connected to gateway on port 1098 on attempt 1
-[2025-10-25 21:44:40] [INFO] [GATEWAY] Client 85 searching for query: kanye
-[2025-10-25 21:44:40] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 10000
-[2025-10-25 21:44:40] [INFO] [GATEWAY] Search completed on barrel10000 for query kanye in 460 ms
-[2025-10-25 21:44:40] [INFO] [GATEWAY] Client 85 search completed successfully on barrel 10000 on attempt 1.
-[2025-10-25 21:44:44] [ERROR] [DOWNLOADER 3] Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-[2025-10-25 21:44:44] [ERROR] [DOWNLOADER 2] Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-[2025-10-25 21:44:44] [ERROR] [DOWNLOADER 1] Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
+[2025-10-25 22:00:13] [INFO] [GATEWAY] Connected to URL Queue on port 1099
+[2025-10-25 22:00:13] [INFO] [GATEWAY] Gateway ready on port 1098
+[2025-10-25 22:00:17] [INFO] [BARREL 10000] Running on port: 10000
+[2025-10-25 22:00:17] [INFO] [BARREL 10000] Connected to gateway on port: 1098
+[2025-10-25 22:00:17] [INFO] [GATEWAY] Barrel 10000 registered.
+[2025-10-25 22:00:21] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-10-25 22:00:21] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-10-25 22:00:21] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-10-25 22:00:21] [INFO] [DOWNLOADER 3] Connected to Barrel on port 10000
+[2025-10-25 22:00:21] [INFO] [DOWNLOADER 1] Connected to Barrel on port 10000
+[2025-10-25 22:00:21] [INFO] [DOWNLOADER 2] Connected to Barrel on port 10000
+[2025-10-25 22:00:25] [INFO] [CLIENT 1] Connected to gateway on port 1098 on attempt 1
+[2025-10-25 22:00:27] [INFO] [GATEWAY] Client 1 searching for query: kanye
+[2025-10-25 22:00:27] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 10000
+[2025-10-25 22:00:28] [INFO] [GATEWAY] Search completed on barrel10000 for query kanye in 571 ms
+[2025-10-25 22:00:28] [INFO] [GATEWAY] Client 1 search completed successfully on barrel 10000 on attempt 1.

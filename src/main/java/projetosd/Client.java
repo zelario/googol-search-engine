@@ -42,6 +42,36 @@ public class Client {
         }
     }
 
+    private void showResults(List<List<Page>> results) {
+        if (results == null || results.isEmpty()) {
+            System.out.println("No results found.");
+            return;
+        }
+
+        int globalIndex = 1;
+        for (int group = 0; group < results.size(); group++) {
+            List<Page> pageList = results.get(group);
+            System.out.println();
+            System.out.println("=== Results group " + (group + 1) + " (showing " + pageList.size() + ") ===\n");
+
+            for (int i = 0; i < pageList.size(); i++) {
+                Page p = pageList.get(i);
+                String title = p.getTitle() == null || p.getTitle().isBlank() ? "(no title)" : p.getTitle();
+                String snippet = p.getSnippet() == null ? "" : p.getSnippet();
+
+                System.out.printf("%3d) %s\n", globalIndex, title);
+                System.out.println("     URL: " + p.getUrl());
+                if (!snippet.isBlank()) {
+                    // limit snippet length for readability
+                    String sn = snippet.length() > 140 ? snippet.substring(0, 137) + "..." : snippet;
+                    System.out.println("     Snippet: " + sn);
+                }
+                System.out.println("     " + "-".repeat(40));
+                globalIndex++;
+            }
+        }
+    }
+
     /**
      * Main to run the client console.
      * @param args Command line arguments
@@ -91,7 +121,7 @@ public class Client {
                         case "SEARCH" -> {
                             try {
                                 List<List<Page>> results = client.callGateway(() -> gateway.search(client.id, query));
-                                System.out.println("- Search results: " + results);
+                                client.showResults(results);
                             } catch (Exception e) {
                                 Log.error("[CLIENT " + client.id + "] Search failed after retries: " + e.getMessage());
                             }
