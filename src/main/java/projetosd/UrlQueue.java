@@ -18,14 +18,14 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     /**
      * Queue for storing URLs.
      */
-    private final LinkedBlockingDeque<String> urlQueue = new LinkedBlockingDeque<>();
+    private final LinkedBlockingDeque<String> urlQueue;
 
     /**
      * Constructs the UrlQueue.
      * @throws java.rmi.RemoteException RMI exception
      */
     public UrlQueue() throws java.rmi.RemoteException {
-        super();
+        urlQueue = new LinkedBlockingDeque<>();
     }
 
     /**
