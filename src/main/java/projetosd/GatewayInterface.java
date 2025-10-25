@@ -3,6 +3,7 @@ package projetosd;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Remote interface for the Gateway for clients.
@@ -16,7 +17,7 @@ public interface GatewayInterface extends Remote {
      * CALLBACK: Notifies the Gateway about a Barrel's status change.
      * @param barrelPort Barrel port
      * @param status Status message
-     * @throws RemoteException
+     * @throws RemoteException RMI Exception
      */
     void callbackBarrelStatus(int barrelPort, boolean status) throws RemoteException;
 
@@ -33,14 +34,14 @@ public interface GatewayInterface extends Remote {
      * @param barrelPort Barrel port
      * @param queryId Query identifier
      * @param responseTime Response time in ms
-     * @throws RemoteException
+     * @throws RemoteException RMI Exception
      */
     void callbackSearchCompleted(int barrelPort, String queryId, long responseTime) throws RemoteException;
 
     /**
      * Submit a URL to be indexed.
      * @param url URL to index
-     * @throws RemoteException
+     * @throws RemoteException RMI Exception
      */
     void index(String url) throws RemoteException;
 
@@ -49,7 +50,7 @@ public interface GatewayInterface extends Remote {
     * @param query Search query
     * @param clientId Client identifier
     * @return list of pages
-    * @throws RemoteException 
+    * @throws RemoteException RMI Exception
     */
     List<List<Page>> search(String clientId, String query) throws RemoteException;
 
@@ -57,8 +58,15 @@ public interface GatewayInterface extends Remote {
      * Get simple stats string from a barrel.
      * @param clientId Client identifier
      * @return stats string
-     * @throws RemoteException 
+     * @throws RemoteException RMI Exception
      */
     String stats(String clientId) throws RemoteException;
+
+    /**
+     * Method to get all barrel hashes to check consistency
+     * @param ownPort Calling barrel port
+     * @return Map with ports as keys and values hash maps
+     */
+    Map<Integer, Map<String, String>> getAllHashes(int ownPort) throws RemoteException;
 }
 

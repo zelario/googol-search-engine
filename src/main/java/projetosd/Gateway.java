@@ -5,10 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -277,5 +274,10 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         } catch (RemoteException e) {
             Log.error("[GATEWAY] Failed to start Gateway: " + e.getMessage());
         }
+    }
+
+    // TODO: complete
+    public synchronized Map<Integer, Map<String, String>> getAllHashes(int ownPort) throws RemoteException {
+        return new HashMap<Integer, Map<String, String>>();
     }
 }

@@ -258,7 +258,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @param page Given Page
      * @return List of words related to the given page (url)
      */
-    public List<String> getWordsInPage(Page page){
+    public List<String> getWordsInPage(Page page) throws java.rmi.RemoteException{
         Database db = new Database(this.port);
         List<String> words = new ArrayList<>();
 
@@ -281,6 +281,11 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         }
 
         return words;
+    }
+
+    @Override
+    public Map<String, String> getMD5Hash() throws java.rmi.RemoteException{
+        return calcDataBaseMd5Hash();
     }
 
     /**
@@ -333,6 +338,32 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         }
 
         return hashes;
+    }
+
+    public void checkConsistency(){
+        try{
+            Map<String, String> ownHashes = calcDataBaseMd5Hash();
+
+            Map<Integer, Map<String, String>> allHashes = gateway.getAllHashes(this.port);
+
+            for (Map.Entry<Integer, Map<String, String>> entry : allHashes.entrySet()) {
+                Map<String, String> otherHashes = entry.getValue();
+
+                for (String table: ownHashes.keySet()) {
+                    String ownHash = ownHashes.get(table);
+                    String otherHash = otherHashes.get(table);
+
+                    if(!ownHash.equals(otherHash)){
+                        Log.warning("[BARREL " + this.port + "] Mismatch in barrels found");
+                    }
+
+                    // TODO: synch dbs
+                }
+            }
+
+        } catch (RemoteException e){
+            Log.error("[BARREL " + this.port + "] Could not verify consistency: " + e.getMessage());
+        }
     }
 
     /**

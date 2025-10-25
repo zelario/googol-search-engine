@@ -3,6 +3,7 @@ package projetosd;
 import java.rmi.Remote;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Remote interface for the distributed index server.
@@ -34,13 +35,25 @@ public interface BarrelInterface extends Remote {
      * @param relatedUrls   All urls in that page
      * @return              Boolean to indicate success or not
      */
-    public boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws java.rmi.RemoteException;
+    boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws java.rmi.RemoteException;
 
     /**
      * Returns all pages that reference the given page
      * @param page Page that is referenced
      * @return     List of pages that referene the given page
      */
-    public List<Page> getBacklinks(Page page) throws java.rmi.RemoteException;
+    List<Page> getBacklinks(Page page) throws java.rmi.RemoteException;
 
+    /**
+     *  Returns all words found in a page
+     * @param page Given Page
+     * @return List of words related to the given page (url)
+     */
+    List<String> getWordsInPage(Page page) throws java.rmi.RemoteException;
+
+    /**
+     * Method to calculate MD5 hash for each table to later verify db states
+     * @return  Map with tables as keys as hashes as values
+     */
+    Map<String, String> getMD5Hash() throws java.rmi.RemoteException;
 }

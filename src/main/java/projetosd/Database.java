@@ -3,7 +3,6 @@ package projetosd;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 import io.github.cdimascio.dotenv.Dotenv;
 
 /**
@@ -13,6 +12,11 @@ import io.github.cdimascio.dotenv.Dotenv;
  * @version 1.0
  */
 public class Database {
+    /**
+     * Static attribute shared by all instances of the Dotenv class
+     */
+    private static Dotenv dotenv;
+
     /**
      * Hostname of the database server
      */
@@ -42,7 +46,7 @@ public class Database {
      * Database Class Constructor
      */
     public Database(int identifier) {
-        Dotenv dotenv = Dotenv.configure().directory("config/.env").load();
+        if (dotenv == null) dotenv = Dotenv.configure().directory("config/.env").load();
 
         String placeholder = "DB" + identifier + "_";
 
@@ -58,28 +62,41 @@ public class Database {
      *
      * @return DB Connection Object
      */
-    public Connection getConnection(){
+    public Connection getConnection() {
         Connection connection;
 
-        try{
+        try {
             String url = "jdbc:postgresql://" + this.hostname + ":" + this.port + "/" + this.dbName;
 
             connection = DriverManager.getConnection(url, this.username, this.password);
 
             return connection;
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             Log.error("[DATABASE] " + e.getMessage());
             return null;
         }
     }
 
-    // TODO: method to verify if all barrels are in the same state
-    /*public void verifyStatus(){
-        try{
+    /**
+     * Method to count the number of databases in the system
+     *
+     * @return Database count
+     */
+    public static int databaseCount() {
+        if (dotenv == null) Dotenv.configure().directory("config/.env").load();
 
-        } catch (Exception e){
-            System.out.println("[DATABASE] Could not guarantee same state for all barrels. Exiting...");
+        String count = dotenv.get("DB_COUNT");
+
+        if (count == null) {
+            Log.warning("[DATABASE] Database count not set");
+            return 0;
         }
-    }*/
+
+        try {
+            return Integer.parseInt(count);
+        } catch (NumberFormatException e) {
+            Log.error("[DATABASE] Error converting database count to integer");
+            return 0;
+        }
+    }
 }
