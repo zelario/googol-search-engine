@@ -19,12 +19,12 @@ public class Client {
     /**
      * Client identifier for logging.
      */
-    private String id = null;
+    private String id;
 
     /**
      * Gateway remote interface.
      */
-    private static GatewayInterface gateway = null;
+    private static GatewayInterface gateway;
 
     /**
      * 
@@ -32,11 +32,12 @@ public class Client {
      * 
      */
     public Client() {
-        this.id = String.valueOf((int) ((System.currentTimeMillis() % 99) + 1));
+        id = String.valueOf((int) ((System.currentTimeMillis() % 99) + 1));
 
         try {
             lookupGateway();
         } catch (Exception e) {
+            gateway = null;
             Log.error("[CLIENT] Could not contact gateway: " + e.getMessage());
         }
     }
@@ -52,7 +53,7 @@ public class Client {
             Log.error("[CLIENT " + client.id + "] Exiting due to no gateway connection.");
             return;
         }
-
+        
         System.out.print("===== Welcome to Googol! You are " + client.id + "! =====\n\n");
             System.out.print("SEARCH: To search for a url\nINDEX: To add new url\nSTATS: To see statistics\nEXIT: To exit the app\n\n");
 
