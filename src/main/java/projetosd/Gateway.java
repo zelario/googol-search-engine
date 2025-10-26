@@ -289,6 +289,28 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     //------------------ END OF USER FUNCTIONS ------------------//
 
     /**
+     * Method to get barrel all hashes to check consistency
+     * @return Map with ports as keys and as values hash maps with tables as keys as the MD5 hashes as values
+     */
+    private Map<Integer, Map<String, String>> getAllHashes(){
+        Map<Integer, Map<String, String>> barrelHashes = new HashMap<>();
+
+        for(Integer barrelPort : Config.BARREL_PORTS) {
+            try{
+                BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
+                barrel.ping();
+
+                barrelHashes.put(barrelPort, barrel.getMD5Hash());
+            }
+
+            catch (NotBoundException | RemoteException ignored){
+            }
+        }
+
+        return barrelHashes;
+    }
+
+    /**
      * Main method for the Gateway.
      */
     public static void main(String[] args) {
@@ -309,11 +331,5 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             Log.error("[GATEWAY] Failed to start Gateway: " + e.getMessage());
             System.exit(1);
         }
-    }
-
-    // TODO: complete
-    @Override
-    public synchronized Map<Integer, Map<String, String>> getAllHashes(int ownPort) throws RemoteException {
-        return new HashMap<>();
     }
 }

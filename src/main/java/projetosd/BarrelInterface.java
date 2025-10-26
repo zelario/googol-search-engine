@@ -52,7 +52,7 @@ public interface BarrelInterface extends Remote {
     List<String> getWordsInPage(Page page) throws java.rmi.RemoteException;
 
     /**
-     * Method to calculate MD5 hash for each table to later verify db states
+     * RMI Method to calculate MD5 hash for each table to later verify db states
      * @return  Map with tables as keys as hashes as values
      */
     Map<String, String> getMD5Hash() throws java.rmi.RemoteException;

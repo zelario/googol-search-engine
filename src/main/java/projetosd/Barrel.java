@@ -1,13 +1,10 @@
 package projetosd;
 
-import java.nio.charset.StandardCharsets;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -296,44 +293,34 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * Method to calculate MD5 hash for each table to later verify db states
      * @return  Map with tables as keys as hashes as values
      */
-    public Map<String, String> calcDataBaseMd5Hash(){
+    private Map<String, String> calcDataBaseMd5Hash(){
         Database db = new Database(this.port);
         Map<String, String> hashes = new HashMap<>();
         String[] tables = {"words", "url", "words_url", "url_url"};
 
         try(java.sql.Connection conn = db.getConnection()){
             for(String table : tables){
-                String query = String.format("SELECT md5(row(t.*)::text) AS row_hash FROM %s t ORDER BY t.id;", table);
+                String orderColumn = switch (table) {
+                    case "url_url" -> "url_url";
+                    case "words" -> "word";
+                    case "words_url" -> "words_word";
+                    default -> "url";
+                };
+
+                // This query computes the tables hash using nested aggregation (aggregate of aggregated values, in this case aggregate each row (tables))
+                // and then aggregate all rows for the table, this is very efficient memory-wise
+                String query = String.format("SELECT md5(string_agg(md5(row(t.*)::text), '' ORDER BY %s)) AS table_hash FROM %s t;", table, orderColumn);
 
                 try(PreparedStatement stmt = conn.prepareStatement(query)){
-                    // Fetch 1000 rows at a time instead of all for efficiency
-                    stmt.setFetchSize(1000);
-
-                    MessageDigest md = MessageDigest.getInstance("MD5");
                     try(ResultSet rs = stmt.executeQuery()){
-                        while (rs.next()) {
-                            String rowHash = rs.getString("row_hash");
-                            if (rowHash != null) {
-                                md.update(rowHash.getBytes(StandardCharsets.UTF_8), 0, rowHash.length());
-                            }
+                        if (rs.next()) {
+                            String tableHash = rs.getString("table_hash");
+                            hashes.put(table, tableHash != null ? tableHash : "");
                         }
-
-                        // Convert byte array into a hex string
-                        byte[] digest = md.digest();
-                        StringBuilder sb = new StringBuilder();
-                        for (byte b : digest) {
-                            sb.append(String.format("%02x", b));
-                        }
-                        String tableHash = sb.toString();
-
-                        hashes.put(table, tableHash);
                     }
                 }
                 catch (SQLException e){
                     Log.error("[BARREL] Error calculating table hash: " + e.getMessage());
-                }
-                catch (NoSuchAlgorithmException e) {
-                    Log.error("[BARREL] Error computing hashes: " + e.getMessage());
                 }
             }
         }
@@ -342,32 +329,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         }
 
         return hashes;
-    }
-
-    public void checkConsistency(){
-        try{
-            Map<String, String> ownHashes = calcDataBaseMd5Hash();
-
-            Map<Integer, Map<String, String>> allHashes = gateway.getAllHashes(this.port);
-
-            for (Map.Entry<Integer, Map<String, String>> entry : allHashes.entrySet()) {
-                Map<String, String> otherHashes = entry.getValue();
-
-                for (String table: ownHashes.keySet()) {
-                    String ownHash = ownHashes.get(table);
-                    String otherHash = otherHashes.get(table);
-
-                    if(!ownHash.equals(otherHash)){
-                        Log.warning("[BARREL " + this.port + "] Mismatch in barrels found");
-                    }
-
-                    // TODO: synch dbs
-                }
-            }
-
-        } catch (RemoteException e){
-            Log.error("[BARREL " + this.port + "] Could not verify consistency: " + e.getMessage());
-        }
     }
 
     /**

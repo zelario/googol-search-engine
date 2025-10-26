@@ -2,7 +2,6 @@ package projetosd;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Map;
 
 /**
  * Remote interface for the Gateway for clients.
@@ -61,11 +60,5 @@ public interface GatewayInterface extends Remote {
      */
     String stats(String clientId) throws RemoteException;
 
-    /**
-     * Method to get all barrel hashes to check consistency
-     * @param ownPort Calling barrel port
-     * @return Map with ports as keys and values hash maps
-     */
-    Map<Integer, Map<String, String>> getAllHashes(int ownPort) throws RemoteException;
 }
 
