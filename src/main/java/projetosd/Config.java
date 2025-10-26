@@ -130,17 +130,4 @@ public static synchronized void loadConfiguration() {
         }
         return -1; 
     }
-
-    public static int lookBarrels() {
-        for (int port: BARREL_PORTS) {
-            //noinspection EmptyTryBlock
-            try (ServerSocket ignored = new ServerSocket(port)) {
-                // NOP
-            } catch (IOException e) {
-                return port;
-            }
-        }
-
-        return -1;
-    }
 }

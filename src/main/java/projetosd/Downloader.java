@@ -2,6 +2,7 @@ package projetosd;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -20,7 +21,7 @@ import org.jsoup.select.Elements;
  * @author Jose Amado & José Capinha
  * @version 1.0
  */
-public class Downloader extends Thread { //TODO Downloaders tem de ser capazes de encontrar um barrel novo se o que estiver ligado falhar
+public class Downloader extends Thread {
 
     /**
      * The thread number for this downloader instance.
@@ -38,6 +39,48 @@ public class Downloader extends Thread { //TODO Downloaders tem de ser capazes d
      */
     public Downloader(int threadNum) {
         this.threadNumber = threadNum;
+    }
+
+    // Current connected barrel and its port
+    private BarrelInterface barrel = null;
+    private int barrelPort = -1;
+
+    /**
+     * Try to find any available barrel from configured ports and set the `barrel` and `barrelPort` fields.
+     * @return found barrel port or -1 if none found
+     */
+    private void connectBarrel() {
+        for (int port : Config.BARREL_PORTS) {
+            try {
+                BarrelInterface b = (BarrelInterface) LocateRegistry.getRegistry(port).lookup("barrel");
+                b.ping();
+                this.barrel = b;
+                this.barrelPort = port;
+            } catch (NotBoundException | RemoteException ignored) {}
+        }
+    }
+
+    /**
+     * Attempt to reconnect to any barrel with retries and backoff.
+     * @return true if reconnected, false otherwise
+     */
+    private boolean attemptReconnect() {
+        for (int attempt = 1; attempt <= 5; attempt++) { //TODO Config.DownloaderRetries
+            Log.info("[DOWNLOADER " + threadNumber + "] Attempt " + attempt + " to reconnect to a barrel.");
+            connectBarrel();
+            if (barrelPort != -1) {
+                Log.info("[DOWNLOADER " + threadNumber + "] Reconnected to Barrel on port " + barrelPort + " (attempt " + attempt + ")");
+                return true;
+            }
+
+            try {
+                Thread.sleep((long) (200 * Math.pow(2, attempt - 1))); //TODO Config.DownloaderBackoff
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+        return false;
     }
 
     /**
@@ -66,9 +109,12 @@ public class Downloader extends Thread { //TODO Downloaders tem de ser capazes d
             Log.info("[DOWNLOADER " + threadNumber + "] Starting downloader thread.");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Config.URL_QUEUE_PORT).lookup("queue");
 
-            int connectedBarrelPort = Config.lookBarrels();
-            BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(connectedBarrelPort).lookup("barrel");
-            Log.info("[DOWNLOADER " + threadNumber + "] Connected to Barrel on port " + connectedBarrelPort);
+            connectBarrel();
+            if (barrelPort == -1) {
+                Log.error("[DOWNLOADER " + threadNumber + "] No barrels available on startup. Exiting.");
+                return;
+            }
+            Log.info("[DOWNLOADER " + threadNumber + "] Connected to Barrel on port " + barrelPort);
 
             while (true) {
                 String url = queue.takeUrl();
@@ -129,13 +175,21 @@ public class Downloader extends Thread { //TODO Downloaders tem de ser capazes d
                     description = truncateDescription(bodyText);
                 }
 
-                // TODO: add failback logic
-                if(!barrel.addEntry(url, pageWords, title, description, relatedUrls)){
-                    Log.info("[DOWNLOADER " + threadNumber + "] Failed to parse and/or store an url");
+                try{
+                    if(!barrel.addEntry(url, pageWords, title, description, relatedUrls)){
+                        Log.warning("[DOWNLOADER " + threadNumber + "] Failed to parse and/or store an url");
+                    }
+                } catch (RemoteException e) {
+                    Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Barrel.: " + e.getMessage());
+                    barrelPort = -1;
+                    if (!attemptReconnect()) {
+                        Log.error("[DOWNLOADER " + threadNumber + "] Could not reconnect to any Barrel. Exiting.");
+                        return;
+                    }
                 }
             }
         } catch (IOException | NotBoundException e) {
-            Log.error("[DOWNLOADER " + threadNumber + "] " + e.getMessage());
+            Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Barrel: " + e.getMessage());
         }
     }
 
