@@ -78,7 +78,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
         // deadlocks...
         int attempt = 0;
-        while(attempt < 3){ //TODO Config.BarrelRetries
+        while(attempt < Config.BARREL_RETRIES){
             // There is also a Connection object of jsoup so it is better to explicitly declare it as sql connction object
             try (Connection conn = db.getConnection()){
                 // Begin transaction (if it fails jdbc rollbacks automatically)
@@ -154,7 +154,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                     attempt++;
                     Log.warning("[BARREL " + port + "] Deadlock detected on insertion");
 
-                    try{ Thread.sleep((long) (100 * Math.pow(2, attempt)));} //TODO Config.BarrelBackoff
+                    try{ Thread.sleep((long) (Config.BARREL_BACKOFF * Math.pow(2, attempt)));} 
                     catch (InterruptedException ignored){}
                 }
                 else {

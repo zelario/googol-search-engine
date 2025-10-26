@@ -65,7 +65,7 @@ public class Downloader extends Thread {
      * @return true if reconnected, false otherwise
      */
     private boolean attemptReconnect() {
-        for (int attempt = 1; attempt <= 5; attempt++) { //TODO Config.DownloaderRetries
+        for (int attempt = 1; attempt <= Config.DOWNLOADER_RETRIES; attempt++) {
             Log.info("[DOWNLOADER " + threadNumber + "] Attempt " + attempt + " to reconnect to a barrel.");
             connectBarrel();
             if (barrelPort != -1) {
@@ -74,7 +74,7 @@ public class Downloader extends Thread {
             }
 
             try {
-                Thread.sleep((long) (200 * Math.pow(2, attempt - 1))); //TODO Config.DownloaderBackoff
+                Thread.sleep((long) (Config.DOWNLOADER_BACKOFF * Math.pow(2, attempt - 1)));
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
@@ -199,7 +199,7 @@ public class Downloader extends Thread {
      */
     public static void main(String[] args) {
         // CHANGE THREAD NUMBER HERE
-        int threadCounter = 3; //TODO Passar para o config
+        int threadCounter = Config.DOWNLOADER_THREADS;
 
         for (int i = 0; i < threadCounter; i++) {
             new Downloader(i + 1).start();

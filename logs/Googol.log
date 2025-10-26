@@ -1,44 +1,39 @@
-[2025-10-26 15:46:55] [INFO] [GATEWAY] Connected to URL Queue on port 1099
-[2025-10-26 15:46:55] [INFO] [GATEWAY] Gateway ready on port 1098
-[2025-10-26 15:46:57] [INFO] [BARREL 10000] Running on port: 10000
-[2025-10-26 15:46:57] [INFO] [GATEWAY] Barrel 10000 registered.
-[2025-10-26 15:46:57] [INFO] [BARREL 10000] Registered with gateway on port: 1098
-[2025-10-26 15:46:57] [INFO] [BARREL 10000] Connected to gateway on port: 1098
-[2025-10-26 15:46:57] [INFO] [GATEWAY] Barrel 10000 registered.
-[2025-10-26 15:47:00] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-10-26 15:47:00] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-10-26 15:47:00] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-10-26 15:47:02] [INFO] [DOWNLOADER 2] Connected to Barrel on port 10000
-[2025-10-26 15:47:02] [INFO] [DOWNLOADER 3] Connected to Barrel on port 10000
-[2025-10-26 15:47:02] [INFO] [DOWNLOADER 1] Connected to Barrel on port 10000
-[2025-10-26 15:47:02] [INFO] [CLIENT 8] Connected to gateway on port 1098 on attempt 1
-[2025-10-26 15:47:05] [INFO] [GATEWAY] Client added URL to queue: https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:P%C3%A1gina_principal
-[2025-10-26 15:47:11] [ERROR] [DOWNLOADER 1] Lost connection to Barrel.: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-[2025-10-26 15:47:11] [INFO] [DOWNLOADER 1] Attempt 1 to reconnect to a barrel.
-[2025-10-26 15:47:13] [ERROR] [DOWNLOADER 3] Lost connection to Barrel.: Connection refused to host: 26.11.203.193; nested exception is: 
+[2025-10-26 17:58:54] [INFO] [GATEWAY] Connected to URL Queue on port 1099
+[2025-10-26 17:58:54] [INFO] [GATEWAY] Gateway ready on port 1098
+[2025-10-26 17:59:00] [INFO] [BARREL 10000] Running on port: 10000
+[2025-10-26 17:59:00] [INFO] [GATEWAY] Barrel 10000 registered.
+[2025-10-26 17:59:00] [INFO] [BARREL 10000] Registered with gateway on port: 1098
+[2025-10-26 17:59:00] [INFO] [BARREL 10000] Connected to gateway on port: 1098
+[2025-10-26 17:59:00] [INFO] [GATEWAY] Barrel 10000 registered.
+[2025-10-26 17:59:07] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-10-26 17:59:07] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-10-26 17:59:07] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-10-26 17:59:10] [INFO] [DOWNLOADER 2] Connected to Barrel on port 10000
+[2025-10-26 17:59:10] [INFO] [DOWNLOADER 1] Connected to Barrel on port 10000
+[2025-10-26 17:59:10] [INFO] [DOWNLOADER 3] Connected to Barrel on port 10000
+[2025-10-26 17:59:17] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-10-26 17:59:17] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-10-26 17:59:17] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-10-26 17:59:19] [INFO] [DOWNLOADER 2] Connected to Barrel on port 10000
+[2025-10-26 17:59:19] [INFO] [DOWNLOADER 3] Connected to Barrel on port 10000
+[2025-10-26 17:59:19] [INFO] [DOWNLOADER 1] Connected to Barrel on port 10000
+[2025-10-26 17:59:33] [INFO] [CLIENT 19] Connected to gateway on port 1098 on attempt 1
+[2025-10-26 17:59:36] [INFO] [GATEWAY] Client 19 searching for query: kanye
+[2025-10-26 17:59:36] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 10000
+[2025-10-26 17:59:37] [INFO] [GATEWAY] Search completed on barrel10000 for query kanye in 697 ms
+[2025-10-26 17:59:37] [INFO] [GATEWAY] Client 19 search completed successfully on barrel 10000 on attempt 1.
+[2025-10-26 17:59:46] [INFO] [GATEWAY] Client added URL to queue: https://www.reddit.com/
+[2025-10-26 18:00:00] [INFO] [GATEWAY] Barrel 10000 unregistered.
+[2025-10-26 18:00:00] [INFO] [BARREL 10000] Shutdown notification sent to gateway. Exiting.
+[2025-10-26 18:00:02] [ERROR] [DOWNLOADER 3] Lost connection to Barrel.: Connection refused to host: 26.11.203.193; nested exception is: 
 	java.net.ConnectException: Connection refused: connect
-[2025-10-26 15:47:13] [INFO] [DOWNLOADER 3] Attempt 1 to reconnect to a barrel.
-[2025-10-26 15:47:13] [ERROR] [DOWNLOADER 2] Lost connection to Barrel.: Connection refused to host: 26.11.203.193; nested exception is: 
+[2025-10-26 18:00:02] [ERROR] [DOWNLOADER 2] Lost connection to Barrel.: Connection refused to host: 26.11.203.193; nested exception is: 
 	java.net.ConnectException: Connection refused: connect
-[2025-10-26 15:47:13] [INFO] [DOWNLOADER 2] Attempt 1 to reconnect to a barrel.
-[2025-10-26 15:47:15] [INFO] [DOWNLOADER 1] Attempt 2 to reconnect to a barrel.
-[2025-10-26 15:47:17] [INFO] [DOWNLOADER 3] Attempt 2 to reconnect to a barrel.
-[2025-10-26 15:47:17] [INFO] [DOWNLOADER 2] Attempt 2 to reconnect to a barrel.
-[2025-10-26 15:47:20] [INFO] [DOWNLOADER 1] Attempt 3 to reconnect to a barrel.
-[2025-10-26 15:47:22] [INFO] [DOWNLOADER 3] Attempt 3 to reconnect to a barrel.
-[2025-10-26 15:47:22] [INFO] [DOWNLOADER 2] Attempt 3 to reconnect to a barrel.
-[2025-10-26 15:47:24] [INFO] [DOWNLOADER 1] Attempt 4 to reconnect to a barrel.
-[2025-10-26 15:47:26] [INFO] [DOWNLOADER 3] Attempt 4 to reconnect to a barrel.
-[2025-10-26 15:47:27] [INFO] [DOWNLOADER 2] Attempt 4 to reconnect to a barrel.
-[2025-10-26 15:47:30] [INFO] [DOWNLOADER 1] Attempt 5 to reconnect to a barrel.
-[2025-10-26 15:47:32] [INFO] [DOWNLOADER 3] Attempt 5 to reconnect to a barrel.
-[2025-10-26 15:47:32] [INFO] [DOWNLOADER 2] Attempt 5 to reconnect to a barrel.
-[2025-10-26 15:47:34] [INFO] [BARREL 10000] Running on port: 10000
-[2025-10-26 15:47:34] [INFO] [GATEWAY] Barrel 10000 registered.
-[2025-10-26 15:47:34] [INFO] [BARREL 10000] Registered with gateway on port: 1098
-[2025-10-26 15:47:34] [INFO] [BARREL 10000] Connected to gateway on port: 1098
-[2025-10-26 15:47:34] [INFO] [GATEWAY] Barrel 10000 registered.
-[2025-10-26 15:47:36] [INFO] [DOWNLOADER 3] Reconnected to Barrel on port 10000 (attempt 5)
-[2025-10-26 15:47:36] [INFO] [DOWNLOADER 2] Reconnected to Barrel on port 10000 (attempt 5)
-[2025-10-26 15:47:37] [ERROR] [DOWNLOADER 1] Could not reconnect to any Barrel. Exiting.
+[2025-10-26 18:00:02] [ERROR] [DOWNLOADER 1] Lost connection to Barrel.: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-26 18:00:02] [INFO] [DOWNLOADER 2] Attempt 1 to reconnect to a barrel.
+[2025-10-26 18:00:02] [INFO] [DOWNLOADER 3] Attempt 1 to reconnect to a barrel.
+[2025-10-26 18:00:02] [INFO] [DOWNLOADER 1] Attempt 1 to reconnect to a barrel.
+[2025-10-26 18:00:07] [INFO] [DOWNLOADER 3] Attempt 2 to reconnect to a barrel.
+[2025-10-26 18:00:07] [INFO] [DOWNLOADER 2] Attempt 2 to reconnect to a barrel.
+[2025-10-26 18:00:07] [INFO] [DOWNLOADER 1] Attempt 2 to reconnect to a barrel.
