@@ -5,7 +5,11 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -111,6 +115,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 Registry registry = LocateRegistry.getRegistry(barrelPort);
                 BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
                 barrels.put(barrelPort, barrel);
+                stats.updateBarrelIndexSize(barrelPort, 0L);  //TODO ir à base de dados buscar o tamanho atual do índice
                 Log.info("[GATEWAY] Barrel " + barrelPort + " registered.");
             } catch (NotBoundException | RemoteException e) {
                 Log.error("[GATEWAY] Failed to register barrel " + barrelPort + ": " + e.getMessage());
@@ -178,7 +183,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @throws RemoteException RMI exception
      */
     @Override
-    public List<List<Page>> search(String clientId, String query) throws RemoteException {
+    public String search(String clientId, String query) throws RemoteException {
         Log.info("[GATEWAY] Client " + clientId + " searching for query: " + query);
 
         String[] terms = Arrays.stream(query.split("\\s+"))
@@ -190,7 +195,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             Map.Entry<Integer, BarrelInterface> entry = selectBarrel();
             if (entry == null) {
                 Log.warning("[GATEWAY] No available barrels for search on attempt " + attempt + ".");
-                return new ArrayList<>();
+                return "No results found.";
             }
 
             BarrelInterface barrel = entry.getValue();
@@ -198,16 +203,37 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             try {
                 List<Page> pages = barrel.searchQuery(query, terms);
                 if (pages == null || pages.isEmpty()) {
-                    return new ArrayList<>();
+                    return "No results found.";
                 }
 
-                List<List<Page>> pageLists = new ArrayList<>();
+                // build formatted string
+                StringBuilder out = new StringBuilder();
+                int globalIndex = 1;
+                int group = 0;
                 for (int i = 0; i < pages.size(); i += 10) {
+                    group++;
                     int to = Math.min(i + 10, pages.size());
-                    pageLists.add(new ArrayList<>(pages.subList(i, to)));
+                    List<Page> pageList = pages.subList(i, to);
+                    out.append(System.lineSeparator());
+                    out.append("=== Results group ").append(group).append(" (showing ").append(pageList.size()).append(") ===").append(System.lineSeparator()).append(System.lineSeparator());
+
+                    for (Page p : pageList) {
+                        String title = p.getTitle() == null || p.getTitle().isBlank() ? "(no title)" : p.getTitle();
+                        String snippet = p.getSnippet() == null ? "" : p.getSnippet();
+
+                        out.append(String.format("%3d) %s", globalIndex, title)).append(System.lineSeparator());
+                        out.append("     URL: ").append(p.getUrl()).append(System.lineSeparator());
+                        if (!snippet.isBlank()) {
+                            String sn = snippet.length() > 140 ? snippet.substring(0, 137) + "..." : snippet;
+                            out.append("     Snippet: ").append(sn).append(System.lineSeparator());
+                        }
+                        out.append("     ").append("-".repeat(40)).append(System.lineSeparator());
+                        globalIndex++;
+                    }
                 }
+
                 Log.info("[GATEWAY] Client " + clientId + " search completed successfully on barrel " + barrelPort + " on attempt " + attempt + ".");
-                return pageLists;
+                return out.toString();
 
             } catch (RemoteException e) {
                 Log.error("[GATEWAY] Search failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying.");
@@ -224,7 +250,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         }
 
         Log.error("[GATEWAY] Search not successful. All search attempts failed for query: " + query);
-        return new ArrayList<>();
+        return "No results found.";
     }
 
     /**
@@ -250,13 +276,14 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         for (Map.Entry<Integer, Long> entry : activeBarrels.entrySet()) {
             sb.append(String.format("  \"%s\" - %d indexes\n", entry.getKey(), entry.getValue()));
         }
-        sb.append("Average Response Times (tenths of seconds):\n");
+        sb.append("Average Response Times:\n");
         for (Map.Entry<Integer, Long> entry : responseTimes.entrySet()) {
             sb.append(String.format("  \"%s\" - %d tenths\n", entry.getKey(), entry.getValue()));
         }
 
         Log.info("[GATEWAY] Client " + clientId + " stats retrieved successfully.");
 
+        Log.info(sb.toString());
         return sb.toString();
     }
     //------------------ END OF USER FUNCTIONS ------------------//
@@ -280,11 +307,13 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
         } catch (RemoteException e) {
             Log.error("[GATEWAY] Failed to start Gateway: " + e.getMessage());
+            System.exit(1);
         }
     }
 
     // TODO: complete
+    @Override
     public synchronized Map<Integer, Map<String, String>> getAllHashes(int ownPort) throws RemoteException {
-        return new HashMap<Integer, Map<String, String>>();
+        return new HashMap<>();
     }
 }

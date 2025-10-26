@@ -4,7 +4,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 
@@ -42,34 +41,62 @@ public class Client {
         }
     }
 
-    private void showResults(List<List<Page>> results) {
-        if (results == null || results.isEmpty()) {
-            System.out.println("No results found.");
-            return;
-        }
-
-        int globalIndex = 1;
-        for (int group = 0; group < results.size(); group++) {
-            List<Page> pageList = results.get(group);
-            System.out.println();
-            System.out.println("=== Results group " + (group + 1) + " (showing " + pageList.size() + ") ===\n");
-
-            for (int i = 0; i < pageList.size(); i++) {
-                Page p = pageList.get(i);
-                String title = p.getTitle() == null || p.getTitle().isBlank() ? "(no title)" : p.getTitle();
-                String snippet = p.getSnippet() == null ? "" : p.getSnippet();
-
-                System.out.printf("%3d) %s\n", globalIndex, title);
-                System.out.println("     URL: " + p.getUrl());
-                if (!snippet.isBlank()) {
-                    // limit snippet length for readability
-                    String sn = snippet.length() > 140 ? snippet.substring(0, 137) + "..." : snippet;
-                    System.out.println("     Snippet: " + sn);
+    /**
+     * Lookup the gateway with retry/backoff.
+     */
+    private void lookupGateway() throws Exception {
+        Exception exception = null;
+        for (int attempt = 1; attempt <= Config.CLIENT_RETRIES; attempt++) {
+            try {
+                Registry registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
+                gateway = (GatewayInterface) registry.lookup("gateway");
+                Log.info("[CLIENT " + id + "] Connected to gateway on port " + Config.GATEWAY_PORT + " on attempt " + attempt);
+                return;
+            } catch (NotBoundException | RemoteException e) {
+                exception = e;
+                Log.warning("[CLIENT " + id + "] Gateway lookup failed on attempt " + attempt + ": " + e.getMessage());
+                if (attempt == Config.CLIENT_RETRIES) break;
+                try {
+                    Thread.sleep((long) (Config.CLIENT_BACKOFF * Math.pow(2, attempt - 1)));
+                } catch (InterruptedException er) {
+                    break;
                 }
-                System.out.println("     " + "-".repeat(40));
-                globalIndex++;
             }
         }
+        throw exception;
+    }
+
+    /**
+     * Execute a gateway call with automatic retries. If an exception occurs the client will try to re-lookup the gateway and retry the call.
+     * @param <T> The return type of the callable action.
+     * @param action The callable action to execute.
+     */
+    private <T> T callGateway(Callable<T> action) throws Exception {
+        Exception exception = null;
+        for (int attempt = 1; attempt <= Config.CLIENT_RETRIES; attempt++) {
+            try {
+                if (gateway == null){
+                    lookupGateway();
+                }
+                return action.call();
+            } catch (RemoteException | NotBoundException e) {
+                exception = e;
+                Log.error("[CLIENT " + id + "] Gateway call failed at attempt " + attempt + ": " + e.getMessage());
+                try {
+                    lookupGateway();
+                } catch (Exception er) {
+                    Log.error("[CLIENT " + id + "] Re-lookup failed: " + er.getMessage());
+                }
+                if (attempt == Config.CLIENT_RETRIES) break;
+                try {
+                    Thread.sleep((long) (Config.CLIENT_BACKOFF * Math.pow(2, attempt - 1)));
+                } catch (InterruptedException err) {
+                    break;
+                }
+            }
+        }
+        if (exception != null) throw exception;
+        throw new Exception("Gateway call failed after retries");
     }
 
     /**
@@ -105,9 +132,10 @@ public class Client {
                         mode = "INDEX";
                         System.out.print("\n=== INDEX MODE ===\n\n> ");
                         continue;
-                    } else if (query.equals("STATS")) {
+                    } else if (query.equals("STATS") || query.equals("stats")) {
                         try {
-                            client.callGateway(() -> { gateway.stats(client.id); return null; });
+                            String stats = client.callGateway(() -> gateway.stats(client.id));
+                            System.out.print("\n" + stats + "\n> ");
                         } catch (Exception e) {
                             Log.error("[CLIENT " + client.id + "] Stats failed after retries: " + e.getMessage());
                         }
@@ -120,8 +148,8 @@ public class Client {
                     switch (mode) {
                         case "SEARCH" -> {
                             try {
-                                List<List<Page>> results = client.callGateway(() -> gateway.search(client.id, query));
-                                client.showResults(results);
+                                String results = client.callGateway(() -> gateway.search(client.id, query));
+                                System.out.println(results);
                             } catch (Exception e) {
                                 Log.error("[CLIENT " + client.id + "] Search failed after retries: " + e.getMessage());
                             }
@@ -139,61 +167,5 @@ public class Client {
                 }
             }
         
-    }
-
-    /**
-     * Lookup the gateway with retry/backoff.
-     */
-    private void lookupGateway() throws Exception {
-        Exception exception = null;
-        for (int attempt = 1; attempt <= Config.CLIENT_RETRIES; attempt++) {
-            try {
-                Registry registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
-                gateway = (GatewayInterface) registry.lookup("gateway");
-                Log.info("[CLIENT " + id + "] Connected to gateway on port " + Config.GATEWAY_PORT + " on attempt " + attempt);
-                return;
-            } catch (NotBoundException | RemoteException e) {
-                exception = e;
-                Log.warning("[CLIENT " + id + "] Gateway lookup failed on attempt " + attempt + ": " + e.getMessage());
-                if (attempt == Config.CLIENT_RETRIES) break;
-                try {
-                    Thread.sleep((long) (Config.CLIENT_BACKOFF * Math.pow(2, attempt - 1)));
-                } catch (InterruptedException er) {
-                    break;
-                }
-            }
-        }
-        throw exception;
-    }
-
-    /**
-     * Execute a gateway call with automatic retries. If an exception occurs the client will try to re-lookup the gateway and retry the call.
-     */
-    private <T> T callGateway(Callable<T> action) throws Exception {
-        Exception exception = null;
-        for (int attempt = 1; attempt <= Config.CLIENT_RETRIES; attempt++) {
-            try {
-                if (gateway == null){
-                    lookupGateway();
-                }
-                return action.call();
-            } catch (RemoteException | NotBoundException e) {
-                exception = e;
-                Log.error("[CLIENT " + id + "] Gateway call failed at attempt " + attempt + ": " + e.getMessage());
-                try {
-                    lookupGateway();
-                } catch (Exception er) {
-                    Log.error("[CLIENT " + id + "] Re-lookup failed: " + er.getMessage());
-                }
-                if (attempt == Config.CLIENT_RETRIES) break;
-                try {
-                    Thread.sleep((long) (Config.CLIENT_BACKOFF * Math.pow(2, attempt - 1)));
-                } catch (InterruptedException err) {
-                    break;
-                }
-            }
-        }
-        if (exception != null) throw exception;
-        throw new Exception("Gateway call failed after retries");
     }
 }

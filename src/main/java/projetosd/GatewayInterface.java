@@ -2,7 +2,6 @@ package projetosd;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,10 +48,10 @@ public interface GatewayInterface extends Remote {
     * Search for a query.
     * @param query Search query
     * @param clientId Client identifier
-    * @return list of pages
+    * @return formatted search results string
     * @throws RemoteException RMI Exception
     */
-    List<List<Page>> search(String clientId, String query) throws RemoteException;
+    String search(String clientId, String query) throws RemoteException;
 
     /**
      * Get simple stats string from a barrel.

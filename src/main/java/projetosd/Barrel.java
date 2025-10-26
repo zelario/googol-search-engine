@@ -388,6 +388,16 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             registry.rebind("barrel", barrel);
             Log.info("[BARREL " + barrel.port + "] Running on port: " + barrel.port);
 
+            // Notify gateway that this barrel is up and bound so the gateway can lookup it successfully
+            try {
+                Registry reg = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
+                barrel.gateway = (GatewayInterface) reg.lookup("gateway");
+                barrel.gateway.callbackBarrelStatus(barrel.port, true);
+                Log.info("[BARREL " + barrel.port + "] Registered with gateway on port: " + Config.GATEWAY_PORT);
+            } catch (NotBoundException | RemoteException e) {
+                Log.error("[BARREL " + barrel.port + "] Gateway not available for initial registration: " + e.getMessage());
+            }
+
             try {
                 registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
                 barrel.gateway = (GatewayInterface) registry.lookup("gateway");
@@ -412,6 +422,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
         } catch (RemoteException e) {
             Log.error("[BARREL] Failed to start: " + e.getMessage());
+            System.exit(1);
         }
     }
 }
