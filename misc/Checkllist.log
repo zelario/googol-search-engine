@@ -5,7 +5,7 @@
 1 - Indexar novo URL introduzido por utilizador
 1 - Indexar iterativamente ou recursivamente todos os URLs encontrados
 1 - Pesquisar páginas que contenham um conjunto de palavras
-0 - Páginas ordenadas por número de ligações recebidas de outras páginas
+1 - Páginas ordenadas por número de ligações recebidas de outras páginas
 0 - Consultar lista de páginas com ligações para uma página específica
 0 - Página de estatísticas atualizada em tempo real
 1 - Resultados da pesquisa agrupados de 10 em 10
@@ -34,6 +34,7 @@
 0 - Uso de estruturas avançadas tais como filtro de Bloom, mapa WordID->DocIDs (5p)
 0 - Pesquisas avançadas e melhores algoritmos de ranking de páginas (4p)
 0 - Novo storage barrel sincroniza-se com os existentes (5p)
+0 - Cache de pesquisas recentes no gateway (especificado apenas no enunciado)
 
 --- Pontos Obrigatórios---
 
