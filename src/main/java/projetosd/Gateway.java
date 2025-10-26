@@ -318,9 +318,11 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         Map<Integer, List<String>> mismatches = new HashMap<>();
         Map<Integer, Map<String, String>> allHashes = this.getAllHashes();
 
+        // No more than 1 barrel, no sync needed
+        if (allHashes.size() <= 1) return mismatches;
+
         // Get a reference db to check against the others
-        Integer referencePort = allHashes.keySet().stream().findFirst().orElse(null);
-        if (referencePort == null) return mismatches;
+        int referencePort = allHashes.keySet().stream().findFirst().orElse(null);
 
         // Store reference hashes
         Map<String, String> referenceHashes = allHashes.get(referencePort);
