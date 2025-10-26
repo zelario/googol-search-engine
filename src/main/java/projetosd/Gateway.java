@@ -311,6 +311,42 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     }
 
     /**
+     * Method to check all barrel hashes and compare to find mismatches
+     * @return HashMap with ports as keys and a list of table names where mismatches were found as value
+     */
+    private Map<Integer, List<String>> detectMismatches(){
+        Map<Integer, List<String>> mismatches = new HashMap<>();
+        Map<Integer, Map<String, String>> allHashes = this.getAllHashes();
+
+        // Get a reference db to check against the others
+        Integer referencePort = allHashes.keySet().stream().findFirst().orElse(null);
+        if (referencePort == null) return mismatches;
+
+        // Store reference hashes
+        Map<String, String> referenceHashes = allHashes.get(referencePort);
+
+        for (Map.Entry<Integer, Map<String, String>> barrelEntry : allHashes.entrySet()) {
+            int barrelPort = barrelEntry.getKey();
+            if (barrelPort == referencePort) continue;
+
+            Map<String, String> otherHashes = barrelEntry.getValue();
+            List<String> barrelMismatches = new ArrayList<>();
+
+            for (String table : referenceHashes.keySet()) {
+                if (!referenceHashes.get(table).equals(otherHashes.get(table))) {
+                    barrelMismatches.add(table);
+                }
+            }
+
+            if (!barrelMismatches.isEmpty()) {
+                mismatches.put(barrelPort, barrelMismatches);
+            }
+        }
+
+        return mismatches;
+    }
+
+    /**
      * Main method for the Gateway.
      */
     public static void main(String[] args) {

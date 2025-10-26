@@ -66,7 +66,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         // Because the downloader might insert urls that are in pages before they've been parsed...
         // Here we manage conflicts by updating the remaining info with the excluded insertion
         // Also every query has handling of conflicts because duplicates are common
-        String insertUrlQuery = "INSERT INTO url(url, title, citation) VALUES (?, ?, ?) ON CONFLICT (url) DO UPDATE SET title = EXCLUDED.title, citation = EXCLUDED.citation";
+        String insertUrlQuery = "INSERT INTO url(url, title, citation) VALUES (?, ?, ?) ON CONFLICT (url) DO UPDATE SET title = EXCLUDED.title, citation = EXCLUDED.citation, updated_at = now()";
         // Insert page urls before to avoid breaking foreign keys constraints
         String preInsertPageUrlsQuery = "INSERT INTO url(url) VALUES (?) ON CONFLICT (url) DO NOTHING";
         String insertPageUrlsQuery = "INSERT INTO url_url(url_url, url_url1) VALUES (?, ?) ON CONFLICT DO NOTHING";
@@ -151,7 +151,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                     attempt++;
                     Log.warning("[BARREL " + port + "] Deadlock detected on insertion");
 
-                    try{ Thread.sleep((long) (Config.BARREL_BACKOFF * Math.pow(2, attempt)));} 
+                    try{ Thread.sleep((long) (Config.BARREL_BACKOFF * Math.pow(2, attempt)));}
                     catch (InterruptedException ignored){}
                 }
                 else {
@@ -300,16 +300,25 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
         try(java.sql.Connection conn = db.getConnection()){
             for(String table : tables){
+                String columns = switch (table) {
+                    case "url" -> "url, title, citation";
+                    case "words" -> "word";
+                    case "words_url" -> "words_word, url_url";
+                    case "url_url" -> "url_url, url_url1";
+                    default -> "*";
+                };
+
                 String orderColumn = switch (table) {
+                    case "url" -> "url";
                     case "url_url" -> "url_url";
                     case "words" -> "word";
                     case "words_url" -> "words_word";
-                    default -> "url";
+                    default -> "*";
                 };
 
                 // This query computes the tables hash using nested aggregation (aggregate of aggregated values, in this case aggregate each row (tables))
                 // and then aggregate all rows for the table, this is very efficient memory-wise
-                String query = String.format("SELECT md5(string_agg(md5(row(t.*)::text), '' ORDER BY %s)) AS table_hash FROM %s t;", table, orderColumn);
+                String query = String.format("SELECT md5(string_agg(md5(row(%s)::text), '' ORDER BY %s)) AS table_hash FROM %s t;", columns, orderColumn, table);
 
                 try(PreparedStatement stmt = conn.prepareStatement(query)){
                     try(ResultSet rs = stmt.executeQuery()){
