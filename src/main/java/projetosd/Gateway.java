@@ -87,7 +87,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 }
             }
             
-            if (available == true) {
+            if (available) {
                 Log.info("[GATEWAY] Chosen barrel is fine. Selected barrel " + port);
                 return entry;
             } else {
@@ -162,6 +162,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
     @Override
     public void synchBarrels() throws RemoteException {
+        Map<Integer, List<String>> mismatches = barrelMismatches();
+
 
     }
 
