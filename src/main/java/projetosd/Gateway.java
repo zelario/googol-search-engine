@@ -112,7 +112,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
                 barrel.ping();
 
-                barrelHashes.put(barrelPort, barrel.getMD5Hash());
+                barrelHashes.put(barrelPort, barrel.getMD5Hash(""));
             }
 
             catch (NotBoundException | RemoteException ignored){
@@ -268,7 +268,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
                 StringBuilder sb = new StringBuilder();
                 int startIndex = (pageNumber - 1) * 10 + 1;
-                sb.append(String.format("=== Search results ===\n-Page %d\n\n", pageNumber));
+                sb.append(String.format("- Page %d:\n\n", pageNumber));
 
                 for (int i = 0; i < pages.size(); i++) {
                     Page p = pages.get(i);

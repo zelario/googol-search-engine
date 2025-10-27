@@ -112,7 +112,7 @@ public class Client {
         }
         
         System.out.print("===== Welcome to Googol! You are " + client.id + "! =====\n\n");
-            System.out.print("SEARCH: To search for a url\nINDEX: To add new url\nSTATS: To see statistics\nEXIT: To exit the app\n\n");
+            System.out.print("SEARCH: To search for a url\nINDEX: To add new url\nSTATS: To see statistics\nEXIT: To exit the app\n");
 
             boolean run = true;
             String mode = "SEARCH";
@@ -149,7 +149,7 @@ public class Client {
                         case "SEARCH" -> {
                             try {
                                 String results = client.callGateway(() -> client.gateway.search(client.id, query, 1));
-                                System.out.println(results);
+                                System.out.println("\n=== Search Results ===\n\n" + results);
                             } catch (Exception e) {
                                 Log.error("[CLIENT " + client.id + "] Search failed after retries: " + e.getMessage());
                             }
