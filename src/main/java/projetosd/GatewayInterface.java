@@ -50,7 +50,7 @@ public interface GatewayInterface extends Remote {
     * @return formatted search results string
     * @throws RemoteException RMI Exception
     */
-    String search(String clientId, String query) throws RemoteException;
+    String search(String clientId, String query, int pageNumber) throws RemoteException;
 
     /**
      * Get simple stats string from a barrel.

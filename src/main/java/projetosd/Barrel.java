@@ -164,14 +164,17 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
     /**
      * Search for pages where url contains all terms.
+     * @param rawQuery The raw user query
      * @param terms The search terms
+     * @param pageNumber The page number for pagination (1-based)
      * @return Returns a list of pages (urls and metadata).
      */
     @Override
-    public List<Page> searchQuery(String rawQuery, String[] terms) {
+    public List<Page> searchQuery(String rawQuery, String[] terms, int pageNumber) {
         long startTime = System.currentTimeMillis();
 
-        if(terms == null || terms.length == 0) return Collections.emptyList();
+        if (terms == null || terms.length == 0) return Collections.emptyList();
+        if (pageNumber < 1) pageNumber = 1;
 
         Database db = new Database(this.port);
         List<Page> pages = new ArrayList<>();
@@ -185,22 +188,33 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                     "JOIN words w ON wu.words_word = w.word " +
                     "LEFT JOIN url_url uu ON uu.url_url1 = u.url " +
                     "WHERE w.word IN (" + placeholders + ") " +
-                    "AND u.title != 'Page'" +
+                    "AND u.title != 'Page' " +
                     "GROUP BY u.url, u.title, u.citation " +
                     "HAVING COUNT(DISTINCT w.word) = ? " +
-                    "ORDER BY ref_count DESC;";
+                    "ORDER BY ref_count DESC " +
+                    "LIMIT 10 OFFSET ?;";
 
             PreparedStatement stmt = conn.prepareStatement(query);
 
+            // set terms
             for (int i = 0; i < terms.length; i++) {
                 stmt.setString(i + 1, terms[i].toLowerCase());
             }
 
+            // total terms count
             stmt.setInt(terms.length + 1, terms.length);
+
+            // calculate offset for pagination
+            int offset = (pageNumber - 1) * 10;
+            stmt.setInt(terms.length + 2, offset);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    pages.add(new Page(rs.getString("url"), rs.getString("title"), rs.getString("citation")));
+                    pages.add(new Page(
+                            rs.getString("url"),
+                            rs.getString("title"),
+                            rs.getString("citation")
+                    ));
                 }
             } catch (SQLException e) {
                 Log.error("[DOWNLOADER] Error fetching pages: " + e.getMessage());

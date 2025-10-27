@@ -1,23 +1,24 @@
-[2025-10-27 09:36:01] [INFO] [GATEWAY] Connected to URL Queue on port 1099
-[2025-10-27 09:36:01] [INFO] [GATEWAY] Gateway ready on port 1098
-[2025-10-27 09:36:03] [INFO] [CLIENT 24] Connected to gateway on port 1098 on attempt 1
-[2025-10-27 09:36:05] [INFO] [BARREL 10000] Running on port: 10000
-[2025-10-27 09:36:05] [INFO] [GATEWAY] Barrel 10000 registered.
-[2025-10-27 09:36:05] [INFO] [BARREL 10000] Registered with gateway on port: 1098
-[2025-10-27 09:36:05] [INFO] [BARREL 10000] Connected to gateway on port: 1098
-[2025-10-27 09:36:05] [INFO] [GATEWAY] Barrel 10000 registered.
-[2025-10-27 09:36:06] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-10-27 09:36:06] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-10-27 09:36:06] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-10-27 09:36:08] [INFO] [DOWNLOADER 3] Connected to Barrel on port 10000
-[2025-10-27 09:36:08] [INFO] [DOWNLOADER 1] Connected to Barrel on port 10000
-[2025-10-27 09:36:08] [INFO] [DOWNLOADER 2] Connected to Barrel on port 10000
-[2025-10-27 09:36:16] [INFO] [GATEWAY] Client 24 searching for query: nazi
-[2025-10-27 09:36:16] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 10000
-[2025-10-27 09:36:16] [INFO] [GATEWAY] Search completed on barrel10000 for query nazi in 442 ms
-[2025-10-27 09:36:16] [INFO] [GATEWAY] Client 24 search completed successfully on barrel 10000 on attempt 1.
-[2025-10-27 09:36:35] [INFO] [GATEWAY] Client 24 searching for query: the life of pablo
-[2025-10-27 09:36:35] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 10000
-[2025-10-27 09:36:35] [INFO] [GATEWAY] Search completed on barrel10000 for query the life of pablo in 434 ms
-[2025-10-27 09:36:35] [INFO] [GATEWAY] Client 24 search completed successfully on barrel 10000 on attempt 1.
-[2025-10-27 11:41:18] [INFO] [URLQueue] RMI server ready.
+[2025-10-27 14:53:13] [INFO] [GATEWAY] Connected to URL Queue on port 1099
+[2025-10-27 14:53:13] [INFO] [GATEWAY] Gateway ready on port 1098
+[2025-10-27 14:53:16] [INFO] [BARREL 1100] Running on port: 1100
+[2025-10-27 14:53:16] [INFO] [GATEWAY] Barrel 1100 registered.
+[2025-10-27 14:53:16] [INFO] [BARREL 1100] Registered with gateway on port: 1098
+[2025-10-27 14:53:16] [INFO] [BARREL 1100] Connected to gateway on port: 1098
+[2025-10-27 14:53:16] [INFO] [GATEWAY] Barrel 1100 registered.
+[2025-10-27 14:53:20] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-10-27 14:53:20] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-10-27 14:53:20] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-10-27 14:53:23] [INFO] [DOWNLOADER 2] Connected to Barrel on port 1100
+[2025-10-27 14:53:23] [INFO] [DOWNLOADER 3] Connected to Barrel on port 1100
+[2025-10-27 14:53:23] [INFO] [DOWNLOADER 1] Connected to Barrel on port 1100
+[2025-10-27 14:53:26] [INFO] [CLIENT 30] Connected to gateway on port 1098 on attempt 1
+[2025-10-27 14:53:29] [INFO] [GATEWAY] Client 30 searching for query: kanye
+[2025-10-27 14:53:29] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
+[2025-10-27 14:53:30] [INFO] [GATEWAY] Search completed on barrel1100 for query kanye in 1440 ms
+[2025-10-27 14:53:30] [INFO] [GATEWAY] Client 30 search completed successfully on barrel 1100 on attempt 1.
+[2025-10-27 14:53:48] [ERROR] [DOWNLOADER 3] Lost connection to Barrel: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+[2025-10-27 14:53:48] [ERROR] [DOWNLOADER 1] Lost connection to Barrel: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+[2025-10-27 14:53:48] [ERROR] [DOWNLOADER 2] Lost connection to Barrel: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
