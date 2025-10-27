@@ -263,12 +263,12 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             try {
                 List<Page> pages = barrel.searchQuery(query, terms, pageNumber);
                 if (pages == null || pages.isEmpty()) {
-                    return "No results found.";
+                    return "\nNo results found.\n";
                 }
 
                 StringBuilder sb = new StringBuilder();
                 int startIndex = (pageNumber - 1) * 10 + 1;
-                sb.append(String.format("- Page %d:\n\n", pageNumber));
+                sb.append(String.format("\n- Page %d:\n\n", pageNumber));
 
                 for (int i = 0; i < pages.size(); i++) {
                     Page p = pages.get(i);
@@ -279,11 +279,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                     if (!snippet.isBlank()) {
                         sb.append(String.format("   \"%s\"\n", snippet.length() > 200 ? snippet.substring(0, 200) + "..." : snippet));
                     }
-                    sb.append("\n");
                 }
-
-                sb.append("---\n");
-                sb.append("Commands: next, prev, stats, End\n");
 
                 Log.info("[GATEWAY] Client " + clientId + " search completed successfully on barrel " + barrelPort + " on attempt " + attempt + ".");
                 return sb.toString();

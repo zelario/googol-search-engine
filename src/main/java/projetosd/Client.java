@@ -25,6 +25,8 @@ public class Client {
      */
     private GatewayInterface gateway;
 
+    private static int pageNumber;
+
     /**
      * 
      * @param args
@@ -148,8 +150,26 @@ public class Client {
                     switch (mode) {
                         case "SEARCH" -> {
                             try {
-                                String results = client.callGateway(() -> client.gateway.search(client.id, query, 1));
-                                System.out.println("\n=== Search Results ===\n\n" + results);
+                                pageNumber = 1;
+                                System.out.print("\n=== Search Results ===\n");
+                                while(true){
+                                    String results = client.callGateway(() -> client.gateway.search(client.id, query, pageNumber));
+                                    System.out.println(results);
+                                    System.out.print("                 Prev             End              Next\n\n> ");
+                                    String command = scanner.nextLine().trim();
+                                    if(command.equalsIgnoreCase("end")){
+                                        System.out.print("\n=== Ending of search results ===\n\n");
+                                        break;
+                                    } else if(command.equalsIgnoreCase("next")){
+                                        pageNumber++;
+                                        continue;
+                                    } else if(command.equalsIgnoreCase("prev")){
+                                        pageNumber--;
+                                        continue;
+                                    } else {
+                                        System.out.print("Invalid command. ");
+                                    }
+                                }
                             } catch (Exception e) {
                                 Log.error("[CLIENT " + client.id + "] Search failed after retries: " + e.getMessage());
                             }
