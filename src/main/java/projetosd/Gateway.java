@@ -100,6 +100,66 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         return null;
     }
 
+    /**
+     * Method to get barrel all hashes to check consistency
+     * @return Map with ports as keys and as values hash maps with tables as keys as the MD5 hashes as values
+     */
+    private Map<Integer, Map<String, String>> barrelHashes(){
+        Map<Integer, Map<String, String>> barrelHashes = new HashMap<>();
+
+        for(Integer barrelPort : Config.BARREL_PORTS) {
+            try{
+                BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
+                barrel.ping();
+
+                barrelHashes.put(barrelPort, barrel.getMD5Hash());
+            }
+
+            catch (NotBoundException | RemoteException ignored){
+            }
+        }
+
+        return barrelHashes;
+    }
+
+    /**
+     * Method to check all barrel hashes and compare to find mismatches
+     * @return HashMap with ports as keys and a list of table names where mismatches were found as value
+     */
+    private Map<Integer, List<String>> barrelMismatches(){
+        Map<Integer, List<String>> mismatches = new HashMap<>();
+        Map<Integer, Map<String, String>> allHashes = this.barrelHashes();
+
+        // No more than 1 barrel, no sync needed
+        if (allHashes.size() <= 1) return mismatches;
+
+        // Get a reference db to check against the others
+        int referencePort = allHashes.keySet().stream().findFirst().orElse(null);
+
+        // Store reference hashes
+        Map<String, String> referenceHashes = allHashes.get(referencePort);
+
+        for (Map.Entry<Integer, Map<String, String>> barrelEntry : allHashes.entrySet()) {
+            int barrelPort = barrelEntry.getKey();
+            if (barrelPort == referencePort) continue;
+
+            Map<String, String> otherHashes = barrelEntry.getValue();
+            List<String> barrelMismatches = new ArrayList<>();
+
+            for (String table : referenceHashes.keySet()) {
+                if (!referenceHashes.get(table).equals(otherHashes.get(table))) {
+                    barrelMismatches.add(table);
+                }
+            }
+
+            if (!barrelMismatches.isEmpty()) {
+                mismatches.put(barrelPort, barrelMismatches);
+            }
+        }
+
+        return mismatches;
+    }
+
     //------------------ CALLBACK FUNCTIONS ------------------//
 
     /**
@@ -287,66 +347,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         return sb.toString();
     }
     //------------------ END OF USER FUNCTIONS ------------------//
-
-    /**
-     * Method to get barrel all hashes to check consistency
-     * @return Map with ports as keys and as values hash maps with tables as keys as the MD5 hashes as values
-     */
-    private Map<Integer, Map<String, String>> getAllHashes(){
-        Map<Integer, Map<String, String>> barrelHashes = new HashMap<>();
-
-        for(Integer barrelPort : Config.BARREL_PORTS) {
-            try{
-                BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
-                barrel.ping();
-
-                barrelHashes.put(barrelPort, barrel.getMD5Hash());
-            }
-
-            catch (NotBoundException | RemoteException ignored){
-            }
-        }
-
-        return barrelHashes;
-    }
-
-    /**
-     * Method to check all barrel hashes and compare to find mismatches
-     * @return HashMap with ports as keys and a list of table names where mismatches were found as value
-     */
-    private Map<Integer, List<String>> detectMismatches(){
-        Map<Integer, List<String>> mismatches = new HashMap<>();
-        Map<Integer, Map<String, String>> allHashes = this.getAllHashes();
-
-        // No more than 1 barrel, no sync needed
-        if (allHashes.size() <= 1) return mismatches;
-
-        // Get a reference db to check against the others
-        int referencePort = allHashes.keySet().stream().findFirst().orElse(null);
-
-        // Store reference hashes
-        Map<String, String> referenceHashes = allHashes.get(referencePort);
-
-        for (Map.Entry<Integer, Map<String, String>> barrelEntry : allHashes.entrySet()) {
-            int barrelPort = barrelEntry.getKey();
-            if (barrelPort == referencePort) continue;
-
-            Map<String, String> otherHashes = barrelEntry.getValue();
-            List<String> barrelMismatches = new ArrayList<>();
-
-            for (String table : referenceHashes.keySet()) {
-                if (!referenceHashes.get(table).equals(otherHashes.get(table))) {
-                    barrelMismatches.add(table);
-                }
-            }
-
-            if (!barrelMismatches.isEmpty()) {
-                mismatches.put(barrelPort, barrelMismatches);
-            }
-        }
-
-        return mismatches;
-    }
 
     /**
      * Main method for the Gateway.

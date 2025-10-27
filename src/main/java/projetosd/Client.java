@@ -10,7 +10,7 @@ import java.util.concurrent.Callable;
 /**
  * Console for the Gateway RMI server.
  * 
- * @author Jose Amado & JosÃ© Capinha
+ * @author Jose Amado & Joao Capinha
  * @version 1.0
  */
 public class Client {
@@ -23,7 +23,7 @@ public class Client {
     /**
      * Gateway remote interface.
      */
-    private static GatewayInterface gateway;
+    private GatewayInterface gateway;
 
     /**
      * 
@@ -106,7 +106,7 @@ public class Client {
     public static void main(String[] args) {
         Client client = new Client();
 
-        if (gateway == null) {
+        if (client.gateway == null) {
             Log.error("[CLIENT " + client.id + "] Exiting due to no gateway connection.");
             return;
         }
@@ -134,13 +134,13 @@ public class Client {
                         continue;
                     } else if (query.equals("STATS") || query.equals("stats")) {
                         try {
-                            String stats = client.callGateway(() -> gateway.stats(client.id));
+                            String stats = client.callGateway(() -> client.gateway.stats(client.id));
                             System.out.print("\n" + stats + "\n> ");
                         } catch (Exception e) {
                             Log.error("[CLIENT " + client.id + "] Stats failed after retries: " + e.getMessage());
                         }
                         continue;
-                    } else if (query.equals("EXIT")) {
+                    } else if (query.equals("EXIT") || query.equals("exit")) {
                         run = false;
                         System.out.println("=== Exiting. Goodbye! ===");
                     }
@@ -148,7 +148,7 @@ public class Client {
                     switch (mode) {
                         case "SEARCH" -> {
                             try {
-                                String results = client.callGateway(() -> gateway.search(client.id, query));
+                                String results = client.callGateway(() -> client.gateway.search(client.id, query));
                                 System.out.println(results);
                             } catch (Exception e) {
                                 Log.error("[CLIENT " + client.id + "] Search failed after retries: " + e.getMessage());
@@ -156,7 +156,7 @@ public class Client {
                         }
                         case "INDEX" -> {
                             try {
-                                client.callGateway(() -> { gateway.index(query); return null; });
+                                client.callGateway(() -> { client.gateway.index(query); return null; });
                                 System.out.print("- URL sent for indexing.\n");
                             } catch (Exception e) {
                                 Log.error("[CLIENT " + client.id + "] Index failed after retries: " + e.getMessage());
@@ -166,6 +166,5 @@ public class Client {
                     System.out.print("> ");
                 }
             }
-        
     }
 }
