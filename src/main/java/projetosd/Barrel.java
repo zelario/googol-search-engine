@@ -1,5 +1,6 @@
 package projetosd;
 
+import javax.xml.crypto.Data;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -9,11 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Implementation of the Index barrel remote interface.
@@ -188,6 +185,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                     "JOIN words w ON wu.words_word = w.word " +
                     "LEFT JOIN url_url uu ON uu.url_url1 = u.url " +
                     "WHERE w.word IN (" + placeholders + ") " +
+                    "AND u.title != 'Page'" +
                     "GROUP BY u.url, u.title, u.citation " +
                     "HAVING COUNT(DISTINCT w.word) = ? " +
                     "ORDER BY ref_count DESC;";
@@ -285,8 +283,32 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     }
 
     @Override
-    public Map<String, String> getMD5Hash() throws java.rmi.RemoteException{
-        return calcDataBaseMd5Hash();
+    public Map<String, String> getMD5Hash(String tableName) throws java.rmi.RemoteException{
+        if(Objects.equals(tableName, "")) return calcDataBaseMd5Hash();
+
+        return calcRowMD5Hash(tableName);
+    }
+
+    private String[] getColumnsAndOrder(String tableName){
+        String[] colsAndOrder = new String[2];
+
+        colsAndOrder[0] = switch (tableName) {
+            case "url" -> "url, title, citation";
+            case "words" -> "word";
+            case "words_url" -> "words_word, url_url";
+            case "url_url" -> "url_url, url_url1";
+            default -> "*";
+        };
+
+        colsAndOrder[1] = switch (tableName) {
+            case "url" -> "url";
+            case "url_url" -> "url_url";
+            case "words" -> "word";
+            case "words_url" -> "words_word";
+            default -> "*";
+        };
+
+        return colsAndOrder;
     }
 
     /**
@@ -300,21 +322,9 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
         try(java.sql.Connection conn = db.getConnection()){
             for(String table : tables){
-                String columns = switch (table) {
-                    case "url" -> "url, title, citation";
-                    case "words" -> "word";
-                    case "words_url" -> "words_word, url_url";
-                    case "url_url" -> "url_url, url_url1";
-                    default -> "*";
-                };
-
-                String orderColumn = switch (table) {
-                    case "url" -> "url";
-                    case "url_url" -> "url_url";
-                    case "words" -> "word";
-                    case "words_url" -> "words_word";
-                    default -> "*";
-                };
+                String[] tableStuff = this.getColumnsAndOrder(table);
+                String columns = tableStuff[0];
+                String orderColumn = tableStuff[1];
 
                 // This query computes the tables hash using nested aggregation (aggregate of aggregated values, in this case aggregate each row (tables))
                 // and then aggregate all rows for the table, this is very efficient memory-wise
@@ -335,6 +345,35 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         }
         catch (SQLException e){
             Log.error("[BARREL] Error calculating db hashes: " + e.getMessage());
+        }
+
+        return hashes;
+    }
+
+    private Map<String, String> calcRowMD5Hash(String tableName){
+        Database db = new Database(this.port);
+        Map<String, String> hashes = new HashMap<>();
+
+        String[] tableStuff = this.getColumnsAndOrder(tableName);
+        String columns = tableStuff[0];
+        String orderColumns = tableStuff[1];
+
+        try(java.sql.Connection conn = db.getConnection()){
+            String query = String.format("SELECT md5(row(%s)::text) AS row_hash, %s FROM %s ORDER BY %s", columns, orderColumns, tableName, orderColumns);
+
+            try(PreparedStatement stmt = conn.prepareStatement(query)){
+                try(ResultSet rs = stmt.executeQuery()){
+                    while (rs.next()) {
+                        //hashes.put(rs.getString("row_hash"), );
+                    }
+                }
+            }
+            catch (SQLException e){
+                Log.error("[BARREL] Error calculating table row hash: " + e.getMessage());
+            }
+        }
+        catch (SQLException e){
+            Log.error("[BARREL] Error calculating db row hashes: " + e.getMessage());
         }
 
         return hashes;
