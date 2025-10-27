@@ -305,6 +305,11 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         return calcRowMD5Hash(tableName, now);
     }
 
+    /**
+     * Helper method to get columns and the reference column to order queries
+     * @param tableName Name of the table
+     * @return          Table columns and the supposed column to order data
+     */
     private String[] getColumnsAndOrder(String tableName){
         String[] colsAndOrder = new String[2];
 
@@ -369,6 +374,12 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         return hashes;
     }
 
+    /**
+     * Compute MD5 hash for each row of a given table
+     * @param tableName Table to compute hashes
+     * @param now       Timestamp to only sync data not added after sync call
+     * @return          Hash map with md5 hash as key and row data combined in one string as value
+     */
     private Map<String, String> calcRowMD5Hash(String tableName, Timestamp now){
         Database db = new Database(this.port);
         Map<String, String> hashes = new HashMap<>();
@@ -497,6 +508,9 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                 barrel.gateway = (GatewayInterface) reg.lookup("gateway");
                 barrel.gateway.reportBarrelStatus(barrel.port, true);
                 Log.info("[BARREL " + barrel.port + "] Registered with gateway on port: " + Config.GATEWAY_PORT);
+
+                Log.info("[BARREL " + barrel.port + "] Requesting sync to gateway");
+                barrel.gateway.synchBarrels();
             } catch (NotBoundException | RemoteException e) {
                 Log.error("[BARREL " + barrel.port + "] Gateway not available for initial registration: " + e.getMessage());
             }

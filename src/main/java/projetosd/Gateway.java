@@ -176,11 +176,14 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             return;
         }
 
+        Log.warning("[GATEWAY] Barrel mismatch found");
+
         // Get tables row hashes to find missing info
         // barrelPort -> <row hash -> row content>
         Map<Integer, Map<String, Map<String, String>>> rowHashes = new ConcurrentHashMap<>();
         List<CompletableFuture<Void>> futures = new ArrayList<>();
 
+        // FIX: rowHashes is empty for some reason
         for(Integer barrelPort : mismatches.keySet()){
             futures.add(CompletableFuture.runAsync(() -> {
                 for(int i = 0; i < Config.GATEWAY_RETRIES; i++){
@@ -188,7 +191,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                         BarrelInterface b = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
                         Map<String, Map<String, String>> barrelRows = new HashMap<>();
 
-                        for (String table : mismatches.get(barrelPort)) {
+                        List<String> tablesToFetch = mismatches.getOrDefault(barrelPort, List.of("url", "words", "url_url", "words_url"));
+                        for (String table : tablesToFetch) {
                             barrelRows.put(table, b.getMD5Hash(table, syncTime));
                         }
 
