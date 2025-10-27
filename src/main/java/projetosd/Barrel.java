@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -296,10 +297,10 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     }
 
     @Override
-    public Map<String, String> getMD5Hash(String tableName) throws java.rmi.RemoteException{
-        if(Objects.equals(tableName, "") || Objects.equals(tableName ," ")) return calcDataBaseMd5Hash();
+    public Map<String, String> getMD5Hash(String tableName, Timestamp now) throws java.rmi.RemoteException{
+        if(Objects.equals(tableName, "") || Objects.equals(tableName ," ")) return calcDataBaseMd5Hash(now);
 
-        return calcRowMD5Hash(tableName);
+        return calcRowMD5Hash(tableName, now);
     }
 
     private String[] getColumnsAndOrder(String tableName){
@@ -328,7 +329,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * Method to calculate MD5 hash for each table to later verify db states
      * @return  Map with tables as keys as hashes as values
      */
-    private Map<String, String> calcDataBaseMd5Hash(){
+    private Map<String, String> calcDataBaseMd5Hash(Timestamp now){
         Database db = new Database(this.port);
         Map<String, String> hashes = new HashMap<>();
         String[] tables = {"words", "url", "words_url", "url_url"};
@@ -339,11 +340,14 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                 String columns = tableStuff[0];
                 String orderColumn = tableStuff[1];
 
+                String extraColumn = table.equals("url") ? "updated_at" : "created_at";
+
                 // This query computes the tables hash using nested aggregation (aggregate of aggregated values, in this case aggregate each row (tables))
                 // and then aggregate all rows for the table, this is very efficient memory-wise
-                String query = String.format("SELECT md5(string_agg(md5(row(%s)::text), '' ORDER BY %s)) AS table_hash FROM %s t;", columns, orderColumn, table);
+                String query = String.format("SELECT md5(string_agg(md5(row(%s)::text), '' ORDER BY %s)) AS table_hash FROM %s t WHERE %s < ?;", columns, orderColumn, table, extraColumn);
 
                 try(PreparedStatement stmt = conn.prepareStatement(query)){
+                    stmt.setTimestamp(1, now);
                     try(ResultSet rs = stmt.executeQuery()){
                         if (rs.next()) {
                             String tableHash = rs.getString("table_hash");
@@ -363,7 +367,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         return hashes;
     }
 
-    private Map<String, String> calcRowMD5Hash(String tableName){
+    private Map<String, String> calcRowMD5Hash(String tableName, Timestamp now){
         Database db = new Database(this.port);
         Map<String, String> hashes = new HashMap<>();
 
@@ -374,9 +378,10 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         String extraColumn = tableName.equals("url") ? "updated_at" : "created_at";
 
         try(java.sql.Connection conn = db.getConnection()){
-            String query = String.format("SELECT md5(row(%s)::text) AS row_hash, CONCAT_WS('|', %s, %s) AS combined_columns FROM %s ORDER BY %s", columns, columns, extraColumn, tableName, orderColumns);
+            String query = String.format("SELECT md5(row(%s)::text) AS row_hash, CONCAT_WS('|', %s, %s) AS combined_columns FROM %s WHERE %s < ? ORDER BY %s", columns, columns, extraColumn, tableName, extraColumn, orderColumns);
 
             try(PreparedStatement stmt = conn.prepareStatement(query)){
+                stmt.setTimestamp(1, now);
                 try(ResultSet rs = stmt.executeQuery()){
                     while (rs.next()) {
                         hashes.put(rs.getString("row_hash"), rs.getString("combined_columns"));

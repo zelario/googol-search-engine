@@ -1,6 +1,7 @@
 package projetosd;
 
 import java.rmi.Remote;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,5 +57,5 @@ public interface BarrelInterface extends Remote {
      * RMI Method to calculate MD5 hash. If a table name is passed it computes the table hash per row, if not it computes for each table
      * @return  Map with tables as keys as hashes as values
      */
-    Map<String, String> getMD5Hash(String tableName) throws java.rmi.RemoteException;
+    Map<String, String> getMD5Hash(String tableName, Timestamp now) throws java.rmi.RemoteException;
 }

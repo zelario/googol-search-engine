@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Implementation of the GatewayInterface for clients.
@@ -112,7 +114,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
                 barrel.ping();
 
-                barrelHashes.put(barrelPort, barrel.getMD5Hash(""));
+                barrelHashes.put(barrelPort, barrel.getMD5Hash("", Timestamp.valueOf(LocalDateTime.now())));
             }
 
             catch (NotBoundException | RemoteException ignored){
