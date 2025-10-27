@@ -3,6 +3,7 @@ package projetosd;
 import java.rmi.Remote;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -58,4 +59,12 @@ public interface BarrelInterface extends Remote {
      * @return  Map with tables as keys as hashes as values
      */
     Map<String, String> getMD5Hash(String tableName, Timestamp now) throws java.rmi.RemoteException;
+
+    /**
+     * Method called by the gateway to insert missing info from other barrels
+     * @param table     Table to insert content into
+     * @param content   Missing data from the db
+     * @throws java.rmi.RemoteException RMI Exception
+     */
+    void insertMissingRows(String table, Collection<String> content) throws java.rmi.RemoteException;
 }

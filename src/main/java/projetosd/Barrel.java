@@ -10,12 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Implementation of the Index barrel remote interface.
@@ -62,6 +57,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @return              Boolean to indicate success or not
      */
     @Override
+    @SuppressWarnings("BusyWait")
     public boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls){
         Database db = new Database(this.port);
 
@@ -432,6 +428,11 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         }
     }
 
+    @Override
+    public void insertMissingRows(String table, Collection<String> content) throws java.rmi.RemoteException{
+
+    }
+
     /**
      * Main for Barrel. Starts the RMI registry and binds the barrel.
      * @param args Command-line arguments
@@ -450,7 +451,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             registry.rebind("barrel", barrel);
             Log.info("[BARREL " + barrel.port + "] Running on port: " + barrel.port);
 
-            // Notify gateway that this barrel is up and bound so the gateway can lookup it successfully
+            // Notify gateway that this barrel is up and bound so the gateway can look it up successfully
             try {
                 Registry reg = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
                 barrel.gateway = (GatewayInterface) reg.lookup("gateway");

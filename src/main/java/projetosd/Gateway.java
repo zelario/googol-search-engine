@@ -12,7 +12,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of the GatewayInterface for clients.
@@ -61,6 +63,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Select an available barrel entry (port + barrel instance) by pinging them.
      * @return Map entry of selected barrel port and instance, or null if none available
      */
+    @SuppressWarnings("BusyWait")
     private Map.Entry<Integer, BarrelInterface> selectBarrel() { 
         List<Map.Entry<Integer, BarrelInterface>> entries = new ArrayList<>(barrels.entrySet());
         while (!entries.isEmpty()) {
@@ -106,7 +109,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Method to get barrel all hashes to check consistency
      * @return Map with ports as keys and as values hash maps with tables as keys as the MD5 hashes as values
      */
-    private Map<Integer, Map<String, String>> barrelHashes(){
+    private Map<Integer, Map<String, String>> barrelHashes(Timestamp now){
         Map<Integer, Map<String, String>> barrelHashes = new HashMap<>();
 
         for(Integer barrelPort : Config.BARREL_PORTS) {
@@ -114,7 +117,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
                 barrel.ping();
 
-                barrelHashes.put(barrelPort, barrel.getMD5Hash("", Timestamp.valueOf(LocalDateTime.now())));
+                barrelHashes.put(barrelPort, barrel.getMD5Hash("", now));
             }
 
             catch (NotBoundException | RemoteException ignored){
@@ -128,9 +131,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Method to check all barrel hashes and compare to find mismatches
      * @return HashMap with ports as keys and a list of table names where mismatches were found as value
      */
-    private Map<Integer, List<String>> barrelMismatches(){
+    private Map<Integer, List<String>>  barrelMismatches(Timestamp now){
         Map<Integer, List<String>> mismatches = new HashMap<>();
-        Map<Integer, Map<String, String>> allHashes = this.barrelHashes();
+        Map<Integer, Map<String, String>> allHashes = this.barrelHashes(now);
 
         // No more than 1 barrel, no sync needed
         if (allHashes.size() <= 1) return mismatches;
@@ -163,10 +166,99 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     }
 
     @Override
+    @SuppressWarnings("BusyWait")
     public void synchBarrels() throws RemoteException {
-        Map<Integer, List<String>> mismatches = barrelMismatches();
+        Timestamp syncTime = Timestamp.valueOf(LocalDateTime.now());
+        Map<Integer, List<String>> mismatches = barrelMismatches(syncTime);
 
+        if(mismatches.isEmpty()){
+            Log.info("[GATEWAY] Found no mismatches in barrels");
+            return;
+        }
 
+        // Get tables row hashes to find missing info
+        // barrelPort -> <row hash -> row content>
+        Map<Integer, Map<String, Map<String, String>>> rowHashes = new ConcurrentHashMap<>();
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+        for(Integer barrelPort : mismatches.keySet()){
+            futures.add(CompletableFuture.runAsync(() -> {
+                for(int i = 0; i < Config.GATEWAY_RETRIES; i++){
+                    try{
+                        BarrelInterface b = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
+                        Map<String, Map<String, String>> barrelRows = new HashMap<>();
+
+                        for (String table : mismatches.get(barrelPort)) {
+                            barrelRows.put(table, b.getMD5Hash(table, syncTime));
+                        }
+
+                        rowHashes.put(barrelPort, barrelRows);
+                    } catch (NotBoundException | RemoteException e) {
+                        if (i < Config.GATEWAY_RETRIES) {
+                            try {
+                                Thread.sleep((long) (Config.GATEWAY_BACKOFF * Math.pow(2, i - 1)));
+                            } catch (InterruptedException ie) {
+                                Thread.currentThread().interrupt();
+                                break;
+                            }
+                        }
+                        else Log.error("[GATEWAY] Failed to connect to barrel to sync:" + e.getMessage());
+                    }
+                }
+            }));
+        }
+
+        // Wait for the async fetches
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+
+        // Get all rows in all barrels
+        // Table -> <row hash -> row content>
+        Map<String, Map<String, String>> globalRows = new HashMap<>();
+        for (Map<String, Map<String, String>> barrelData : rowHashes.values()) {
+            for (Map.Entry<String, Map<String, String>> tableEntry : barrelData.entrySet()) {
+                String table = tableEntry.getKey();
+                globalRows.computeIfAbsent(table, k -> new HashMap<>())
+                        .putAll(tableEntry.getValue());
+            }
+        }
+
+        // finally introduce missing data into barrels by filtering which rows are not present in each barrel
+        futures.clear();
+        for (Integer barrelPort : rowHashes.keySet()) {
+            Map<String, Map<String, String>> barrelData = rowHashes.get(barrelPort);
+            futures.add(CompletableFuture.runAsync(() -> {
+                for(int i = 0; i < Config.GATEWAY_RETRIES; i++){
+                    try {
+                        BarrelInterface b = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
+
+                        for (String table : barrelData.keySet()) {
+                            Map<String, String> barrelTable = barrelData.get(table);
+                            Map<String, String> missingRows = globalRows.get(table).entrySet().stream()
+                                    .filter(e -> !barrelTable.containsKey(e.getKey()))
+                                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+                            if (!missingRows.isEmpty()) {
+                                b.insertMissingRows(table, missingRows.values());
+                            }
+                        }
+
+                    } catch (RemoteException | NotBoundException e) {
+                        if (i < Config.GATEWAY_RETRIES) {
+                            try {
+                                Thread.sleep((long) (Config.GATEWAY_BACKOFF * Math.pow(2, i - 1)));
+                            } catch (InterruptedException ie) {
+                                Thread.currentThread().interrupt();
+                                break;
+                            }
+                        }
+                        else Log.error("[GATEWAY] Failed to connect to barrel to sync (and insert data):" + e.getMessage());
+                    }
+                }
+            }));
+        }
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        Log.info("[GATEWAY] Barrel sync completed");
     }
 
     //------------------ CALLBACK FUNCTIONS ------------------//
@@ -184,7 +276,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 Registry registry = LocateRegistry.getRegistry(barrelPort);
                 BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
                 barrels.put(barrelPort, barrel);
-                stats.updateBarrelIndexSize(barrelPort, 0);
+                stats.updateBarrelIndexSize(barrelPort, 0L);
                 Log.info("[GATEWAY] Barrel " + barrelPort + " registered.");
             } catch (NotBoundException | RemoteException e) {
                 Log.error("[GATEWAY] Failed to register barrel " + barrelPort + ": " + e.getMessage());
@@ -200,7 +292,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Callback: Barrels report index size updates for stats.
      * @param barrelPort Barrel port
      * @param indexSize  Current index size
-     * @param urlsParsed Total URLs parsed
      */
     @Override
     public void reportIndexStats(int barrelPort, int indexSize) throws RemoteException {
@@ -252,6 +343,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @throws RemoteException RMI exception
      */
     @Override
+    @SuppressWarnings("BusyWait")
     public String search(String clientId, String query, int pageNumber) throws RemoteException {
         Log.info("[GATEWAY] Client " + clientId + " searching for query: " + query);
 

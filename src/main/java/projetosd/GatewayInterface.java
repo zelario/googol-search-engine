@@ -60,7 +60,7 @@ public interface GatewayInterface extends Remote {
     String stats(String clientId) throws RemoteException;
 
     /**
-     * Method that checks and handles database synchronization
+     * Method that asynchronously checks and handles database synchronization
      * @throws RemoteException RMI Exception
      */
     void synchBarrels() throws RemoteException;
