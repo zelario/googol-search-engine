@@ -429,8 +429,48 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     }
 
     @Override
+    @SuppressWarnings("SqlSourceToSinkFlow")
     public void insertMissingRows(String table, Collection<String> content) throws java.rmi.RemoteException{
+        Database db = new Database(this.port);
 
+        String columns = getColumnsAndOrder(table)[0];
+        String conflictHandling = table.equals("url") ? "DO UPDATE SET updated_at = NOW() " : "DO NOTHING";
+
+        try(java.sql.Connection conn = db.getConnection()){
+            conn.setAutoCommit(false);
+
+            PreparedStatement stmt = null;
+            String currentQuery = null;
+
+            for (String rawData: content){
+                // Double backlash because this is regex
+                String[] values = rawData.split("\\|");
+                String placeholders = String.join(",", Collections.nCopies(values.length, "?"));
+
+                String query = String.format("INSERT INTO %s (%s) VALUES (%s) ON CONFLICT %s", table, columns, placeholders, conflictHandling);
+
+                // Prepare statement only once per query pattern
+                if (stmt == null || !query.equals(currentQuery)) {
+                    if (stmt != null) stmt.executeBatch();
+                    stmt = conn.prepareStatement(query);
+                    currentQuery = query;
+                }
+
+                for (int i = 0; i < values.length; i++) {
+                    stmt.setString(i + 1, values[i]);
+                }
+
+                stmt.addBatch();
+            }
+
+            if(stmt != null) stmt.executeBatch();
+            conn.commit();
+
+            if(stmt != null) stmt.close();
+        }
+        catch (SQLException e){
+            Log.error("[BARREL] Could not insert missing data in barrel: " + e.getMessage());
+        }
     }
 
     /**
