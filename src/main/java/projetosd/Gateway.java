@@ -160,6 +160,11 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         return mismatches;
     }
 
+    @Override
+    public void synchBarrels() throws RemoteException {
+
+    }
+
     //------------------ CALLBACK FUNCTIONS ------------------//
 
     /**

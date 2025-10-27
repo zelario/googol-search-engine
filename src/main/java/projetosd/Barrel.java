@@ -1,6 +1,5 @@
 package projetosd;
 
-import javax.xml.crypto.Data;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -298,7 +297,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
     @Override
     public Map<String, String> getMD5Hash(String tableName) throws java.rmi.RemoteException{
-        if(Objects.equals(tableName, "")) return calcDataBaseMd5Hash();
+        if(Objects.equals(tableName, "") || Objects.equals(tableName ," ")) return calcDataBaseMd5Hash();
 
         return calcRowMD5Hash(tableName);
     }
@@ -372,13 +371,15 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         String columns = tableStuff[0];
         String orderColumns = tableStuff[1];
 
+        String extraColumn = tableName.equals("url") ? "updated_at" : "created_at";
+
         try(java.sql.Connection conn = db.getConnection()){
-            String query = String.format("SELECT md5(row(%s)::text) AS row_hash, %s FROM %s ORDER BY %s", columns, orderColumns, tableName, orderColumns);
+            String query = String.format("SELECT md5(row(%s)::text) AS row_hash, CONCAT_WS('|', %s, %s) AS combined_columns FROM %s ORDER BY %s", columns, columns, extraColumn, tableName, orderColumns);
 
             try(PreparedStatement stmt = conn.prepareStatement(query)){
                 try(ResultSet rs = stmt.executeQuery()){
                     while (rs.next()) {
-                        //hashes.put(rs.getString("row_hash"), );
+                        hashes.put(rs.getString("row_hash"), rs.getString("combined_columns"));
                     }
                 }
             }
