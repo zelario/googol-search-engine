@@ -148,7 +148,7 @@ public class Client {
                     switch (mode) {
                         case "SEARCH" -> {
                             try {
-                                String results = client.callGateway(() -> client.gateway.search(client.id, query));
+                                String results = client.callGateway(() -> client.gateway.search(client.id, query, 1));
                                 System.out.println(results);
                             } catch (Exception e) {
                                 Log.error("[CLIENT " + client.id + "] Search failed after retries: " + e.getMessage());
@@ -157,7 +157,7 @@ public class Client {
                         case "INDEX" -> {
                             try {
                                 client.callGateway(() -> { client.gateway.index(query); return null; });
-                                System.out.print("- URL sent for indexing.\n");
+                                System.out.print("\n- URL sent for indexing.\n\n");
                             } catch (Exception e) {
                                 Log.error("[CLIENT " + client.id + "] Index failed after retries: " + e.getMessage());
                             }

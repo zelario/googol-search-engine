@@ -243,7 +243,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @throws RemoteException RMI exception
      */
     @Override
-    public String search(String clientId, String query) throws RemoteException {
+    public String search(String clientId, String query, int pageNumber) throws RemoteException {
         Log.info("[GATEWAY] Client " + clientId + " searching for query: " + query);
 
         String[] terms = Arrays.stream(query.split("\\s+"))
@@ -261,39 +261,32 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             BarrelInterface barrel = entry.getValue();
             int barrelPort = entry.getKey();
             try {
-                List<Page> pages = barrel.searchQuery(query, terms);
+                List<Page> pages = barrel.searchQuery(query, terms, pageNumber);
                 if (pages == null || pages.isEmpty()) {
                     return "No results found.";
                 }
 
-                // build formatted string
-                StringBuilder out = new StringBuilder();
-                int globalIndex = 1;
-                int group = 0;
-                for (int i = 0; i < pages.size(); i += 10) {
-                    group++;
-                    int to = Math.min(i + 10, pages.size());
-                    List<Page> pageList = pages.subList(i, to);
-                    out.append(System.lineSeparator());
-                    out.append("=== Results group ").append(group).append(" (showing ").append(pageList.size()).append(") ===").append(System.lineSeparator()).append(System.lineSeparator());
+                StringBuilder sb = new StringBuilder();
+                int startIndex = (pageNumber - 1) * 10 + 1;
+                sb.append(String.format("=== Search results ===\n-Page %d\n\n", pageNumber));
 
-                    for (Page p : pageList) {
-                        String title = p.getTitle() == null || p.getTitle().isBlank() ? "(no title)" : p.getTitle();
-                        String snippet = p.getSnippet() == null ? "" : p.getSnippet();
-
-                        out.append(String.format("%3d) %s", globalIndex, title)).append(System.lineSeparator());
-                        out.append("     URL: ").append(p.getUrl()).append(System.lineSeparator());
-                        if (!snippet.isBlank()) {
-                            String sn = snippet.length() > 140 ? snippet.substring(0, 137) + "..." : snippet;
-                            out.append("     Snippet: ").append(sn).append(System.lineSeparator());
-                        }
-                        out.append("     ").append("-".repeat(40)).append(System.lineSeparator());
-                        globalIndex++;
+                for (int i = 0; i < pages.size(); i++) {
+                    Page p = pages.get(i);
+                    int num = startIndex + i;
+                    sb.append(String.format("%d) %s\n", num, p.getTitle() == null || p.getTitle().isBlank() ? "(no title)" : p.getTitle()));
+                    sb.append(String.format("   %s\n", p.getUrl()));
+                    String snippet = p.getSnippet() == null ? "" : p.getSnippet();
+                    if (!snippet.isBlank()) {
+                        sb.append(String.format("   \"%s\"\n", snippet.length() > 200 ? snippet.substring(0, 200) + "..." : snippet));
                     }
+                    sb.append("\n");
                 }
 
+                sb.append("---\n");
+                sb.append("Commands: next, prev, stats, End\n");
+
                 Log.info("[GATEWAY] Client " + clientId + " search completed successfully on barrel " + barrelPort + " on attempt " + attempt + ".");
-                return out.toString();
+                return sb.toString();
 
             } catch (RemoteException e) {
                 Log.error("[GATEWAY] Search failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying.");
