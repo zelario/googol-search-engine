@@ -25,6 +25,9 @@ public class Client {
      */
     private GatewayInterface gateway;
 
+    /**
+     * Current page number for search pagination.
+     */
     private static int pageNumber;
 
     /**
@@ -162,12 +165,10 @@ public class Client {
                                         break;
                                     } else if(command.equalsIgnoreCase("next")){
                                         pageNumber++;
-                                        continue;
                                     } else if(command.equalsIgnoreCase("prev")){
                                         pageNumber--;
-                                        continue;
                                     } else {
-                                        System.out.print("Invalid command. ");
+                                        System.out.print("\nInvalid command.\n ");
                                     }
                                 }
                             } catch (Exception e) {

@@ -17,15 +17,14 @@ public interface GatewayInterface extends Remote {
      * @param status Status message
      * @throws RemoteException RMI Exception
      */
-    void callbackBarrelStatus(int barrelPort, boolean status) throws RemoteException;
+    void reportBarrelStatus(int barrelPort, boolean status) throws RemoteException;
 
     /*
      * CALLBACK: Notifies the Gateway to update statistics from a Barrel.
      * @param barrelPort Barrel port
      * @param indexSize Size of Barrel index
-     * @param urlsParsed Number of URLs processed
      */
-    void callbackBarrelStats(int barrelPort, int indexSize, long urlsParsed) throws RemoteException;
+    void reportIndexStats(int barrelPort, int indexSize) throws RemoteException;
 
     /**
      * CALLBACK: Notifies the Gateway that a search has been completed by a Barrel.
@@ -34,7 +33,7 @@ public interface GatewayInterface extends Remote {
      * @param responseTime Response time in ms
      * @throws RemoteException RMI Exception
      */
-    void callbackSearchCompleted(int barrelPort, String queryId, long responseTime) throws RemoteException;
+    void reportSearchStats(int barrelPort, String queryId, long responseTime) throws RemoteException;
 
     /**
      * Submit a URL to be indexed.

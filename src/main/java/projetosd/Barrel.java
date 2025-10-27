@@ -10,7 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Implementation of the Index barrel remote interface.
@@ -140,6 +145,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                 }
 
                 Log.url("[BARREL " + port + "] Inserted url into database: " + url);
+                reportIndexSize();
                 return true;
 
             } catch (SQLException e){
@@ -226,9 +232,9 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         long responseTime = System.currentTimeMillis() - startTime;
 
         try {
-            gateway.callbackSearchCompleted(port, rawQuery, responseTime);
+            gateway.reportSearchStats(port, rawQuery, responseTime);
         } catch (RemoteException e) {
-            Log.error("[BARREL " + port + "] Failed to callback gateway: " + e.getMessage());
+            Log.error("[BARREL " + port + "] Failed to report search stats to gateway: " + e.getMessage());
         }
 
         return pages;
@@ -400,6 +406,33 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     }
 
     /**
+     * Fetches the current index size and reports it to the gateway.
+     */
+    private void reportIndexSize(){
+        Database db = new Database(this.port);
+        String query = "SELECT COUNT(*) AS index_size FROM words_url;";
+
+        try (java.sql.Connection conn = db.getConnection()){
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+            try (ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    int indexSize = rs.getInt("index_size");
+
+                    try {
+                        gateway.reportIndexStats(port, indexSize);
+                    } catch (RemoteException e) {
+                        Log.error("[BARREL " + port + "] Failed to report index stats to gateway: " + e.getMessage());
+                    }
+                }
+            }
+        }
+        catch (SQLException e){
+            Log.error("[BARREL] Error fetching index size: " + e.getMessage());
+        }
+    }
+
+    /**
      * Main for Barrel. Starts the RMI registry and binds the barrel.
      * @param args Command-line arguments
      */
@@ -421,19 +454,10 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             try {
                 Registry reg = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
                 barrel.gateway = (GatewayInterface) reg.lookup("gateway");
-                barrel.gateway.callbackBarrelStatus(barrel.port, true);
+                barrel.gateway.reportBarrelStatus(barrel.port, true);
                 Log.info("[BARREL " + barrel.port + "] Registered with gateway on port: " + Config.GATEWAY_PORT);
             } catch (NotBoundException | RemoteException e) {
                 Log.error("[BARREL " + barrel.port + "] Gateway not available for initial registration: " + e.getMessage());
-            }
-
-            try {
-                registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
-                barrel.gateway = (GatewayInterface) registry.lookup("gateway");
-                Log.info("[BARREL " + barrel.port + "] Connected to gateway on port: " + Config.GATEWAY_PORT);
-                barrel.gateway.callbackBarrelStatus(barrel.port, true);
-            } catch (NotBoundException | RemoteException e) {
-                Log.error("[BARREL " + barrel.port + "] Gateway not available: " + e.getMessage());
             }
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -442,7 +466,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                         Registry reg = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
                         barrel.gateway = (GatewayInterface) reg.lookup("gateway");
                     }
-                    barrel.gateway.callbackBarrelStatus(barrel.port, false);
+                    barrel.gateway.reportBarrelStatus(barrel.port, false);
                     Log.info("[BARREL " + barrel.port + "] Shutdown notification sent to gateway. Exiting.");
                 } catch (NotBoundException | RemoteException e) {
                     Log.error("[BARREL " + barrel.port + "] Failed to notify gateway on shutdown: " + e.getMessage());

@@ -5,14 +5,14 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 /**
  * Implementation of the GatewayInterface for clients.
@@ -178,13 +178,13 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @throws RemoteException RMI exception
      */
     @Override
-    public void callbackBarrelStatus(int barrelPort, boolean status) throws RemoteException {
+    public void reportBarrelStatus(int barrelPort, boolean status) throws RemoteException {
         if (status) {
             try {
                 Registry registry = LocateRegistry.getRegistry(barrelPort);
                 BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
                 barrels.put(barrelPort, barrel);
-                stats.updateBarrelIndexSize(barrelPort, 0L);  //TODO ir à base de dados buscar o tamanho atual do índice
+                stats.updateBarrelIndexSize(barrelPort, 0);
                 Log.info("[GATEWAY] Barrel " + barrelPort + " registered.");
             } catch (NotBoundException | RemoteException e) {
                 Log.error("[GATEWAY] Failed to register barrel " + barrelPort + ": " + e.getMessage());
@@ -197,15 +197,15 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     }
 
     /**
-     * Callback: Barrels send periodic stats updates.
+     * Callback: Barrels report index size updates for stats.
      * @param barrelPort Barrel port
      * @param indexSize  Current index size
      * @param urlsParsed Total URLs parsed
      */
     @Override
-    public void callbackBarrelStats(int barrelPort, int indexSize, long urlsParsed) throws RemoteException {
+    public void reportIndexStats(int barrelPort, int indexSize) throws RemoteException {
         stats.updateBarrelIndexSize(barrelPort, indexSize);
-        Log.info("[GATEWAY] Stats updated from barrel " + barrelPort + ": indexSize=" + indexSize + ", urlsParsed=" + urlsParsed);
+        Log.info("[GATEWAY] Stats updated from barrel " + barrelPort + ": indexSize=" + indexSize);
     }
 
     /**
@@ -216,10 +216,10 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @throws RemoteException RMI exception
      */
     @Override
-    public void callbackSearchCompleted(int barrelPort, String query, long responseTime) throws RemoteException {
+    public void reportSearchStats(int barrelPort, String query, long responseTime) throws RemoteException {
         stats.updateQueryOccurrence(query);
         stats.updateSearchTime(barrelPort, responseTime);
-        Log.info("[GATEWAY] Search completed on barrel" + barrelPort + " for query " + query + " in " + responseTime + " ms");
+        Log.info("[GATEWAY] Search completed on barrel " + barrelPort + " for query " + query + " in " + responseTime + " ms");
     }
 
     //---------------- END CALLBACK FUNCTIONS -------------//
