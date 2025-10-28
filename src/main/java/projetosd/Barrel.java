@@ -423,34 +423,26 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         try(java.sql.Connection conn = db.getConnection()){
             conn.setAutoCommit(false);
 
-            PreparedStatement stmt = null;
-            String currentQuery = null;
+            int numColumns = columns.split(",").length;
+            String placeholders = String.join(",", Collections.nCopies(numColumns, "?"));
+            String query = String.format("INSERT INTO %s (%s) VALUES (%s) ON CONFLICT %s", table, columns, placeholders, conflictHandling);
 
-            for (String rawData: content){
-                // Double backlash because this is regex
-                String[] values = rawData.split("\\|");
-                String placeholders = String.join(",", Collections.nCopies(values.length, "?"));
+            try(PreparedStatement stmt = conn.prepareStatement(query)){
+                for (String rawData: content){
+                    // Double backlash because this is regex
+                    String[] values = rawData.split("\\|");
 
-                String query = String.format("INSERT INTO %s (%s) VALUES (%s) ON CONFLICT %s", table, columns, placeholders, conflictHandling);
+                    for (int i = 0; i < values.length; i++) {
+                        stmt.setString(i + 1, values[i]);
+                    }
 
-                // Prepare statement only once per query pattern
-                if (stmt == null || !query.equals(currentQuery)) {
-                    if (stmt != null) stmt.executeBatch();
-                    stmt = conn.prepareStatement(query);
-                    currentQuery = query;
+                    stmt.addBatch();
                 }
 
-                for (int i = 0; i < values.length; i++) {
-                    stmt.setString(i + 1, values[i]);
-                }
-
-                stmt.addBatch();
+                stmt.executeBatch();
             }
 
-            if(stmt != null) stmt.executeBatch();
             conn.commit();
-
-            if(stmt != null) stmt.close();
         }
         catch (SQLException e){
             Log.error("[BARREL] Could not insert missing data in barrel: " + e.getMessage());
