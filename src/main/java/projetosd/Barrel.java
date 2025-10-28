@@ -323,7 +323,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
         colsAndOrder[1] = switch (tableName) {
             case "url" -> "url";
-            case "url_url" -> "url_url";
+            case "url_url" -> "url_url, url_url1";
             case "words" -> "word";
             case "words_url" -> "words_word";
             default -> "*";
