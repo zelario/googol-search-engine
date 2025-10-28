@@ -196,6 +196,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                     } catch (NotBoundException | RemoteException e) {
                         if (i < Config.GATEWAY_RETRIES) {
                             try {
+                                Log.warning("[GATEWAY] Failed connection attempt");
                                 Thread.sleep((long) (Config.GATEWAY_BACKOFF * Math.pow(2, i - 1)));
                             } catch (InterruptedException ie) {
                                 Thread.currentThread().interrupt();
@@ -244,7 +245,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
                             if (!missingRows.isEmpty()) {
-                                b.insertMissingRows(table, missingRows.values());
+                                b.insertMissingRows(table, new ArrayList<>(missingRows.values()));
                             }
                         }
 

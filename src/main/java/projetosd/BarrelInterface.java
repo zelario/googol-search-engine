@@ -3,7 +3,6 @@ package projetosd;
 import java.rmi.Remote;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -66,5 +65,5 @@ public interface BarrelInterface extends Remote {
      * @param content   Missing data from the db
      * @throws java.rmi.RemoteException RMI Exception
      */
-    void insertMissingRows(String table, Collection<String> content) throws java.rmi.RemoteException;
+    void insertMissingRows(String table, ArrayList<String> content) throws java.rmi.RemoteException;
 }

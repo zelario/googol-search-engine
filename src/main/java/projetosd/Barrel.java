@@ -292,7 +292,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             }
         }
         catch (Exception e){
-            Log.error("[DOWNLOADER] Error fetching pages: " + e.getMessage());
+            Log.error("[BARREL] Error fetching pages: " + e.getMessage());
         }
 
         return words;
@@ -391,7 +391,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         String extraColumn = tableName.equals("url") ? "updated_at" : "created_at";
 
         try(java.sql.Connection conn = db.getConnection()){
-            String query = String.format("SELECT md5(row(%s)::text) AS row_hash, CONCAT_WS('|', %s) AS combined_columns FROM %s WHERE %s < ? ORDER BY %s", columns, columns, tableName, extraColumn, orderColumns);
+            String query = String.format("SELECT md5(row(%s)::text) AS row_hash, CONCAT_WS(E'\\001', %s) AS combined_columns FROM %s WHERE %s < ? ORDER BY %s", columns, columns, tableName, extraColumn, orderColumns);
 
             try(PreparedStatement stmt = conn.prepareStatement(query)){
                 stmt.setTimestamp(1, now);
@@ -414,23 +414,23 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
     @Override
     @SuppressWarnings("SqlSourceToSinkFlow")
-    public void insertMissingRows(String table, Collection<String> content) throws java.rmi.RemoteException{
+    public void insertMissingRows(String table, ArrayList<String> content) throws java.rmi.RemoteException{
         Database db = new Database(this.port);
 
         String columns = getColumnsAndOrder(table)[0];
-        String conflictHandling = table.equals("url") ? "DO UPDATE SET updated_at = NOW() " : "DO NOTHING";
+        String conflictHandling = table.equals("url") ? "(url) DO UPDATE SET updated_at = NOW() " : "DO NOTHING";
 
         try(java.sql.Connection conn = db.getConnection()){
             conn.setAutoCommit(false);
 
-            int numColumns = columns.split(",").length;
+            int numColumns = columns.split(",", -1).length;
             String placeholders = String.join(",", Collections.nCopies(numColumns, "?"));
             String query = String.format("INSERT INTO %s (%s) VALUES (%s) ON CONFLICT %s", table, columns, placeholders, conflictHandling);
 
             try(PreparedStatement stmt = conn.prepareStatement(query)){
                 for (String rawData: content){
                     // Double backlash because this is regex
-                    String[] values = rawData.split("\\|");
+                    String[] values = rawData.split("\u0001", -1);
 
                     for (int i = 0; i < values.length; i++) {
                         stmt.setString(i + 1, values[i]);
