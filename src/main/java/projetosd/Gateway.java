@@ -222,6 +222,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             }
         }
 
+        // Force order on insertion
+        List<String> tableInsertOrder = List.of("words", "url", "words_url", "url_url");
+
         // finally introduce missing data into barrels by filtering which rows are not present in each barrel
         futures.clear();
         for (Integer barrelPort : rowHashes.keySet()) {
@@ -232,7 +235,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                         BarrelInterface b = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
                         b.ping();
 
-                        for (String table : barrelData.keySet()) {
+                        for (String table : tableInsertOrder) {
+                            if(!barrelData.containsKey(table)) continue;
+
                             Map<String, String> barrelTable = barrelData.get(table);
                             Map<String, String> missingRows = globalRows.get(table).entrySet().stream()
                                     .filter(e -> !barrelTable.containsKey(e.getKey()))
