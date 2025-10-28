@@ -12,7 +12,7 @@
 
 --- Tolerância a Falhas e Processamento Paralelo ---
 
-0 - A informação é idêntica em todos os storage barrels (reliable multicast)
+0.5 - A informação é idêntica em todos os storage barrels (reliable multicast)
 1 - Serviço correto se funcionar pelo menos um storage barrel e a gateway
 0 - Os storage barrels recuperam o seu estado se avariarem (crash)
 0 - Balanceamento da carga nas pesquisas sobre os storage barrels
@@ -40,7 +40,7 @@
 0 - Aprendizagem computacional distribuída num trabalho de grupo de 2 alunos (5p)
 0 - Uso de estruturas avançadas tais como filtro de Bloom, mapa WordID->DocIDs (5p)
 0 - Pesquisas avançadas e melhores algoritmos de ranking de páginas (4p)
-0 - Novo storage barrel sincroniza-se com os existentes (5p)
+1 - Novo storage barrel sincroniza-se com os existentes (5p)
 0 - Cache de pesquisas recentes no gateway (especificado apenas no enunciado)
 
 --- No dia da defesa ---
