@@ -131,8 +131,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Method to check all barrel hashes and compare to find mismatches
      * @return HashMap with ports as keys and a list of table names where mismatches were found as value
      */
-    private Map<Integer, List<String>>  barrelMismatches(Timestamp now){
-        Map<Integer, List<String>> mismatches = new HashMap<>();
+    private List<String>  barrelMismatches(Timestamp now){
+        List<String> mismatches = new ArrayList<>();
         Map<Integer, Map<String, String>> allHashes = this.barrelHashes(now);
 
         // No more than 1 barrel, no sync needed
@@ -149,17 +149,13 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             if (barrelPort == referencePort) continue;
 
             Map<String, String> otherHashes = barrelEntry.getValue();
-            List<String> barrelMismatches = new ArrayList<>();
 
             for (String table : referenceHashes.keySet()) {
                 if (!referenceHashes.get(table).equals(otherHashes.get(table))) {
-                    barrelMismatches.add(table);
+                    mismatches.add(table);
                 }
             }
 
-            if (!barrelMismatches.isEmpty()) {
-                mismatches.put(barrelPort, barrelMismatches);
-            }
         }
 
         return mismatches;
@@ -169,7 +165,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     @SuppressWarnings("BusyWait")
     public void synchBarrels() throws RemoteException {
         Timestamp syncTime = Timestamp.valueOf(LocalDateTime.now());
-        Map<Integer, List<String>> mismatches = barrelMismatches(syncTime);
+        List<String> mismatches = barrelMismatches(syncTime);
 
         if(mismatches.isEmpty()){
             Log.info("[GATEWAY] Found no mismatches in barrels");
@@ -184,15 +180,15 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         List<CompletableFuture<Void>> futures = new ArrayList<>();
 
         // FIX: rowHashes is empty for some reason
-        for(Integer barrelPort : mismatches.keySet()){
+        for(Integer barrelPort : Config.BARREL_PORTS){
             futures.add(CompletableFuture.runAsync(() -> {
                 for(int i = 0; i < Config.GATEWAY_RETRIES; i++){
                     try{
                         BarrelInterface b = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
+                        b.ping();
                         Map<String, Map<String, String>> barrelRows = new HashMap<>();
 
-                        List<String> tablesToFetch = mismatches.getOrDefault(barrelPort, List.of("url", "words", "url_url", "words_url"));
-                        for (String table : tablesToFetch) {
+                        for (String table : mismatches) {
                             barrelRows.put(table, b.getMD5Hash(table, syncTime));
                         }
 
@@ -234,6 +230,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 for(int i = 0; i < Config.GATEWAY_RETRIES; i++){
                     try {
                         BarrelInterface b = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
+                        b.ping();
 
                         for (String table : barrelData.keySet()) {
                             Map<String, String> barrelTable = barrelData.get(table);
@@ -242,6 +239,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
                             if (!missingRows.isEmpty()) {
+                                System.out.println(missingRows.values());
                                 b.insertMissingRows(table, missingRows.values());
                             }
                         }

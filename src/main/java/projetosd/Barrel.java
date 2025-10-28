@@ -389,9 +389,10 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         String orderColumns = tableStuff[1];
 
         String extraColumn = tableName.equals("url") ? "updated_at" : "created_at";
+        String concatedColumns = columns + ", " + extraColumn;
 
         try(java.sql.Connection conn = db.getConnection()){
-            String query = String.format("SELECT md5(row(%s)::text) AS row_hash, CONCAT_WS('|', %s, %s) AS combined_columns FROM %s WHERE %s < ? ORDER BY %s", columns, columns, extraColumn, tableName, extraColumn, orderColumns);
+            String query = String.format("SELECT md5(row(%s)::text) AS row_hash, CONCAT_WS('|', %s) AS combined_columns FROM %s WHERE %s < ? ORDER BY %s", columns, concatedColumns, tableName, extraColumn, orderColumns);
 
             try(PreparedStatement stmt = conn.prepareStatement(query)){
                 stmt.setTimestamp(1, now);
@@ -482,6 +483,8 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         catch (SQLException e){
             Log.error("[BARREL] Could not insert missing data in barrel: " + e.getMessage());
         }
+
+        Log.info("[BARREL] Inserted missing data from sync");
     }
 
     /**
