@@ -239,7 +239,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
                             if (!missingRows.isEmpty()) {
-                                System.out.println(missingRows.values());
                                 b.insertMissingRows(table, missingRows.values());
                             }
                         }

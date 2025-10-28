@@ -413,33 +413,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         return hashes;
     }
 
-    /**
-     * Fetches the current index size and reports it to the gateway.
-     */
-    private void reportIndexSize(){
-        Database db = new Database(this.port);
-        String query = "SELECT COUNT(*) AS index_size FROM words_url;";
-
-        try (java.sql.Connection conn = db.getConnection()){
-            PreparedStatement stmt = conn.prepareStatement(query);
-
-            try (ResultSet rs = stmt.executeQuery()){
-                if(rs.next()){
-                    int indexSize = rs.getInt("index_size");
-
-                    try {
-                        gateway.reportIndexStats(port, indexSize);
-                    } catch (RemoteException e) {
-                        Log.error("[BARREL " + port + "] Failed to report index stats to gateway: " + e.getMessage());
-                    }
-                }
-            }
-        }
-        catch (SQLException e){
-            Log.error("[BARREL] Error fetching index size: " + e.getMessage());
-        }
-    }
-
     @Override
     @SuppressWarnings("SqlSourceToSinkFlow")
     public void insertMissingRows(String table, Collection<String> content) throws java.rmi.RemoteException{
@@ -485,6 +458,33 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         }
 
         Log.info("[BARREL] Inserted missing data from sync");
+    }
+
+    /**
+     * Fetches the current index size and reports it to the gateway.
+     */
+    private void reportIndexSize(){
+        Database db = new Database(this.port);
+        String query = "SELECT COUNT(*) AS index_size FROM words_url;";
+
+        try (java.sql.Connection conn = db.getConnection()){
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+            try (ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    int indexSize = rs.getInt("index_size");
+
+                    try {
+                        gateway.reportIndexStats(port, indexSize);
+                    } catch (RemoteException e) {
+                        Log.error("[BARREL " + port + "] Failed to report index stats to gateway: " + e.getMessage());
+                    }
+                }
+            }
+        }
+        catch (SQLException e){
+            Log.error("[BARREL] Error fetching index size: " + e.getMessage());
+        }
     }
 
     /**
