@@ -138,19 +138,17 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         List<String> mismatches = new ArrayList<>();
         Map<Integer, Map<String, String>> allHashes = this.getBarrelHashes(now);
 
-        if (allHashes.size() <= 1) {
-            return mismatches;
-        }
+        // No more than 1 barrel, no sync needed
+        if (allHashes.size() <= 1) return mismatches;
 
+        // Get a reference db to check against the others
         int referencePort = allHashes.keySet().stream().findFirst().orElse(null);
 
         Map<String, String> referenceHashes = allHashes.get(referencePort);
 
         for (Map.Entry<Integer, Map<String, String>> barrelEntry : allHashes.entrySet()) {
             int barrelPort = barrelEntry.getKey();
-            if (barrelPort == referencePort) {
-                continue;
-            }
+            if (barrelPort == referencePort) continue;
 
             Map<String, String> otherHashes = barrelEntry.getValue();
 
@@ -165,12 +163,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         return mismatches;
     }
 
-    /**
-     * Synchronize barrels by checking for mismatches and inserting missing data.
-     * @return true if synchronization was successful, false otherwise
-     * @throws RemoteException RMI exception
-     */
-    @Override
     @SuppressWarnings({"BusyWait", "SleepWhileInLoop"})
     public boolean synchBarrels(int requesterPort) throws RemoteException {
         Log.info("[GATEWAY] Barrel " + requesterPort + " requested synchronization");
@@ -185,10 +177,12 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
         Log.warning("[GATEWAY] Barrel mismatch found");
 
+        // Get tables row hashes to find missing info
+        // barrelPort -> <row hash -> row content>
         Map<Integer, Map<String, Map<String, String>>> rowHashes = new ConcurrentHashMap<>();
         List<CompletableFuture<Void>> futures = new ArrayList<>();
 
-        for(Integer barrelPort : Config.BARREL_PORTS){   //TODO rowHashes is empty for some reason
+        for(Integer barrelPort : Config.BARREL_PORTS){
             futures.add(CompletableFuture.runAsync(() -> {
                 for(int i = 0; i < Config.GATEWAY_RETRIES; i++){
                     try{
@@ -217,8 +211,11 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             }));
         }
 
+        // Wait for the async fetches
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
+        // Get all rows in all barrels
+        // Table -> <row hash -> row content>
         Map<String, Map<String, String>> globalRows = new HashMap<>();
         for (Map<String, Map<String, String>> barrelData : rowHashes.values()) {
             for (Map.Entry<String, Map<String, String>> tableEntry : barrelData.entrySet()) {
@@ -228,8 +225,10 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             }
         }
 
+        // Force order on insertion
         List<String> tableInsertOrder = List.of("words", "url", "words_url", "url_url");
 
+        // finally introduce missing data into barrels by filtering which rows are not present in each barrel
         futures.clear();
         for (Integer barrelPort : rowHashes.keySet()) {
             Map<String, Map<String, String>> barrelData = rowHashes.get(barrelPort);
@@ -275,7 +274,71 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
     //---------------------------------------- END OF BARREL HANDLING METHODS -------------------------------------------------//
 
+    //---------------------------------------- MULTICAST METHODS -------------------------------------------------//
+
+    @SuppressWarnings("BusyWait")
+    public boolean multicastEntries(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws RemoteException {
+        boolean atLeastOne = false;
+        int activeBarrelCount = this.barrels.size();
+        int acksReceived = 0;
+
+        if(activeBarrelCount == 0){
+            Log.warning("[GATEWAY] No active barrels found for multicast");
+            return false;
+        }
+
+        for (Map.Entry<Integer, BarrelInterface> entry : barrels.entrySet()) {
+            int port = entry.getKey();
+            BarrelInterface barrel = entry.getValue();
+
+            boolean success = false;
+
+            // To recall that success is in the 'for' condition
+            for (int attempt = 0; attempt < Config.GATEWAY_RETRIES && !success; attempt++) {
+                try {
+                    barrel.ping();
+
+                    String response = barrel.addEntry(url, words, title, citation, relatedUrls);
+                    if (response.equals("ACK")) {
+                        acksReceived++;
+                        success = true;
+                        atLeastOne = true;
+                    }
+                    else {
+                        Log.warning("[GATEWAY] Barrel " + port + " did not ACK entry.");
+                    }
+
+                } catch (RemoteException e) {
+                    long backoff = (long) (Config.GATEWAY_BACKOFF * Math.pow(2, attempt));
+
+                    if (attempt < Config.GATEWAY_RETRIES - 1) {
+                        try {
+                            Thread.sleep(backoff);
+                        } catch (InterruptedException ie) {
+                            Thread.currentThread().interrupt();
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!success) {
+                Log.error("[GATEWAY] Failed to insert data into barrel " + port + " after retries.");
+            }
+        }
+
+        if (acksReceived < activeBarrelCount) {
+            Log.warning("[GATEWAY] Only " + acksReceived + "/" + activeBarrelCount + " barrels acknowledged.");
+        }
+
+        return atLeastOne;
+    }
+    //---------------------------------------- END OF MULTICAST METHODS -------------------------------------------------//
+
     //------------------------------------------------- CALLBACK METHODS ------------------------------------------------------//
+
+
+    //------------------ CALLBACK METHODS ------------------//
 
     /**
      * Callback: Barrels notify state changes.
@@ -409,6 +472,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @throws RemoteException RMI exception
      */
     @Override
+    @SuppressWarnings("BusyWait")
     public List<Page> backlinks(String clientId, Page page) throws RemoteException {
         Log.info("[GATEWAY] Client " + clientId + " requesting backlinks for page: " + page.getUrl());
 

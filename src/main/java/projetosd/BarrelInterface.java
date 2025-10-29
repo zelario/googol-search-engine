@@ -36,26 +36,29 @@ public interface BarrelInterface extends Remote {
      * @param citation      Short citation from the page
      * @param relatedUrls   All urls in that page
      * @return              Boolean to indicate success or not
+     * @throws java.rmi.RemoteException RMI Exception
      */
-    boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws java.rmi.RemoteException;
+    String addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws java.rmi.RemoteException;
 
     /**
      * Returns all pages that reference the given page
      * @param page Page that is referenced
      * @return     List of pages that referene the given page
+     * @throws java.rmi.RemoteException RMI Exception
      */
     List<Page> getBacklinks(Page page) throws java.rmi.RemoteException;
 
     /**
      *  Returns all words found in a page
      * @param page Given Page
-     * @return List of words related to the given page (url)
+     * @throws java.rmi.RemoteException RMI Exception
      */
-    List<String> getWordsInPage(Page page) throws java.rmi.RemoteException;
+    void getWordsInPage(Page page) throws java.rmi.RemoteException;
 
     /**
      * RMI Method to calculate MD5 hash. If a table name is passed it computes the table hash per row, if not it computes for each table
      * @return  Map with tables as keys as hashes as values
+     * @throws java.rmi.RemoteException RMI Exception
      */
     Map<String, String> getMD5Hash(String tableName, Timestamp now) throws java.rmi.RemoteException;
 

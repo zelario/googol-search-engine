@@ -33,6 +33,8 @@ public class Downloader extends Thread {
      */
     private static final Pattern VALID_WORDS = Pattern.compile("^\\p{L}[\\p{L}\\p{M}\\p{Pd}'’]{1,63}$");
 
+    private GatewayInterface gateway;
+
     /**
      * Constructs a Downloader.
      * @param threadNum The thread number
@@ -41,36 +43,27 @@ public class Downloader extends Thread {
         this.threadNumber = threadNum;
     }
 
-    // Current connected barrel and its port
-    private BarrelInterface barrel = null;
-    private int barrelPort = -1;
-
     /**
      * Try to find any available barrel from configured ports and set the `barrel` and `barrelPort` fields.
-     * @return found barrel port or -1 if none found
+     * @returns False if it works, true if not. This is to activate any action when it does not work.
      */
-    private void connectBarrel() {
-        for (int port : Config.BARREL_PORTS) {
-            try {
-                BarrelInterface b = (BarrelInterface) LocateRegistry.getRegistry(port).lookup("barrel");
-                b.ping();
-                this.barrel = b;
-                this.barrelPort = port;
-            } catch (NotBoundException | RemoteException ignored) {}
-        }
+    private boolean connectGateway() {
+        try {
+            this.gateway = (GatewayInterface) LocateRegistry.getRegistry(Config.GATEWAY_PORT).lookup("gateway");
+            return false;
+        } catch (NotBoundException | RemoteException ignored) {return true;}
     }
 
     /**
      * Attempt to reconnect to any barrel with retries and backoff.
      * @return true if reconnected, false otherwise
      */
-    @SuppressWarnings("SleepWhileInLoop")
+    @SuppressWarnings({"SleepWhileInLoop", "BusyWait"})
     private boolean attemptReconnect() {
         for (int attempt = 1; attempt <= Config.DOWNLOADER_RETRIES; attempt++) {
             Log.info("[DOWNLOADER " + threadNumber + "] Attempt " + attempt + " to reconnect to a barrel.");
-            connectBarrel();
-            if (barrelPort != -1) {
-                Log.info("[DOWNLOADER " + threadNumber + "] Reconnected to Barrel on port " + barrelPort + " (attempt " + attempt + ")");
+            if (connectGateway()) {
+                Log.info("[DOWNLOADER " + threadNumber + "] Reconnected to Gateway on port " + Config.GATEWAY_PORT + " (attempt " + attempt + ")");
                 return true;
             }
 
@@ -109,13 +102,11 @@ public class Downloader extends Thread {
         try {
             Log.info("[DOWNLOADER " + threadNumber + "] Starting downloader thread.");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Config.URL_QUEUE_PORT).lookup("queue");
+            Log.info("[DOWNLOADER " + threadNumber + "] Connected to url queue on port " + Config.URL_QUEUE_PORT);
 
-            connectBarrel();
-            if (barrelPort == -1) {
-                Log.error("[DOWNLOADER " + threadNumber + "] No barrels available on startup. Exiting");
-                return;
-            }
-            Log.info("[DOWNLOADER " + threadNumber + "] Connected to Barrel on port " + barrelPort);
+            if(connectGateway()) attemptReconnect();
+
+            Log.info("[DOWNLOADER " + threadNumber + "] Connected to gateway on port " + Config.GATEWAY_PORT);
 
             while (true) {
                 String url = queue.takeUrl();
@@ -177,20 +168,21 @@ public class Downloader extends Thread {
                 }
 
                 try{
-                    if(!barrel.addEntry(url, pageWords, title, description, relatedUrls)){
-                        Log.warning("[DOWNLOADER " + threadNumber + "] Failed to parse and/or store an url");
+                    // If no barrel got the info, re-insert url in url queue
+                    if(!gateway.multicastEntries(url, pageWords, title, description, relatedUrls)){
+                        queue.addUrl(url, false);
                     }
+
                 } catch (RemoteException e) {
-                    Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Barrel: " + e.getMessage());
-                    barrelPort = -1;
+                    Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Gateway: " + e.getMessage());
                     if (!attemptReconnect()) {
-                        Log.error("[DOWNLOADER " + threadNumber + "] Could not reconnect to any Barrel. Exiting");
+                        Log.error("[DOWNLOADER " + threadNumber + "] Could not reconnect to Gateway. Exiting.");
                         return;
                     }
                 }
             }
         } catch (IOException | NotBoundException e) {
-            Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Barrel: " + e.getMessage());
+            Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Gateway: " + e.getMessage());
         }
     }
 

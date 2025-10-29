@@ -67,7 +67,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      */
     @Override
     @SuppressWarnings("BusyWait")
-    public boolean addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls){
+    public String addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws RemoteException{
         Database db = new Database(this.port);
 
         // Because the downloader might insert urls that are in pages before they've been parsed...
@@ -151,7 +151,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
                 Log.url("[BARREL " + port + "] Inserted url into database: " + url);
                 reportIndexSize();
-                return true;
+                return "ACK";
 
             } catch (SQLException e){
                 String errorMsg = e.getMessage();
@@ -164,13 +164,12 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                 }
                 else {
                     Log.error("[DOWNLOADER] Error adding entry to barrels: " + e.getMessage());
-                    return  false;
+                    return "NACK";
                 }
             }
     }
-
         Log.error("[BARREL " + port + "] Multiple deadlocks retries for url: " + url);
-        return false;
+        return "NACK";
     }
 
     /**
@@ -283,10 +282,9 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     /**
      * Returns all words found in a page
      * @param page Given Page
-     * @return List of words related to the given page (url)
      */
     @Override
-    public List<String> getWordsInPage(Page page) throws java.rmi.RemoteException{ //TODO VER O QUE E ESTA MERDA CAPINHA NIGGER
+    public void getWordsInPage(Page page) throws java.rmi.RemoteException{
         Database db = new Database(this.port);
         List<String> words = new ArrayList<>();
 
@@ -308,7 +306,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             Log.error("[BARREL] Error fetching pages: " + e.getMessage());
         }
 
-        return words;
+        page.InsertWordsFound(words);
     }
 
     @Override
@@ -508,8 +506,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             Log.info("[BARREL " + barrel.port + "] Requesting sync to gateway");
             if(barrel.gateway.synchBarrels(barrel.port)){
                 Log.info("[BARREL " + barrel.port + "] Sync successful");
-            } else {
-                Log.error("[BARREL " + barrel.port + "] Sync failed");
             }
 
             barrel.gateway.reportBarrelStatus(barrel.port, true);

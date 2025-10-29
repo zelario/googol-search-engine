@@ -2,6 +2,7 @@ package projetosd;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class representing page information including URL, title, and snippet.
@@ -74,5 +75,13 @@ public class Page implements Serializable {
      */
     public String getSnippet() {
         return snippet;
+    }
+
+    /**
+     * Adds a list of words found into the class parameter
+     * @param words ArrayList of words
+     */
+    public void InsertWordsFound(List<String> words) {
+        this.wordsFound.addAll(words);
     }
 }
