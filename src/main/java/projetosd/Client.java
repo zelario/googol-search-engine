@@ -4,6 +4,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 
@@ -31,9 +32,7 @@ public class Client {
     private static int pageNumber;
 
     /**
-     * 
-     *
-     * 
+     * Constructs the Client object.
      */
     public Client() {
         id = String.valueOf((int) ((System.currentTimeMillis() % 99) + 1));
@@ -44,6 +43,54 @@ public class Client {
             gateway = null;
             Log.error("[CLIENT] Could not contact gateway: " + e.getMessage());
         }
+    }
+
+    /**
+     * Print search results to console.
+     * @param results List of pages to print
+     */
+    private void printResults(List<Page> results){
+        StringBuilder sb = new StringBuilder();
+        int startIndex = (pageNumber - 1) * 10 + 1;
+        sb.append(String.format("\n- Page %d:\n\n", pageNumber));
+
+        if (results == null || results.isEmpty()) {
+            System.out.print("\nNo results found.\n");
+        } else {
+            for (int i = 0; i < results.size(); i++) {
+                Page p = results.get(i);
+                int num = startIndex + i;
+                sb.append(String.format("%d) %s\n", num, p.getTitle() == null || p.getTitle().isBlank() ? "(no title)" : p.getTitle()));
+                sb.append(String.format("   %s\n", p.getUrl()));
+                String snippet = p.getSnippet() == null ? "" : p.getSnippet();
+                if (!snippet.isBlank()) {
+                    sb.append(String.format("   \"%s\"\n", snippet.length() > 200 ? snippet.substring(0, 200) + "..." : snippet));
+                }
+            }
+            System.out.print(sb.toString());
+        }
+    }
+
+    /**
+     * Print backlinks of a selected page to console.
+     * @param selectedPage The page for which backlinks are shown
+     * @param backlinks List of backlink pages
+     */
+    private void printBacklinks(Page selectedPage, List<Page> backlinks){
+        int limit = 10;
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n=== Backlinks for: ").append(selectedPage.getUrl()).append(" ===\n\n");
+
+        if (backlinks == null || backlinks.isEmpty()) {
+            sb.append("No backlinks found.\n");
+        } else {
+            int i = 1;
+            for (Page p : backlinks ) {
+                sb.append(String.format("%d) %s\n", i++, p.getUrl()));
+                if (i > limit) break;
+            }
+        }
+        System.out.print(sb.toString());
     }
 
     /**
@@ -116,7 +163,7 @@ public class Client {
             return;
         }
         
-        System.out.print("===== Welcome to Googol! You are " + client.id + "! =====\n\n");
+        System.out.print("===== Welcome to Googol! You are client " + client.id + "! =====\n\n");
             System.out.print("SEARCH: To search for a url\nINDEX: To add new url\nSTATS: To see statistics\nEXIT: To exit the app\n");
 
             boolean run = true;
@@ -156,17 +203,31 @@ public class Client {
                                 pageNumber = 1;
                                 System.out.print("\n=== Search Results ===\n");
                                 while(true){
-                                    String results = client.callGateway(() -> client.gateway.search(client.id, query, pageNumber));
-                                    System.out.println(results);
-                                    System.out.print("                 Prev             End              Next\n\n> ");
+                                    List<Page> results = client.callGateway(() -> client.gateway.search(client.id, query, pageNumber));
+                                    client.printResults(results);
+                                    System.out.print("\n                 Prev             Backlinks              Next\n\n> ");
                                     String command = scanner.nextLine().trim();
-                                    if(command.equalsIgnoreCase("next")){
+                                    if (command.equalsIgnoreCase("next")) {
                                         pageNumber++;
-                                    } else if(command.equalsIgnoreCase("prev")){
+                                    } else if (command.equalsIgnoreCase("prev")) {
                                         pageNumber--;
                                     } else {
-                                        System.out.print("\n=== Ending of search results ===\n\n");
-                                        break;
+                                        try {
+                                            int selection = Integer.parseInt(command);
+                                            int startIndex = (pageNumber - 1) * 10 + 1;
+                                            int endIndex = startIndex + (results == null ? 0 : results.size()) - 1;
+                                            if (results != null && selection >= startIndex && selection <= endIndex) {
+                                                int localIndex = selection - startIndex;
+                                                Page selectedPage = results.get(localIndex);
+                                                List<Page> backlinks = client.callGateway(() -> client.gateway.backlinks(client.id, selectedPage));
+                                                client.printBacklinks(selectedPage, backlinks);
+                                                System.out.print("\n=== Ending of search results ===\n\n");
+                                                break;
+                                            }
+                                        } catch (NumberFormatException nfe) {
+                                            System.out.print("\n=== Ending of search results ===\n\n");
+                                            break;
+                                        }
                                     }
                                 }
                             } catch (Exception e) {

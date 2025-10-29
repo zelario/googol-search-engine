@@ -352,7 +352,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     @Override
     @SuppressWarnings("BusyWait")
-    public String search(String clientId, String query, int pageNumber) throws RemoteException {
+    public List<Page> search(String clientId, String query, int pageNumber) throws RemoteException {
         Log.info("[GATEWAY] Client " + clientId + " searching for query: " + query);
 
         String[] terms = Arrays.stream(query.split("\\s+"))
@@ -364,34 +364,20 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             Map.Entry<Integer, BarrelInterface> entry = selectBarrel();
             if (entry == null) {
                 Log.warning("[GATEWAY] No available barrels for search on attempt " + attempt + ".");
-                return "No results found.";
+                return null;
             }
 
             BarrelInterface barrel = entry.getValue();
             int barrelPort = entry.getKey();
+
             try {
                 List<Page> pages = barrel.searchQuery(query, terms, pageNumber);
                 if (pages == null || pages.isEmpty()) {
-                    return "\nNo results found.\n";
-                }
-
-                StringBuilder sb = new StringBuilder();
-                int startIndex = (pageNumber - 1) * 10 + 1;
-                sb.append(String.format("\n- Page %d:\n\n", pageNumber));
-
-                for (int i = 0; i < pages.size(); i++) {
-                    Page p = pages.get(i);
-                    int num = startIndex + i;
-                    sb.append(String.format("%d) %s\n", num, p.getTitle() == null || p.getTitle().isBlank() ? "(no title)" : p.getTitle()));
-                    sb.append(String.format("   %s\n", p.getUrl()));
-                    String snippet = p.getSnippet() == null ? "" : p.getSnippet();
-                    if (!snippet.isBlank()) {
-                        sb.append(String.format("   \"%s\"\n", snippet.length() > 200 ? snippet.substring(0, 200) + "..." : snippet));
-                    }
+                    return null;
                 }
 
                 Log.info("[GATEWAY] Client " + clientId + " search completed successfully on barrel " + barrelPort + " on attempt " + attempt + ".");
-                return sb.toString();
+                return pages;
 
             } catch (RemoteException e) {
                 Log.error("[GATEWAY] Search failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying.");
@@ -408,7 +394,50 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         }
 
         Log.error("[GATEWAY] Search not successful. All search attempts failed for query: " + query);
-        return "No results found.";
+        return null;
+    }
+
+    /**
+     * Get backlinks for a given page.
+     * @param page Page to get backlinks for
+     * @return list of backlink pages
+     * @throws RemoteException RMI exception
+     */
+    @Override
+    public List<Page> backlinks(String clientId, Page page) throws RemoteException {
+        Log.info("[GATEWAY] Client " + clientId + " requesting backlinks for page: " + page.getUrl());
+
+        for (int attempt = 1; attempt <= Config.GATEWAY_RETRIES; attempt++) {
+            Map.Entry<Integer, BarrelInterface> entry = selectBarrel();
+            if (entry == null) {
+                Log.warning("[GATEWAY] No available barrels for backlinks on attempt " + attempt + ".");
+                return null;
+            }
+
+            BarrelInterface barrel = entry.getValue();
+            int barrelPort = entry.getKey();
+
+            try {
+                List<Page> backlinks = barrel.getBacklinks(page);
+                Log.info("[GATEWAY] Client " + clientId + " backlinks retrieved successfully from barrel " + barrelPort + " on attempt " + attempt + ".");
+                return backlinks;
+
+            } catch (RemoteException e) {
+                Log.error("[GATEWAY] Backlinks retrieval failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying.");
+
+                if (attempt < Config.GATEWAY_RETRIES) {
+                    try {
+                        Thread.sleep((long) (Config.GATEWAY_BACKOFF * Math.pow(2, attempt - 1)));
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                }
+            }
+        }
+
+        Log.error("[GATEWAY] Backlinks retrieval not successful. All attempts failed for page: " + page.getUrl());
+        return null;
     }
 
     /**

@@ -250,7 +250,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @return List of pages that reference the given page
      */
     @Override
-    public List<Page> getBacklinks(Page page){
+    public List<Page> getBacklinks(Page page) throws RemoteException{
         Database db = new Database(this.port);
         List<Page> pages = new ArrayList<>();
 
@@ -270,17 +270,18 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             }
         }
         catch (Exception e){
-            Log.error("[DOWNLOADER] Error fetching pages: " + e.getMessage());
+            Log.error("[BARREL " + this.port + "] Error fetching pages: " + e.getMessage());
         }
 
         return pages;
     }
 
     /**
-     *  Returns all words found in a page
+     * Returns all words found in a page
      * @param page Given Page
      * @return List of words related to the given page (url)
      */
+    @Override
     public List<String> getWordsInPage(Page page) throws java.rmi.RemoteException{
         Database db = new Database(this.port);
         List<String> words = new ArrayList<>();
@@ -517,6 +518,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
             } catch (NotBoundException | RemoteException e) {
                 Log.error("[BARREL " + barrel.port + "] Gateway not available for initial registration: " + e.getMessage());
+                System.exit(1);
             }
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {

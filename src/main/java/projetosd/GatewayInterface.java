@@ -2,6 +2,7 @@ package projetosd;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * Remote interface for the Gateway for clients.
@@ -49,7 +50,16 @@ public interface GatewayInterface extends Remote {
     * @return formatted search results string
     * @throws RemoteException RMI Exception
     */
-    String search(String clientId, String query, int pageNumber) throws RemoteException;
+    List<Page> search(String clientId, String query, int pageNumber) throws RemoteException;
+
+    /**
+     * Get the backlinks for a specific page.
+     * @param clientId Client identifier
+     * @param page Page object
+     * @return list of backlinks
+     * @throws RemoteException RMI Exception
+     */
+    List<Page> backlinks(String clientId, Page page) throws RemoteException;
 
     /**
      * Get simple stats string from a barrel.
