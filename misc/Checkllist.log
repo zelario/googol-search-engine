@@ -12,7 +12,7 @@
 
 --- Tolerância a Falhas e Processamento Paralelo ---
 
-0.5 - A informação é idêntica em todos os storage barrels (reliable multicast)
+1 - A informação é idêntica em todos os storage barrels (reliable multicast)
 1 - Serviço correto se funcionar pelo menos um storage barrel e a gateway
 0 - Os storage barrels recuperam o seu estado se avariarem (crash)
 0 - Balanceamento da carga nas pesquisas sobre os storage barrels

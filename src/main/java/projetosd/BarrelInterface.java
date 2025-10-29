@@ -43,7 +43,7 @@ public interface BarrelInterface extends Remote {
     /**
      * Returns all pages that reference the given page
      * @param page Page that is referenced
-     * @return     List of pages that referene the given page
+     * @return     List of pages that reference the given page
      * @throws java.rmi.RemoteException RMI Exception
      */
     List<Page> getBacklinks(Page page) throws java.rmi.RemoteException;
