@@ -7,7 +7,7 @@
 1 - Pesquisar páginas que contenham um conjunto de palavras
 1 - Páginas ordenadas por número de ligações recebidas de outras páginas
 1 - Consultar lista de páginas com ligações para uma página específica
-0 - Página de estatísticas atualizada em tempo real
+1 - Página de estatísticas atualizada em tempo real
 1 - Resultados da pesquisa agrupados de 10 em 10
 
 --- Tolerância a Falhas e Processamento Paralelo ---
