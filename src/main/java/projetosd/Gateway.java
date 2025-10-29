@@ -163,13 +163,13 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
     @Override
     @SuppressWarnings({"BusyWait", "SleepWhileInLoop"})
-    public void synchBarrels() throws RemoteException {
+    public boolean synchBarrels() throws RemoteException {
         Timestamp syncTime = Timestamp.valueOf(LocalDateTime.now());
         List<String> mismatches = checkBarrelMismatches(syncTime);
 
         if(mismatches.isEmpty()){
             Log.info("[GATEWAY] Found no mismatches in barrels");
-            return;
+            return true;
         }
 
         Log.warning("[GATEWAY] Barrel mismatch found");
@@ -266,6 +266,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
         Log.info("[GATEWAY] Barrel sync completed");
+
+        return true;
     }
 
     //------------------ CALLBACK FUNCTIONS ------------------//

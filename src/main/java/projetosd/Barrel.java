@@ -500,11 +500,13 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             try {
                 Registry reg = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
                 barrel.gateway = (GatewayInterface) reg.lookup("gateway");
+
+                Log.info("[BARREL " + barrel.port + "] Requesting sync to gateway");
+                if(barrel.gateway.synchBarrels()) Log.info("[BARREL] Sync complete");
+
                 barrel.gateway.reportBarrelStatus(barrel.port, true);
                 Log.info("[BARREL " + barrel.port + "] Registered with gateway on port: " + Config.GATEWAY_PORT);
 
-                Log.info("[BARREL " + barrel.port + "] Requesting sync to gateway");
-                barrel.gateway.synchBarrels();
             } catch (NotBoundException | RemoteException e) {
                 Log.error("[BARREL " + barrel.port + "] Gateway not available for initial registration: " + e.getMessage());
             }

@@ -61,9 +61,10 @@ public interface GatewayInterface extends Remote {
 
     /**
      * Method that asynchronously checks and handles database synchronization
+     * @returns Boolean (always true) to block barrel execution so they complete the sync before registering as active
      * @throws RemoteException RMI Exception
      */
-    void synchBarrels() throws RemoteException;
+    boolean synchBarrels() throws RemoteException;
 
 }
 

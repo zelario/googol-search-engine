@@ -32,7 +32,7 @@ public class Client {
 
     /**
      * 
-     * @param args
+     *
      * 
      */
     public Client() {
