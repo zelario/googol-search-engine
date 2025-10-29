@@ -310,7 +310,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     @Override
     public Map<String, String> getMD5Hash(String tableName, Timestamp now) throws java.rmi.RemoteException{
         if(Objects.equals(tableName, "") || Objects.equals(tableName ," ")) return calcDataBaseMd5Hash(now);
-
         return calcRowMD5Hash(tableName, now);
     }
 

@@ -199,7 +199,6 @@ public class Downloader extends Thread {
      * @param args Command-line arguments
      */
     public static void main(String[] args) {
-        // CHANGE THREAD NUMBER HERE
         int threadCounter = Config.DOWNLOADER_THREADS;
 
         for (int i = 0; i < threadCounter; i++) {
