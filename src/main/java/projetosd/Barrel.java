@@ -41,7 +41,10 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @throws RemoteException RMI exception
      */
     public Barrel() throws RemoteException {
-        super();
+        this.port = Config.claimBarrelPort();
+        if (this.port == -1) {
+            Log.error("[BARREL] No available ports. All barrel ports are in use.");
+        }
     }
 
     /**
@@ -493,12 +496,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     public static void main(String[] args) {
         try {
             Barrel barrel = new Barrel();
-
-            barrel.port = Config.claimBarrelPort();
-            if (barrel.port == -1) {
-                Log.error("[BARREL] No available ports. All barrel ports are in use.");
-                return;
-            }
 
             Registry registry = LocateRegistry.createRegistry(barrel.port);
             registry.rebind("barrel", barrel);
