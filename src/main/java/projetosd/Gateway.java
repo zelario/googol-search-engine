@@ -12,8 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -165,7 +164,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
     @SuppressWarnings({"BusyWait", "SleepWhileInLoop"})
     public boolean synchBarrels(int requesterPort) throws RemoteException {
-        Log.info("[GATEWAY] Barrel " + requesterPort + " requested synchronization");
+        if(requesterPort != 0) Log.info("[GATEWAY] Barrel " + requesterPort + " requested synchronization");
+        else Log.info("[GATEWAY] Starting period sync");
 
         Timestamp syncTime = Timestamp.valueOf(LocalDateTime.now());
         List<String> mismatches = checkBarrelMismatches(syncTime);
@@ -549,6 +549,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     public static void main(String[] args) {
         Log.clearLog();
+
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
         try {
             Gateway gateway = new Gateway();
 
@@ -561,7 +564,25 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             registry.rebind("gateway", gateway);
             Log.info("[GATEWAY] Gateway ready on port " + Config.GATEWAY_PORT);
 
+            scheduler.scheduleAtFixedRate(() -> {
+                try{
+                    gateway.synchBarrels(0);
+                } catch (RemoteException e) {
+                    Log.warning("[GATEWAY] Periodic syncer will not be scheduled");
+                }
+                    }, 0, Config.GATEWAY_SYNCH_INTERVAL, TimeUnit.MINUTES);
+
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                scheduler.shutdown();
+                try {
+                    if (!scheduler.awaitTermination(5, TimeUnit.SECONDS)) {
+                        scheduler.shutdownNow();
+                    }
+                } catch (InterruptedException e) {
+                    scheduler.shutdownNow();
+                    Thread.currentThread().interrupt();
+                }
+
                 gateway.stats.saveStats();
                 Log.info("[GATEWAY] Stats saved successfully");
                 Log.info("[GATEWAY] Gateway shutting down");

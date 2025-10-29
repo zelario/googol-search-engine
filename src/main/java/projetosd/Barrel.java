@@ -335,7 +335,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             case "url" -> "url";
             case "url_url" -> "url_url, url_url1";
             case "words" -> "word";
-            case "words_url" -> "words_word";
+            case "words_url" -> "words_word, url_url";
             default -> "*";
         };
 

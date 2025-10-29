@@ -58,6 +58,11 @@ public class Config {
     public static int GATEWAY_RETRIES;
 
     /*
+     * Gateway sync scheduler interval
+     */
+    public static int GATEWAY_SYNCH_INTERVAL;
+
+    /*
      * Barrel backoff settings
      */
     public static int BARREL_BACKOFF;
@@ -95,6 +100,7 @@ public class Config {
         CLIENT_RETRIES = 5;
         GATEWAY_BACKOFF = 200;
         GATEWAY_RETRIES = 3;
+        GATEWAY_SYNCH_INTERVAL = 5;
         BARREL_BACKOFF = 300;
         BARREL_RETRIES = 3;
         DOWNLOADER_BACKOFF = 300;
@@ -114,6 +120,7 @@ public static synchronized void loadConfiguration() {
     int defaultClientBackoff = 500;
     int defaultGatewayRetries = 3;
     int defaultGatewayBackoff = 200;
+    int defaultGatewaySyncInterval = 5;
     int defaultBarrelRetries = 3;
     int defaultBarrelBackoff = 300;
     int defaultDownloaderRetries = 3;
@@ -145,6 +152,7 @@ public static synchronized void loadConfiguration() {
 
         GATEWAY_RETRIES = Integer.parseInt(properties.getProperty("gateway.retries", String.valueOf(defaultGatewayRetries)));
         GATEWAY_BACKOFF = Integer.parseInt(properties.getProperty("gateway.backoff", String.valueOf(defaultGatewayBackoff)));
+        GATEWAY_SYNCH_INTERVAL = Integer.parseInt(properties.getProperty("gateway.sync.interval", String.valueOf(defaultGatewaySyncInterval)));
 
         BARREL_RETRIES = Integer.parseInt(properties.getProperty("barrel.retries", String.valueOf(defaultBarrelRetries)));
         BARREL_BACKOFF = Integer.parseInt(properties.getProperty("barrel.backoff", String.valueOf(defaultBarrelBackoff)));

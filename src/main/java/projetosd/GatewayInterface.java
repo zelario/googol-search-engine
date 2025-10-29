@@ -79,6 +79,7 @@ public interface GatewayInterface extends Remote {
 
     /**
      * Gateway method to multicast the data, that came from the downloader, into all active barrels
+     * This is a best-effort reliable multicast since sync fixes the rest
      * @param url           Page url
      * @param words         Words in page
      * @param title         Page title
