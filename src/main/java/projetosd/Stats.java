@@ -54,6 +54,8 @@ public class Stats implements Serializable {
 		loadStats();
 	}
 
+	//---------------------------------- STATS UPDATE METHODS -----------------------------------------//
+
 	/**
 	 * Record a search query occurrence.
 	 * @param query Raw user query
@@ -86,6 +88,10 @@ public class Stats implements Serializable {
 		// Store the reported index size (overwrite) instead of incrementing; callers should report the current size.
 		barrelIndexSizes.put(barrelPort, indexSize);
 	}
+
+	//-------------------------------------- END OF STATS UPDATE METHODS -----------------------------------------------//
+
+	//-------------------------------------- STATS RETRIEVAL METHODS -----------------------------------------------//
 
 	/**
 	 * Return the top 10 searches by count.
@@ -143,6 +149,10 @@ public class Stats implements Serializable {
 		barrelTimes.remove(barrelPort);
 	}
 
+	//---------------------------------- END OF STATS RETRIEVAL METHODS -----------------------------------------//
+
+	//---------------------------------- STATS PERSISTENCE METHODS -----------------------------------------//
+
 	public void saveStats() {
 		File file = new File("data/stats.ser");
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
@@ -170,5 +180,7 @@ public class Stats implements Serializable {
 			Log.error("[STATS] Failed to load stats: " + e.getMessage());
 		}
 	}
+
+	//---------------------------------- END OF STATS PERSISTENCE METHODS -----------------------------------------//
 }
 

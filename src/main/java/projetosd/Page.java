@@ -75,13 +75,4 @@ public class Page implements Serializable {
     public String getSnippet() {
         return snippet;
     }
-
-    /**
-     * String representation of the Page object.
-     * @return String representation
-     */
-    @Override
-    public String toString() {
-        return "Page{" + "title='" + title + '\'' + ", url='" + url + '\'' + ", snippet='" + snippet + '\'' + ", wordsFound=" + wordsFound + '}';
-    }
 }

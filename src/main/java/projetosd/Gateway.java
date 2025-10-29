@@ -270,7 +270,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         return true;
     }
 
-    //------------------ CALLBACK FUNCTIONS ------------------//
+    //------------------ CALLBACK METHODS ------------------//
 
     /**
      * Callback: Barrels notify state changes.
@@ -321,9 +321,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         Log.info("[GATEWAY] Search completed on barrel " + barrelPort + " for query " + query + " in " + responseTime + " ms");
     }
 
-    //---------------- END CALLBACK FUNCTIONS -------------//
+    //---------------- END OF CALLBACK METHODS -------------//
 
-    //------------------ USER FUNCTIONS ------------------//
+    //------------------ USER METHODS ------------------//
 
     /**
      * Index a URL at the URL queue.
@@ -473,7 +473,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         Log.info(sb.toString());
         return sb.toString();
     }
-    //------------------ END OF USER FUNCTIONS ------------------//
+    //------------------ END OF USER METHODS ------------------//
 
     /**
      * Main method for the Gateway.

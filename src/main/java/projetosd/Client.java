@@ -45,6 +45,8 @@ public class Client {
         }
     }
 
+    //---------------------------------- RESULT FORMATTING METHODS --------------------------------------------//
+
     /**
      * Print search results to console.
      * @param results List of pages to print
@@ -92,6 +94,10 @@ public class Client {
         }
         System.out.print(sb.toString());
     }
+
+    //---------------------------------- END OF RESULT FORMATTING METHODS ------------------------------------------//
+
+    //------------------------------------ GATEWAY CONNECTION METHODS ------------------------------------------//
 
     /**
      * Lookup the gateway with retry/backoff.
@@ -150,6 +156,8 @@ public class Client {
         if (exception != null) throw exception;
         throw new Exception("Gateway call failed after retries");
     }
+
+    //----------------------------------- END OF GATEWAY CONNECTION METHODS -----------------------------------//
 
     /**
      * Main to run the client console.

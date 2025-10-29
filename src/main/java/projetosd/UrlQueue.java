@@ -28,6 +28,8 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
         urlQueue = new LinkedBlockingDeque<>();
     }
 
+    //---------------------------------- URL QUEUE MANAGEMENT METHODS -----------------------------------------//
+
     /**
      * Adds a URL to the queue. User input URLs are prioritized.
      * @param url The URL to add
@@ -57,6 +59,8 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
             return null;
         }
     }
+
+    //---------------------------------- END OF URL QUEUE MANAGEMENT METHODS -----------------------------------------//
 
     /**
      * Main for UrlQueue. Starts the RMI registry and binds the queue.
