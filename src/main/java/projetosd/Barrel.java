@@ -29,21 +29,22 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     /*
      * Reference to the Gateway for callbacks
      */
-    private GatewayInterface gateway = null;
+    private GatewayInterface gateway;
 
     /*
      * Port where this barrel is running
      */
-    private int port = -1;
+    private int port;
 
     /**
      * Constructs the Barrel.
      * @throws RemoteException RMI exception
      */
     public Barrel() throws RemoteException {
+        port = -1;
         this.port = Config.claimBarrelPort();
         if (this.port == -1) {
-            Log.error("[BARREL] No available ports. All barrel ports are in use.");
+            Log.error("[BARREL] No available ports. All barrel ports are in use");
         }
     }
 
@@ -285,7 +286,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @return List of words related to the given page (url)
      */
     @Override
-    public List<String> getWordsInPage(Page page) throws java.rmi.RemoteException{
+    public List<String> getWordsInPage(Page page) throws java.rmi.RemoteException{ //TODO VER O QUE E ESTA MERDA CAPINHA NIGGER
         Database db = new Database(this.port);
         List<String> words = new ArrayList<>();
 
@@ -501,21 +502,18 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             registry.rebind("barrel", barrel);
             Log.info("[BARREL " + barrel.port + "] Running on port: " + barrel.port);
 
-            // Notify gateway that this barrel is up and bound so the gateway can look it up successfully
-            try {
-                Registry reg = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
-                barrel.gateway = (GatewayInterface) reg.lookup("gateway");
+            registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
+            barrel.gateway = (GatewayInterface) registry.lookup("gateway");
 
-                Log.info("[BARREL " + barrel.port + "] Requesting sync to gateway");
-                if(barrel.gateway.synchBarrels()) Log.info("[BARREL] Sync complete");
-
-                barrel.gateway.reportBarrelStatus(barrel.port, true);
-                Log.info("[BARREL " + barrel.port + "] Registered with gateway on port: " + Config.GATEWAY_PORT);
-
-            } catch (NotBoundException | RemoteException e) {
-                Log.error("[BARREL " + barrel.port + "] Gateway not available for initial registration: " + e.getMessage());
-                System.exit(1);
+            Log.info("[BARREL " + barrel.port + "] Requesting sync to gateway");
+            if(barrel.gateway.synchBarrels(barrel.port)){
+                Log.info("[BARREL " + barrel.port + "] Sync successful");
+            } else {
+                Log.error("[BARREL " + barrel.port + "] Sync failed");
             }
+
+            barrel.gateway.reportBarrelStatus(barrel.port, true);
+            Log.info("[BARREL " + barrel.port + "] Registered with gateway on port: " + Config.GATEWAY_PORT);
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
@@ -530,8 +528,8 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                 }
             }));
 
-        } catch (RemoteException e) {
-            Log.error("[BARREL] Failed to start: " + e.getMessage());
+        } catch (RemoteException | NotBoundException e) {
+            Log.error("[BARREL] Failed to start Barrel RMI Server: " + e.getMessage());
             System.exit(1);
         }
     }

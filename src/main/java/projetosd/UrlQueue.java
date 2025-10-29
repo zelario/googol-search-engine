@@ -69,10 +69,13 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     public static void main(String[] args) {
         try {
             UrlQueue queue = new UrlQueue();
-            
             Registry registry = LocateRegistry.createRegistry(Config.URL_QUEUE_PORT);
             registry.rebind("queue", queue);
-            Log.info("[URLQueue] RMI server ready.");
+            Log.info("[URLQueue] RMI server ready");
+
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                Log.info("[URLQueue] Exiting");
+            }));            
         } catch (RemoteException e) {
             Log.error("[URLQueue] Exiting. Could not start RMI server: " + e.getMessage());
             System.exit(1);

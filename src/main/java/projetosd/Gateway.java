@@ -98,7 +98,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 Log.info("[GATEWAY] Chosen barrel is fine. Selected barrel " + port);
                 return entry;
             } else {
-                Log.error("[GATEWAY] Barrel " + port + " not available after retries. Removing from registry.");
+                Log.error("[GATEWAY] Barrel " + port + " not available after retries. Removing from registry");
                 entries.remove(index);
                 barrels.remove(port);
                 stats.removeBarrelStats(port);
@@ -172,7 +172,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     @Override
     @SuppressWarnings({"BusyWait", "SleepWhileInLoop"})
-    public boolean synchBarrels() throws RemoteException {
+    public boolean synchBarrels(int requesterPort) throws RemoteException {
+        Log.info("[GATEWAY] Barrel " + requesterPort + " requested synchronization");
+
         Timestamp syncTime = Timestamp.valueOf(LocalDateTime.now());
         List<String> mismatches = checkBarrelMismatches(syncTime);
 
@@ -289,14 +291,14 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
                 barrels.put(barrelPort, barrel);
                 stats.updateBarrelIndexSize(barrelPort, stats.getActiveBarrels().getOrDefault(barrelPort, 0L));
-                Log.info("[GATEWAY] Barrel " + barrelPort + " registered.");
+                Log.info("[GATEWAY] Barrel " + barrelPort + " registered");
             } catch (NotBoundException | RemoteException e) {
                 Log.error("[GATEWAY] Failed to register barrel " + barrelPort + ": " + e.getMessage());
             }
         } else {
             barrels.remove(barrelPort);
             stats.removeBarrelStats(barrelPort);
-            Log.info("[GATEWAY] Barrel " + barrelPort + " unregistered.");
+            Log.info("[GATEWAY] Barrel " + barrelPort + " unregistered");
         }
     }
 
@@ -343,7 +345,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 Log.error("[GATEWAY] Failed to add URL to queue: " + e.getMessage());
             }
         } else {
-            Log.error("[GATEWAY] Queue is not available.");
+            Log.error("[GATEWAY] Queue is not available");
         }
     }
 
@@ -366,7 +368,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         for (int attempt = 1; attempt <= Config.GATEWAY_RETRIES; attempt++) {
             Map.Entry<Integer, BarrelInterface> entry = selectBarrel();
             if (entry == null) {
-                Log.warning("[GATEWAY] No available barrels for search on attempt " + attempt + ".");
+                Log.warning("[GATEWAY] No available barrels for search on attempt " + attempt);
                 return null;
             }
 
@@ -379,11 +381,11 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                     return null;
                 }
 
-                Log.info("[GATEWAY] Client " + clientId + " search completed successfully on barrel " + barrelPort + " on attempt " + attempt + ".");
+                Log.info("[GATEWAY] Client " + clientId + " search completed successfully on barrel " + barrelPort + " on attempt " + attempt);
                 return pages;
 
             } catch (RemoteException e) {
-                Log.error("[GATEWAY] Search failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying.");
+                Log.error("[GATEWAY] Search failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying");
 
                 if (attempt < Config.GATEWAY_RETRIES) {
                     try {
@@ -413,7 +415,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         for (int attempt = 1; attempt <= Config.GATEWAY_RETRIES; attempt++) {
             Map.Entry<Integer, BarrelInterface> entry = selectBarrel();
             if (entry == null) {
-                Log.warning("[GATEWAY] No available barrels for backlinks on attempt " + attempt + ".");
+                Log.warning("[GATEWAY] No available barrels for backlinks on attempt " + attempt);
                 return null;
             }
 
@@ -422,11 +424,11 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
             try {
                 List<Page> backlinks = barrel.getBacklinks(page);
-                Log.info("[GATEWAY] Client " + clientId + " backlinks retrieved successfully from barrel " + barrelPort + " on attempt " + attempt + ".");
+                Log.info("[GATEWAY] Client " + clientId + " backlinks retrieved successfully from barrel " + barrelPort + " on attempt " + attempt);
                 return backlinks;
 
             } catch (RemoteException e) {
-                Log.error("[GATEWAY] Backlinks retrieval failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying.");
+                Log.error("[GATEWAY] Backlinks retrieval failed on barrel " + barrelPort + ": " + e.getMessage() + " (attempt " + attempt + "). Retrying");
 
                 if (attempt < Config.GATEWAY_RETRIES) {
                     try {
@@ -454,7 +456,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         Map<Integer, Long> activeBarrels = stats.getActiveBarrels();
         Map<Integer, Long> responseTimes = stats.getAverageResponse();
 
-        Log.info("[GATEWAY] Client " + clientId + " requested stats.");
+        Log.info("[GATEWAY] Client " + clientId + " requested stats");
 
         StringBuilder sb = new StringBuilder();
         sb.append("=== Statistics ===\n\n");
@@ -471,7 +473,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             sb.append(String.format("  \"%s\" - %d tenths\n", entry.getKey(), entry.getValue()));
         }
 
-        Log.info("[GATEWAY] Client " + clientId + " stats retrieved successfully.");
+        Log.info("[GATEWAY] Client " + clientId + " stats retrieved successfully");
 
         Log.info(sb.toString());
         return sb.toString();
@@ -487,7 +489,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             Gateway gateway = new Gateway();
 
             if (gateway.queue == null) {
-                Log.error("[GATEWAY] Exiting due to unavailable URL Queue.");
+                Log.error("[GATEWAY] Exiting due to unavailable URL Queue");
                 return;
             }
 
@@ -496,19 +498,12 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             Log.info("[GATEWAY] Gateway ready on port " + Config.GATEWAY_PORT);
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                try {
-                    registry.unbind("gateway");
-                    UnicastRemoteObject.unexportObject(gateway, true);
-                    gateway.stats.saveStats();
-                    Log.info("[GATEWAY] Stats saved successfully.");
-                    Log.info("[GATEWAY] Gateway shutting down.");
-                } catch (NotBoundException | RemoteException e) {
-                    Log.error("[GATEWAY] Error during shutdown: " + e.getMessage());
-                }
+                gateway.stats.saveStats();
+                Log.info("[GATEWAY] Stats saved successfully");
+                Log.info("[GATEWAY] Gateway shutting down");
             }));
-
         } catch (RemoteException e) {
-            Log.error("[GATEWAY] Failed to start Gateway: " + e.getMessage());
+            Log.error("[GATEWAY] Failed to start Gateway RMI server: " + e.getMessage());
             System.exit(1);
         }
     }

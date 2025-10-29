@@ -112,7 +112,7 @@ public class Downloader extends Thread {
 
             connectBarrel();
             if (barrelPort == -1) {
-                Log.error("[DOWNLOADER " + threadNumber + "] No barrels available on startup. Exiting.");
+                Log.error("[DOWNLOADER " + threadNumber + "] No barrels available on startup. Exiting");
                 return;
             }
             Log.info("[DOWNLOADER " + threadNumber + "] Connected to Barrel on port " + barrelPort);
@@ -181,10 +181,10 @@ public class Downloader extends Thread {
                         Log.warning("[DOWNLOADER " + threadNumber + "] Failed to parse and/or store an url");
                     }
                 } catch (RemoteException e) {
-                    Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Barrel.: " + e.getMessage());
+                    Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Barrel: " + e.getMessage());
                     barrelPort = -1;
                     if (!attemptReconnect()) {
-                        Log.error("[DOWNLOADER " + threadNumber + "] Could not reconnect to any Barrel. Exiting.");
+                        Log.error("[DOWNLOADER " + threadNumber + "] Could not reconnect to any Barrel. Exiting");
                         return;
                     }
                 }

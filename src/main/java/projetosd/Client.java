@@ -167,7 +167,7 @@ public class Client {
         Client client = new Client();
 
         if (client.gateway == null) {
-            Log.error("[CLIENT " + client.id + "] Exiting due to no gateway connection.");
+            Log.error("[CLIENT " + client.id + "] Exiting due to no gateway connection");
             return;
         }
         

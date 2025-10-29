@@ -1,26 +1,10 @@
-[2025-10-29 18:14:00] [INFO] [STATS] Stats loaded successfully.
-[2025-10-29 18:14:01] [INFO] [GATEWAY] Connected to URL Queue on port 1099
-[2025-10-29 18:14:01] [INFO] [GATEWAY] Gateway ready on port 1098
-[2025-10-29 18:14:03] [INFO] [BARREL 1100] Running on port: 1100
-[2025-10-29 18:14:03] [INFO] [BARREL 1100] Requesting sync to gateway
-[2025-10-29 18:14:04] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-10-29 18:14:04] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-10-29 18:14:04] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-10-29 18:14:06] [INFO] [CLIENT 83] Connected to gateway on port 1098 on attempt 1
-[2025-10-29 18:14:06] [INFO] [DOWNLOADER 3] Connected to Barrel on port 1100
-[2025-10-29 18:14:06] [INFO] [DOWNLOADER 2] Connected to Barrel on port 1100
-[2025-10-29 18:14:06] [INFO] [DOWNLOADER 1] Connected to Barrel on port 1100
-[2025-10-29 18:14:11] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-10-29 18:14:11] [INFO] [BARREL] Sync complete
-[2025-10-29 18:14:11] [INFO] [GATEWAY] Barrel 1100 registered.
-[2025-10-29 18:14:11] [INFO] [BARREL 1100] Registered with gateway on port: 1098
-[2025-10-29 18:14:12] [INFO] [GATEWAY] Client 83 searching for query: kanye
-[2025-10-29 18:14:12] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
-[2025-10-29 18:14:13] [INFO] [GATEWAY] Search completed on barrel 1100 for query kanye in 565 ms
-[2025-10-29 18:14:13] [INFO] [GATEWAY] Client 83 search completed successfully on barrel 1100 on attempt 1.
-[2025-10-29 18:14:54] [ERROR] [DOWNLOADER 1] Lost connection to Barrel: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-[2025-10-29 18:14:54] [ERROR] [DOWNLOADER 3] Lost connection to Barrel: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-[2025-10-29 18:14:54] [ERROR] [DOWNLOADER 2] Lost connection to Barrel: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
+[2025-10-29 22:04:23] [INFO] [STATS] Stats loaded successfully.
+[2025-10-29 22:04:23] [INFO] [GATEWAY] Connected to URL Queue on port 1099
+[2025-10-29 22:04:23] [INFO] [GATEWAY] Gateway ready on port 1098
+[2025-10-29 22:04:28] [INFO] [BARREL 1100] Running on port: 1100
+[2025-10-29 22:04:28] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-10-29 22:04:28] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-10-29 22:04:36] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-29 22:04:36] [INFO] [BARREL 1100] Sync successful
+[2025-10-29 22:04:36] [INFO] [GATEWAY] Barrel 1100 registered.
+[2025-10-29 22:04:36] [INFO] [BARREL 1100] Registered with gateway on port: 1098
