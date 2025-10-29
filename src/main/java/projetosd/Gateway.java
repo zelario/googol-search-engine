@@ -109,7 +109,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Method to get barrel all hashes to check consistency
      * @return Map with ports as keys and as values hash maps with tables as keys as the MD5 hashes as values
      */
-    private Map<Integer, Map<String, String>> barrelHashes(Timestamp now){
+    private Map<Integer, Map<String, String>> getBarrelHashes(Timestamp now){
         Map<Integer, Map<String, String>> barrelHashes = new HashMap<>();
 
         for(Integer barrelPort : Config.BARREL_PORTS) {
@@ -131,9 +131,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Method to check all barrel hashes and compare to find mismatches
      * @return HashMap with ports as keys and a list of table names where mismatches were found as value
      */
-    private List<String>  barrelMismatches(Timestamp now){
+    private List<String>  checkBarrelMismatches(Timestamp now){
         List<String> mismatches = new ArrayList<>();
-        Map<Integer, Map<String, String>> allHashes = this.barrelHashes(now);
+        Map<Integer, Map<String, String>> allHashes = this.getBarrelHashes(now);
 
         // No more than 1 barrel, no sync needed
         if (allHashes.size() <= 1) return mismatches;
@@ -165,7 +165,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     @SuppressWarnings("BusyWait")
     public void synchBarrels() throws RemoteException {
         Timestamp syncTime = Timestamp.valueOf(LocalDateTime.now());
-        List<String> mismatches = barrelMismatches(syncTime);
+        List<String> mismatches = checkBarrelMismatches(syncTime);
 
         if(mismatches.isEmpty()){
             Log.info("[GATEWAY] Found no mismatches in barrels");
@@ -283,7 +283,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 Registry registry = LocateRegistry.getRegistry(barrelPort);
                 BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
                 barrels.put(barrelPort, barrel);
-                stats.updateBarrelIndexSize(barrelPort, 0L);
+                stats.updateBarrelIndexSize(barrelPort, stats.getActiveBarrels().getOrDefault(barrelPort, 0L));
                 Log.info("[GATEWAY] Barrel " + barrelPort + " registered.");
             } catch (NotBoundException | RemoteException e) {
                 Log.error("[GATEWAY] Failed to register barrel " + barrelPort + ": " + e.getMessage());
@@ -303,7 +303,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     @Override
     public void reportIndexStats(int barrelPort, int indexSize) throws RemoteException {
         stats.updateBarrelIndexSize(barrelPort, indexSize);
-        Log.info("[GATEWAY] Stats updated from barrel " + barrelPort + ": indexSize=" + indexSize);
     }
 
     /**
@@ -461,6 +460,18 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             Registry registry = LocateRegistry.createRegistry(Config.GATEWAY_PORT);
             registry.rebind("gateway", gateway);
             Log.info("[GATEWAY] Gateway ready on port " + Config.GATEWAY_PORT);
+
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                try {
+                    registry.unbind("gateway");
+                    UnicastRemoteObject.unexportObject(gateway, true);
+                    gateway.stats.saveStats();
+                    Log.info("[GATEWAY] Stats saved successfully.");
+                    Log.info("[GATEWAY] Gateway shutting down.");
+                } catch (Exception e) {
+                    Log.error("[GATEWAY] Error during shutdown: " + e.getMessage());
+                }
+            }));
 
         } catch (RemoteException e) {
             Log.error("[GATEWAY] Failed to start Gateway: " + e.getMessage());

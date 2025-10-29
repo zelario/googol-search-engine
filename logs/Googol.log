@@ -1,279 +1,51 @@
-[2025-10-27 19:45:34] [INFO] [GATEWAY] Connected to URL Queue on port 1099
-[2025-10-27 19:45:34] [INFO] [GATEWAY] Gateway ready on port 1098
-[2025-10-27 19:45:38] [INFO] [BARREL 1100] Running on port: 1100
-[2025-10-27 19:45:38] [INFO] [GATEWAY] Barrel 1100 registered.
-[2025-10-27 19:45:38] [INFO] [BARREL 1100] Registered with gateway on port: 1098
-[2025-10-27 19:45:42] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-10-27 19:45:42] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-10-27 19:45:42] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-10-27 19:45:44] [INFO] [DOWNLOADER 3] Connected to Barrel on port 1100
-[2025-10-27 19:45:44] [INFO] [DOWNLOADER 1] Connected to Barrel on port 1100
-[2025-10-27 19:45:44] [INFO] [DOWNLOADER 2] Connected to Barrel on port 1100
-[2025-10-27 19:45:49] [INFO] [CLIENT 85] Connected to gateway on port 1098 on attempt 1
-[2025-10-27 19:46:00] [INFO] [GATEWAY] Client added URL to queue: https://www.diariocoimbra.pt/
-[2025-10-27 19:46:02] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=0
-[2025-10-27 19:46:03] [WARNING] [BARREL 1100] Deadlock detected on insertion
-[2025-10-27 19:46:03] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=631
-[2025-10-27 19:46:03] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=631
-[2025-10-27 19:46:04] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=1293
-[2025-10-27 19:46:04] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=1293
-[2025-10-27 19:46:04] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=1951
-[2025-10-27 19:46:04] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=2604
-[2025-10-27 19:46:04] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=2604
-[2025-10-27 19:46:05] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=2925
-[2025-10-27 19:46:05] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=3106
-[2025-10-27 19:46:05] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=3106
-[2025-10-27 19:46:05] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=3106
-[2025-10-27 19:46:05] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=3106
-[2025-10-27 19:46:05] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=3106
-[2025-10-27 19:46:06] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=3106
-[2025-10-27 19:46:06] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=3106
-[2025-10-27 19:46:06] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=3106
-[2025-10-27 19:46:06] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=3332
-[2025-10-27 19:46:06] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=3937
-[2025-10-27 19:46:06] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=3937
-[2025-10-27 19:46:07] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=4312
-[2025-10-27 19:46:07] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=4829
-[2025-10-27 19:46:07] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=4829
-[2025-10-27 19:46:07] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=5028
-[2025-10-27 19:46:08] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=5305
-[2025-10-27 19:46:08] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=5552
-[2025-10-27 19:46:09] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=5817
-[2025-10-27 19:46:09] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=6109
-[2025-10-27 19:46:11] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=6228
-[2025-10-27 19:46:12] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=6658
-[2025-10-27 19:46:12] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=6944
-[2025-10-27 19:46:13] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=6944
-[2025-10-27 19:46:13] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=6944
-[2025-10-27 19:46:14] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=6944
-[2025-10-27 19:46:14] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=6944
-[2025-10-27 19:46:15] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=6944
-[2025-10-27 19:46:15] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=6944
-[2025-10-27 19:46:15] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=6944
-[2025-10-27 19:46:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7291
-[2025-10-27 19:46:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7291
-[2025-10-27 19:46:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7291
-[2025-10-27 19:46:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7291
-[2025-10-27 19:46:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7574
-[2025-10-27 19:46:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7574
-[2025-10-27 19:46:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7574
-[2025-10-27 19:46:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7574
-[2025-10-27 19:46:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7574
-[2025-10-27 19:46:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7574
-[2025-10-27 19:46:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7574
-[2025-10-27 19:46:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7574
-[2025-10-27 19:46:18] [INFO] [GATEWAY] Client 85 requested stats.
-[2025-10-27 19:46:18] [INFO] [GATEWAY] Client 85 stats retrieved successfully.
-[2025-10-27 19:46:18] [INFO] === Statistics ===
+[2025-10-29 13:56:08] [INFO] [STATS] Stats loaded successfully.
+[2025-10-29 13:56:08] [INFO] [GATEWAY] Connected to URL Queue on port 1099
+[2025-10-29 13:56:08] [INFO] [GATEWAY] Gateway ready on port 1098
+[2025-10-29 13:56:10] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:11] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:11] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:14] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:14] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:14] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:18] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:18] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:19] [ERROR] [CLIENT 32] Gateway call failed at attempt 1: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:19] [INFO] [CLIENT 32] Connected to gateway on port 1098 on attempt 1
+[2025-10-29 13:56:19] [INFO] [GATEWAY] Client 32 requested stats.
+[2025-10-29 13:56:19] [INFO] [GATEWAY] Client 32 stats retrieved successfully.
+[2025-10-29 13:56:19] [INFO] === Statistics ===
 
 Top 10 Searches:
+  "kanye" - 1 times
 Active Barrels:
-  "1100" - 7574 indexes
+  "1100" - 358058 indexes
 Average Response Times:
+  "1100" - 9 tenths
 
-[2025-10-27 19:46:18] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7846
-[2025-10-27 19:46:18] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7846
-[2025-10-27 19:46:18] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=7846
-[2025-10-27 19:46:19] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=8165
-[2025-10-27 19:46:19] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=8426
-[2025-10-27 19:46:19] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=8426
-[2025-10-27 19:46:19] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=8737
-[2025-10-27 19:46:20] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=9395
-[2025-10-27 19:46:25] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=10711
-[2025-10-27 19:46:25] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=10711
-[2025-10-27 19:46:25] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=10711
-[2025-10-27 19:46:26] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=10966
-[2025-10-27 19:46:26] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=10966
-[2025-10-27 19:46:26] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=10966
-[2025-10-27 19:46:26] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=10966
-[2025-10-27 19:46:26] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=10966
-[2025-10-27 19:46:26] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=10966
-[2025-10-27 19:46:27] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=11624
-[2025-10-27 19:46:27] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=11624
-[2025-10-27 19:46:27] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=12971
-[2025-10-27 19:46:27] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=13327
-[2025-10-27 19:46:27] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=13635
-[2025-10-27 19:46:28] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=13635
-[2025-10-27 19:46:28] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=13989
-[2025-10-27 19:46:28] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=13989
-[2025-10-27 19:46:28] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=13989
-[2025-10-27 19:46:28] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=13989
-[2025-10-27 19:46:28] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=14659
-[2025-10-27 19:46:29] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=14659
-[2025-10-27 19:46:29] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=14659
-[2025-10-27 19:46:29] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=15146
-[2025-10-27 19:46:29] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=15146
-[2025-10-27 19:46:29] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=15457
-[2025-10-27 19:46:29] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=15732
-[2025-10-27 19:46:30] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=16109
-[2025-10-27 19:46:30] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=16109
-[2025-10-27 19:46:30] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=16109
-[2025-10-27 19:46:31] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=16767
-[2025-10-27 19:46:31] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=16767
-[2025-10-27 19:46:31] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=17175
-[2025-10-27 19:46:33] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=17525
-[2025-10-27 19:46:33] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=17525
-[2025-10-27 19:46:34] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=17946
-[2025-10-27 19:46:34] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=17946
-[2025-10-27 19:46:34] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=17946
-[2025-10-27 19:46:35] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=18604
-[2025-10-27 19:46:35] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=18604
-[2025-10-27 19:46:35] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=18604
-[2025-10-27 19:46:35] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=18604
-[2025-10-27 19:46:35] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=19014
-[2025-10-27 19:46:36] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=19253
-[2025-10-27 19:46:36] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=19253
-[2025-10-27 19:46:36] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=19253
-[2025-10-27 19:46:36] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=19253
-[2025-10-27 19:46:36] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=19253
-[2025-10-27 19:46:36] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=19253
-[2025-10-27 19:46:37] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=19253
-[2025-10-27 19:46:37] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=19253
-[2025-10-27 19:46:37] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=19253
-[2025-10-27 19:46:38] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=20162
-[2025-10-27 19:46:38] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=20162
-[2025-10-27 19:46:38] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=20162
-[2025-10-27 19:46:38] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=20462
-[2025-10-27 19:46:38] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=20462
-[2025-10-27 19:46:38] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=20462
-[2025-10-27 19:46:39] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=20462
-[2025-10-27 19:46:39] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=20462
-[2025-10-27 19:46:39] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=21120
-[2025-10-27 19:46:39] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=21120
-[2025-10-27 19:46:39] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=21120
-[2025-10-27 19:46:39] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=21473
-[2025-10-27 19:46:39] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=21473
-[2025-10-27 19:46:40] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=21830
-[2025-10-27 19:46:40] [INFO] [GATEWAY] Client 85 searching for query: coimbra
-[2025-10-27 19:46:40] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
-[2025-10-27 19:46:40] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=21830
-[2025-10-27 19:46:40] [INFO] [GATEWAY] Search completed on barrel 1100 for query coimbra in 102 ms
-[2025-10-27 19:46:40] [INFO] [GATEWAY] Client 85 search completed successfully on barrel 1100 on attempt 1.
-[2025-10-27 19:46:40] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=22226
-[2025-10-27 19:46:40] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=22226
-[2025-10-27 19:46:40] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=22490
-[2025-10-27 19:46:40] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=22490
-[2025-10-27 19:46:41] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=22771
-[2025-10-27 19:46:41] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=22771
-[2025-10-27 19:46:42] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=22771
-[2025-10-27 19:46:42] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=22771
-[2025-10-27 19:46:42] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=23429
-[2025-10-27 19:46:42] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=23429
-[2025-10-27 19:46:43] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=23764
-[2025-10-27 19:46:44] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=23764
-[2025-10-27 19:46:44] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=24035
-[2025-10-27 19:46:44] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=24035
-[2025-10-27 19:46:44] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=24035
-[2025-10-27 19:46:45] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=24377
-[2025-10-27 19:46:45] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=24653
-[2025-10-27 19:46:46] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=25126
-[2025-10-27 19:46:46] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=25126
-[2025-10-27 19:46:47] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=25478
-[2025-10-27 19:46:48] [INFO] [GATEWAY] Client 85 searching for query: coimbra
-[2025-10-27 19:46:48] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
-[2025-10-27 19:46:48] [INFO] [GATEWAY] Search completed on barrel 1100 for query coimbra in 74 ms
-[2025-10-27 19:46:48] [INFO] [GATEWAY] Client 85 search completed successfully on barrel 1100 on attempt 1.
-[2025-10-27 19:46:48] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=25772
-[2025-10-27 19:46:49] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=26096
-[2025-10-27 19:46:49] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=26412
-[2025-10-27 19:46:50] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=27050
-[2025-10-27 19:46:50] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=27050
-[2025-10-27 19:46:50] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=27383
-[2025-10-27 19:46:50] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=27651
-[2025-10-27 19:46:50] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=27975
-[2025-10-27 19:46:53] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=28270
-[2025-10-27 19:46:53] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=28576
-[2025-10-27 19:46:53] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=28932
-[2025-10-27 19:46:54] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=29238
-[2025-10-27 19:46:54] [INFO] [GATEWAY] Client 85 requested stats.
-[2025-10-27 19:46:54] [INFO] [GATEWAY] Client 85 stats retrieved successfully.
-[2025-10-27 19:46:54] [INFO] === Statistics ===
-
-Top 10 Searches:
-  "coimbra" - 2 times
-Active Barrels:
-  "1100" - 29238 indexes
-Average Response Times:
-  "1100" - 1 tenths
-
-[2025-10-27 19:46:56] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=29558
-[2025-10-27 19:46:57] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=30170
-[2025-10-27 19:46:57] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=30170
-[2025-10-27 19:46:57] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=30470
-[2025-10-27 19:46:57] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=30775
-[2025-10-27 19:46:58] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=31088
-[2025-10-27 19:46:58] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=31387
-[2025-10-27 19:46:58] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=31720
-[2025-10-27 19:46:59] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=31997
-[2025-10-27 19:46:59] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=32305
-[2025-10-27 19:46:59] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=32548
-[2025-10-27 19:46:59] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=32768
-[2025-10-27 19:47:00] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=32768
-[2025-10-27 19:47:00] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=32768
-[2025-10-27 19:47:00] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=33644
-[2025-10-27 19:47:00] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=33644
-[2025-10-27 19:47:01] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=33644
-[2025-10-27 19:47:01] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=33985
-[2025-10-27 19:47:01] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=34460
-[2025-10-27 19:47:01] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=34460
-[2025-10-27 19:47:02] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=34460
-[2025-10-27 19:47:03] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=34782
-[2025-10-27 19:47:03] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=34782
-[2025-10-27 19:47:04] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=35199
-[2025-10-27 19:47:04] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=35199
-[2025-10-27 19:47:05] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=35698
-[2025-10-27 19:47:06] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=36051
-[2025-10-27 19:47:07] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=36414
-[2025-10-27 19:47:08] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=36798
-[2025-10-27 19:47:10] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=36798
-[2025-10-27 19:47:10] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=37131
-[2025-10-27 19:47:10] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=37131
-[2025-10-27 19:47:10] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=37131
-[2025-10-27 19:47:11] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=37131
-[2025-10-27 19:47:11] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=37131
-[2025-10-27 19:47:11] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=37789
-[2025-10-27 19:47:12] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=38101
-[2025-10-27 19:47:12] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=38101
-[2025-10-27 19:47:12] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=38467
-[2025-10-27 19:47:12] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=38467
-[2025-10-27 19:47:12] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=38467
-[2025-10-27 19:47:12] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=39125
-[2025-10-27 19:47:13] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=39125
-[2025-10-27 19:47:13] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=39125
-[2025-10-27 19:47:13] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=39550
-[2025-10-27 19:47:13] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=39550
-[2025-10-27 19:47:13] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=39813
-[2025-10-27 19:47:13] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=39813
-[2025-10-27 19:47:14] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=39813
-[2025-10-27 19:47:14] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=39813
-[2025-10-27 19:47:14] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=40128
-[2025-10-27 19:47:14] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=40551
-[2025-10-27 19:47:14] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=40551
-[2025-10-27 19:47:15] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=40551
-[2025-10-27 19:47:15] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=40551
-[2025-10-27 19:47:15] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=41209
-[2025-10-27 19:47:15] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=41209
-[2025-10-27 19:47:15] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=41209
-[2025-10-27 19:47:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=41523
-[2025-10-27 19:47:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=41872
-[2025-10-27 19:47:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=41872
-[2025-10-27 19:47:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=41872
-[2025-10-27 19:47:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=41872
-[2025-10-27 19:47:16] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42530
-[2025-10-27 19:47:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:17] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:18] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:18] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:18] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:18] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:18] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:18] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=42882
-[2025-10-27 19:47:19] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=43789
-[2025-10-27 19:47:19] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=43789
-[2025-10-27 19:47:19] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=43789
-[2025-10-27 19:47:19] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=43789
-[2025-10-27 19:47:19] [INFO] [GATEWAY] Stats updated from barrel 1100: indexSize=43789
+[2025-10-29 13:56:21] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:22] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:22] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:24] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:25] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:25] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:27] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:28] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:28] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect

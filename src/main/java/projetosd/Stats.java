@@ -1,5 +1,11 @@
 package projetosd;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Jose Amado & José Capinha
  * @version 1.0
  */
-public class Stats {
+public class Stats implements Serializable {
 
 	/*
      * Count occurrences of search queries
@@ -29,7 +35,7 @@ public class Stats {
 	/*
      * Barrel response time stats class
      */
-	private static class ResponseTime {
+	private static class ResponseTime implements Serializable {
 		final AtomicLong total = new AtomicLong(0);
 		final AtomicLong count = new AtomicLong(0);
 	}
@@ -45,6 +51,7 @@ public class Stats {
 		queryCounts = new ConcurrentHashMap<>();
 		barrelIndexSizes = new ConcurrentHashMap<>();
 		barrelTimes = new ConcurrentHashMap<>();
+		loadStats();
 	}
 
 	/**
@@ -135,4 +142,33 @@ public class Stats {
 		barrelIndexSizes.remove(barrelPort);
 		barrelTimes.remove(barrelPort);
 	}
+
+	public void saveStats() {
+		File file = new File("data/stats.ser");
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+			file.getParentFile().mkdirs();
+			oos.writeObject(this);
+			Log.info("[STATS] Stats saved successfully.");
+		} catch (Exception e) {
+			Log.error("[STATS] Failed to save stats: " + e.getMessage());
+		}
+	}
+
+	public void loadStats() {
+		File file = new File("data/stats.ser");
+		if (!file.exists()) {
+			Log.info("[STATS] No saved stats found to load.");
+			return;
+		}
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+			Stats stats = (Stats) ois.readObject();
+			this.queryCounts.putAll(stats.queryCounts);
+			this.barrelIndexSizes.putAll(stats.barrelIndexSizes);
+			this.barrelTimes.putAll(stats.barrelTimes);
+			Log.info("[STATS] Stats loaded successfully.");
+		} catch (Exception e) {
+			Log.error("[STATS] Failed to load stats: " + e.getMessage());
+		}
+	}
 }
+

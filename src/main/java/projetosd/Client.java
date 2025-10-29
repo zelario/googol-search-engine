@@ -160,15 +160,13 @@ public class Client {
                                     System.out.println(results);
                                     System.out.print("                 Prev             End              Next\n\n> ");
                                     String command = scanner.nextLine().trim();
-                                    if(command.equalsIgnoreCase("end")){
-                                        System.out.print("\n=== Ending of search results ===\n\n");
-                                        break;
-                                    } else if(command.equalsIgnoreCase("next")){
+                                    if(command.equalsIgnoreCase("next")){
                                         pageNumber++;
                                     } else if(command.equalsIgnoreCase("prev")){
                                         pageNumber--;
                                     } else {
-                                        System.out.print("\nInvalid command.\n ");
+                                        System.out.print("\n=== Ending of search results ===\n\n");
+                                        break;
                                     }
                                 }
                             } catch (Exception e) {
