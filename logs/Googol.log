@@ -49,3 +49,40 @@ Average Response Times:
 	java.net.ConnectException: Connection refused: connect
 [2025-10-29 13:56:28] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
 	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:37] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:37] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:37] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:39] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:40] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:40] [ERROR] [DOWNLOADER 1] Lost connection to Barrel: Unhandled content type. Must be text/*, */xml, or */*+xml
+[2025-10-29 13:56:41] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:43] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:44] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:46] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:47] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:48] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:50] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:51] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:53] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:54] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:56] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:56] [ERROR] [DOWNLOADER 3] Lost connection to Barrel: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+[2025-10-29 13:56:57] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 26.11.203.193; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-10-29 13:56:57] [ERROR] [DOWNLOADER 2] Lost connection to Barrel: Received fatal alert: handshake_failure

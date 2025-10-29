@@ -162,7 +162,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     }
 
     @Override
-    @SuppressWarnings("BusyWait")
+    @SuppressWarnings({"BusyWait", "SleepWhileInLoop"})
     public void synchBarrels() throws RemoteException {
         Timestamp syncTime = Timestamp.valueOf(LocalDateTime.now());
         List<String> mismatches = checkBarrelMismatches(syncTime);
@@ -468,7 +468,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                     gateway.stats.saveStats();
                     Log.info("[GATEWAY] Stats saved successfully.");
                     Log.info("[GATEWAY] Gateway shutting down.");
-                } catch (Exception e) {
+                } catch (NotBoundException | RemoteException e) {
                     Log.error("[GATEWAY] Error during shutdown: " + e.getMessage());
                 }
             }));

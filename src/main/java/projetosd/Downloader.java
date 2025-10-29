@@ -64,6 +64,7 @@ public class Downloader extends Thread {
      * Attempt to reconnect to any barrel with retries and backoff.
      * @return true if reconnected, false otherwise
      */
+    @SuppressWarnings("SleepWhileInLoop")
     private boolean attemptReconnect() {
         for (int attempt = 1; attempt <= Config.DOWNLOADER_RETRIES; attempt++) {
             Log.info("[DOWNLOADER " + threadNumber + "] Attempt " + attempt + " to reconnect to a barrel.");
