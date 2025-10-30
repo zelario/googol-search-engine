@@ -501,7 +501,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
             Registry registry = LocateRegistry.createRegistry(barrel.port);
             registry.rebind("barrel", barrel);
-            Log.info("[BARREL " + barrel.port + "] Running on port: " + barrel.port);
+            Log.info("[BARREL " + barrel.port + "] Running on " + Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrel.port) + ":" + barrel.port);
 
             registry = LocateRegistry.getRegistry(Config.GATEWAY_HOST, Config.GATEWAY_PORT);
             barrel.gateway = (GatewayInterface) registry.lookup("gateway");

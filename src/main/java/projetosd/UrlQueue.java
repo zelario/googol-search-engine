@@ -140,7 +140,7 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     public void changeBarrelStatus(int barrelPort, boolean status) throws java.rmi.RemoteException{
         if(status){
             try{
-                Registry registry = LocateRegistry.getRegistry(barrelPort);
+                Registry registry = LocateRegistry.getRegistry(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrelPort), barrelPort);
                 BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
 
                 this.barrels.put(barrelPort, barrel);

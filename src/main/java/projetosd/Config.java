@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Properties;
 
 /**
@@ -102,6 +103,11 @@ public class Config {
      */
     public static boolean DEBUG;
 
+    /*
+     * Table with Port associated Host
+     */
+    public static HashMap<Integer, String> BARREL_HOSTS_TRANSLATION_TABLE;
+
     static {
         loadConfiguration();
     }
@@ -111,7 +117,7 @@ public class Config {
         GATEWAY_PORT = 1098;
         URL_QUEUE_HOST = "localhost";
         URL_QUEUE_PORT = 1099;
-        BARREL_HOSTS = new String[]{"localhost", "localhost"};
+        BARREL_HOSTS = new String[]{"localhost", "localhost", "localhost", "localhost", "localhost"};
         BARREL_PORTS = new int[]{1,2,3,4,5};
         DOWNLOADER_THREADS = 3;
         CLIENT_BACKOFF = 500;
@@ -124,6 +130,12 @@ public class Config {
         DOWNLOADER_BACKOFF = 300;
         DOWNLOADER_RETRIES = 3;
         DEBUG = true;
+
+        BARREL_HOSTS_TRANSLATION_TABLE = new HashMap<>();
+
+        for(int i = 0; i < BARREL_PORTS.length; i++){
+            BARREL_HOSTS_TRANSLATION_TABLE.put(BARREL_PORTS[i], BARREL_HOSTS[i]);
+        }
     }
 
 public static synchronized void loadConfiguration() {
@@ -134,7 +146,7 @@ public static synchronized void loadConfiguration() {
     int defaultGatewayPort = 1098;
     String defaultUrlQueueHost = "localhost";
     int defaultUrlQueuePort = 1099;
-    String defaultBarrelHosts = "localhost, localhost";
+    String defaultBarrelHosts = "localhost, localhost, localhost, localhost, localhost";
     String defaultBarrelPorts = "1,2,3,4,5";
     int defaultDownloaderThreads = 3;
     int defaultClientRetries = 5;
@@ -188,6 +200,14 @@ public static synchronized void loadConfiguration() {
         DOWNLOADER_BACKOFF = Integer.parseInt(properties.getProperty("downloader.backoff", String.valueOf(defaultDownloaderBackoff)));
 
         DEBUG = Boolean.parseBoolean(properties.getProperty("debug.enabled", String.valueOf(defaultDebug)));
+
+        BARREL_HOSTS_TRANSLATION_TABLE = new HashMap<>();
+        for(int i = 0; i < BARREL_PORTS.length; i++){
+            if(i < BARREL_HOSTS.length){
+                BARREL_HOSTS_TRANSLATION_TABLE.put(BARREL_PORTS[i], BARREL_HOSTS[i]);
+            }
+            else BARREL_HOSTS_TRANSLATION_TABLE.put(BARREL_PORTS[i], "localhost");
+        }
 
     } catch (IOException | NumberFormatException e) {
         applyDefaults();

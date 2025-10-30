@@ -115,7 +115,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
         for(Integer barrelPort : Config.BARREL_PORTS) {
             try{
-                BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
+                BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrelPort), barrelPort).lookup("barrel");
                 barrel.ping();
 
                 barrelHashes.put(barrelPort, barrel.getMD5Hash("", now));
@@ -186,7 +186,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             futures.add(CompletableFuture.runAsync(() -> {
                 for(int i = 0; i < Config.GATEWAY_RETRIES; i++){
                     try{
-                        BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
+                        BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrelPort), barrelPort).lookup("barrel");
                         barrel.ping();
                         Map<String, Map<String, String>> barrelRows = new HashMap<>();
 
@@ -235,7 +235,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             futures.add(CompletableFuture.runAsync(() -> {
                 for(int i = 0; i < Config.GATEWAY_RETRIES; i++){
                     try {
-                        BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(barrelPort).lookup("barrel");
+                        BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrelPort), barrelPort).lookup("barrel");
                         barrel.ping();
 
                         for (String table : tableInsertOrder) {
@@ -289,7 +289,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     public void reportBarrelStatus(int barrelPort, boolean status) throws RemoteException {
         if (status) {
             try {
-                Registry registry = LocateRegistry.getRegistry(barrelPort);
+                Registry registry = LocateRegistry.getRegistry(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrelPort), barrelPort);
                 BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
                 barrels.put(barrelPort, barrel);
                 stats.updateBarrelIndexSize(barrelPort, stats.getActiveBarrels().getOrDefault(barrelPort, 0L));
@@ -508,7 +508,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
             Registry registry = LocateRegistry.createRegistry(Config.GATEWAY_PORT);
             registry.rebind("gateway", gateway);
-            Log.info("[GATEWAY] Gateway ready on port " + Config.GATEWAY_PORT);
+            Log.info("[GATEWAY] Gateway ready on " + Config.GATEWAY_HOST + ":" + Config.GATEWAY_PORT);
 
             scheduler.scheduleAtFixedRate(() -> {
                 try{
