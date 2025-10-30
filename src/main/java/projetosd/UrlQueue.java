@@ -109,6 +109,9 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
         }
     }
 
+    /**
+     * Clears all data in the queue
+     */
     private void clearQueue(){
         urlQueue.clear();
     }
