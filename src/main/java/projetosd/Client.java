@@ -19,6 +19,7 @@ public class Client {
     /**
      * Client identifier for logging.
      */
+    @SuppressWarnings("FieldMayBeFinal")
     private String id;
 
     /**
@@ -69,7 +70,7 @@ public class Client {
                     sb.append(String.format("   \"%s\"\n", snippet.length() > 200 ? snippet.substring(0, 200) + "..." : snippet));
                 }
             }
-            System.out.print(sb.toString());
+            System.out.print(sb);
         }
     }
 
@@ -92,7 +93,7 @@ public class Client {
                 if (i > limit) break;
             }
         }
-        System.out.print(sb.toString());
+        System.out.print(sb);
     }
 
     //---------------------------------- END OF RESULT FORMATTING METHODS ------------------------------------------//
@@ -106,7 +107,7 @@ public class Client {
         Exception exception = null;
         for (int attempt = 1; attempt <= Config.CLIENT_RETRIES; attempt++) {
             try {
-                Registry registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
+                Registry registry = LocateRegistry.getRegistry(Config.GATEWAY_HOST, Config.GATEWAY_PORT);
                 gateway = (GatewayInterface) registry.lookup("gateway");
                 Log.info("[CLIENT " + id + "] Connected to gateway on port " + Config.GATEWAY_PORT + " on attempt " + attempt);
                 return;

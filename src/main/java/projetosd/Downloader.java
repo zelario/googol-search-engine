@@ -50,7 +50,7 @@ public class Downloader extends Thread {
     @SuppressWarnings("unused")
     private boolean connectGateway() {
         try {
-            GatewayInterface gateway = (GatewayInterface) LocateRegistry.getRegistry(Config.GATEWAY_PORT).lookup("gateway");
+            GatewayInterface gateway = (GatewayInterface) LocateRegistry.getRegistry(Config.GATEWAY_HOST, Config.GATEWAY_PORT).lookup("gateway");
             return false;
         } catch (NotBoundException | RemoteException ignored) {return true;}
     }
@@ -102,12 +102,12 @@ public class Downloader extends Thread {
     public void run() {
         try {
             Log.info("[DOWNLOADER " + threadNumber + "] Starting downloader thread.");
-            UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Config.URL_QUEUE_PORT).lookup("queue");
-            Log.info("[DOWNLOADER " + threadNumber + "] Connected to url queue on port " + Config.URL_QUEUE_PORT);
+            UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Config.URL_QUEUE_HOST, Config.URL_QUEUE_PORT).lookup("queue");
+            Log.info("[DOWNLOADER " + threadNumber + "] Connected to url queue on " + Config.URL_QUEUE_HOST + ":" + Config.URL_QUEUE_PORT);
 
             if(connectGateway()) attemptReconnect();
 
-            Log.info("[DOWNLOADER " + threadNumber + "] Connected to gateway on port " + Config.GATEWAY_PORT);
+            Log.info("[DOWNLOADER " + threadNumber + "] Connected to gateway on " + Config.GATEWAY_HOST + ":" + Config.GATEWAY_PORT);
 
             Map<Integer, BarrelInterface> barrels = new HashMap<>();
 

@@ -47,9 +47,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         stats = new Stats();
 
         try {
-            Registry registry = LocateRegistry.getRegistry(Config.URL_QUEUE_PORT);
+            Registry registry = LocateRegistry.getRegistry(Config.URL_QUEUE_HOST, Config.URL_QUEUE_PORT);
             queue = (UrlQueueInterface) registry.lookup("queue");
-            Log.info("[GATEWAY] Connected to URL Queue on port " + Config.URL_QUEUE_PORT);
+            Log.info("[GATEWAY] Connected to URL Queue on " + Config.URL_QUEUE_HOST + ":" + Config.URL_QUEUE_PORT);
         } catch (NotBoundException | RemoteException e) {
             Log.error("[GATEWAY] URL Queue not available: " + e.getMessage());
             queue = null;

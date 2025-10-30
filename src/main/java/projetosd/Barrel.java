@@ -503,7 +503,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             registry.rebind("barrel", barrel);
             Log.info("[BARREL " + barrel.port + "] Running on port: " + barrel.port);
 
-            registry = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
+            registry = LocateRegistry.getRegistry(Config.GATEWAY_HOST, Config.GATEWAY_PORT);
             barrel.gateway = (GatewayInterface) registry.lookup("gateway");
 
             Log.info("[BARREL " + barrel.port + "] Requesting sync to gateway");
@@ -512,12 +512,12 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             }
 
             barrel.gateway.reportBarrelStatus(barrel.port, true);
-            Log.info("[BARREL " + barrel.port + "] Registered with gateway on port: " + Config.GATEWAY_PORT);
+            Log.info("[BARREL " + barrel.port + "] Registered with gateway on " + Config.GATEWAY_HOST + ":" + Config.GATEWAY_PORT);
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
                     if (barrel.gateway == null) {
-                        Registry reg = LocateRegistry.getRegistry(Config.GATEWAY_PORT);
+                        Registry reg = LocateRegistry.getRegistry(Config.GATEWAY_HOST, Config.GATEWAY_PORT);
                         barrel.gateway = (GatewayInterface) reg.lookup("gateway");
                     }
                     barrel.gateway.reportBarrelStatus(barrel.port, false);
