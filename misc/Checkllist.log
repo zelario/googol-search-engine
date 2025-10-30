@@ -14,7 +14,7 @@
 
 1 - A informação é idêntica em todos os storage barrels (reliable multicast)
 1 - Serviço correto se funcionar pelo menos um storage barrel e a gateway
-0 - Os storage barrels recuperam o seu estado se avariarem (crash)
+1 - Os storage barrels recuperam o seu estado se avariarem (crash)
 0 - Balanceamento da carga nas pesquisas sobre os storage barrels
 1 - Os downloaders executam em paralelo
 1 - A gateway recupera de quaisquer avarias internas (não têm efeito nos clientes)
