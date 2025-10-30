@@ -428,8 +428,12 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         Database db = new Database(this.port);
 
         String columns = getColumnsAndOrder(table)[0];
-        String conflictHandling = table.equals("url") ? "(url) DO UPDATE SET updated_at = NOW() " : "DO NOTHING";
-
+        String conflictHandling = table.equals("url")
+                ? "(url) DO UPDATE SET " +
+                "updated_at = NOW(), " +
+                "title = CASE WHEN url.title = 'Page' THEN EXCLUDED.title ELSE url.title END, " +
+                "citation = CASE WHEN url.title = 'Page' THEN EXCLUDED.citation ELSE url.citation END"
+                : "DO NOTHING";
         try(java.sql.Connection conn = db.getConnection()){
             conn.setAutoCommit(false);
 
