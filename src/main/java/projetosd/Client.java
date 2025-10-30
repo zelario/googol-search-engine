@@ -103,6 +103,7 @@ public class Client {
     /**
      * Lookup the gateway with retry/backoff.
      */
+    @SuppressWarnings({"BusyWait", ""})
     private void lookupGateway() throws Exception {
         Exception exception = null;
         for (int attempt = 1; attempt <= Config.CLIENT_RETRIES; attempt++) {
@@ -122,6 +123,9 @@ public class Client {
                 }
             }
         }
+
+        // This only works for debug, it avoids the warning
+        assert exception != null;
         throw exception;
     }
 
@@ -130,6 +134,7 @@ public class Client {
      * @param <T> The return type of the callable action.
      * @param action The callable action to execute.
      */
+    @SuppressWarnings("BusyWait")
     private <T> T callGateway(Callable<T> action) throws Exception {
         Exception exception = null;
         for (int attempt = 1; attempt <= Config.CLIENT_RETRIES; attempt++) {
