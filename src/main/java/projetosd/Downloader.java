@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import org.jsoup.HttpStatusException;
@@ -33,8 +35,6 @@ public class Downloader extends Thread {
      */
     private static final Pattern VALID_WORDS = Pattern.compile("^\\p{L}[\\p{L}\\p{M}\\p{Pd}'’]{1,63}$");
 
-    private GatewayInterface gateway;
-
     /**
      * Constructs a Downloader.
      * @param threadNum The thread number
@@ -47,9 +47,10 @@ public class Downloader extends Thread {
      * Try to find any available barrel from configured ports and set the `barrel` and `barrelPort` fields.
      * @returns False if it works, true if not. This is to activate any action when it does not work.
      */
+    @SuppressWarnings("unused")
     private boolean connectGateway() {
         try {
-            this.gateway = (GatewayInterface) LocateRegistry.getRegistry(Config.GATEWAY_PORT).lookup("gateway");
+            GatewayInterface gateway = (GatewayInterface) LocateRegistry.getRegistry(Config.GATEWAY_PORT).lookup("gateway");
             return false;
         } catch (NotBoundException | RemoteException ignored) {return true;}
     }
@@ -108,8 +109,13 @@ public class Downloader extends Thread {
 
             Log.info("[DOWNLOADER " + threadNumber + "] Connected to gateway on port " + Config.GATEWAY_PORT);
 
+            Map<Integer, BarrelInterface> barrels = new HashMap<>();
+
             while (true) {
-                String url = queue.takeUrl();
+                Map<Map<Integer, BarrelInterface>, String> returnedInfo = queue.takeUrl(barrels);
+
+                barrels = returnedInfo.keySet().iterator().next();
+                String url = returnedInfo.values().iterator().next();
 
                 if(!url.startsWith("http")) continue;
 
@@ -130,7 +136,7 @@ public class Downloader extends Thread {
 
                 while (st.hasMoreTokens()) {
                     String token = st.nextToken();
-                    // Word max lenght is 64 (it is validated in the regex)
+                    // Word max length is 64 (it is validated in the regex)
                     if(VALID_WORDS.matcher(token).matches()) pageWords.add(token.toLowerCase());
                 }
 
@@ -169,7 +175,7 @@ public class Downloader extends Thread {
 
                 try{
                     // If no barrel got the info, re-insert url in url queue
-                    if(!gateway.multicastEntries(url, pageWords, title, description, relatedUrls)){
+                    if(!this.multicastEntries(url, pageWords, title, description, relatedUrls, barrels)){
                         queue.addUrl(url, false);
                     }
 
@@ -185,6 +191,87 @@ public class Downloader extends Thread {
             Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Gateway: " + e.getMessage());
         }
     }
+
+    //---------------------------------------- MULTICAST METHODS -------------------------------------------------//
+
+    /**
+     * Gateway method to multicast the data, that came from the downloader, into all active barrels
+     * This is a best-effort reliable multicast since sync fixes the rest
+     * @param url           Page url
+     * @param words         Words in page
+     * @param title         Page title
+     * @param citation      Short description/citation from the page
+     * @param relatedUrls   Urls found in the page
+     * @param barrels       Map of active barrels
+     * @return              Boolean that if true multicast worked, if false no info was introduced in any Barrel (DB) so downloaders must re-insert url into queue
+     * @throws RemoteException  RMI Exception
+     */
+    @SuppressWarnings("BusyWait")
+    public boolean multicastEntries(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls, Map<Integer, BarrelInterface> barrels) throws RemoteException {
+        // Atomic vars fix the issue of vars inside the async block having to be final while going to be reassigned
+        AtomicBoolean atLeastOne = new AtomicBoolean(false);
+        final int activeBarrelCount = barrels.size();
+        AtomicInteger acksReceived = new AtomicInteger();
+
+        if (activeBarrelCount == 0) {
+            Log.warning("[GATEWAY] No active barrels found for multicast");
+            return false;
+        }
+
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+        for (Map.Entry<Integer, BarrelInterface> entry : barrels.entrySet()) {
+            final int port = entry.getKey();
+            final BarrelInterface barrel = entry.getValue();
+
+            futures.add(CompletableFuture.runAsync(() -> {
+                boolean success = false;
+
+                // To recall that success is in the 'for' condition
+                for (int attempt = 0; attempt < Config.GATEWAY_RETRIES && !success; attempt++) {
+                    try {
+                        barrel.ping();
+
+                        String response = barrel.addEntry(url, words, title, citation, relatedUrls);
+                        if (response.equals("ACK")) {
+                            acksReceived.getAndIncrement();
+                            success = true;
+                            atLeastOne.set(true);
+                        } else {
+                            Log.warning("[GATEWAY] Barrel " + port + " did not ACK entry.");
+                        }
+
+                    } catch (Exception e) {
+                        long backoff = (long) (Config.GATEWAY_BACKOFF * Math.pow(2, attempt));
+
+                        if (attempt < Config.GATEWAY_RETRIES - 1) {
+                            try {
+                                Thread.sleep(backoff);
+                            } catch (InterruptedException ie) {
+                                Thread.currentThread().interrupt();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!success) {
+                    Log.error("[GATEWAY] Failed to insert data into barrel " + port + " after retries.");
+                }
+            }));
+        }
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+
+        int acks = acksReceived.get();
+        if (acks < activeBarrelCount) {
+            Log.warning("[GATEWAY] Only " + acks + "/" + activeBarrelCount + " barrels acknowledged.");
+        }
+
+        return atLeastOne.get();
+    }
+
+    //---------------------------------------- END OF MULTICAST METHODS -------------------------------------------------//
 
     /**
      * Main for Downloader. Starts multiple Downloader threads.

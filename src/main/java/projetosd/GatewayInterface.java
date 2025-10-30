@@ -2,7 +2,6 @@ package projetosd;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,19 +74,6 @@ public interface GatewayInterface extends Remote {
      * @returns Boolean (always true) to block barrel execution so they complete the sync before registering as active
      * @throws RemoteException RMI Exception
      */
-    boolean synchBarrels(int requesterPort) throws RemoteException;
-
-    /**
-     * Gateway method to multicast the data, that came from the downloader, into all active barrels
-     * This is a best-effort reliable multicast since sync fixes the rest
-     * @param url           Page url
-     * @param words         Words in page
-     * @param title         Page title
-     * @param citation      Short descripion/citation from the page
-     * @param relatedUrls   Urls found in the page
-     * @return              Boolean that if true multicast worked, if false no info was introduced in any Barrel (DB) so downloaders must re-insert url into queue
-     * @throws RemoteException  RMI Exception
-     */
-    boolean multicastEntries(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws RemoteException;
+    boolean syncBarrels(int requesterPort) throws RemoteException;
 }
 

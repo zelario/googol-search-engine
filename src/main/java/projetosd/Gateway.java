@@ -163,7 +163,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     }
 
     @SuppressWarnings({"BusyWait", "SleepWhileInLoop"})
-    public boolean synchBarrels(int requesterPort) throws RemoteException {
+    public boolean syncBarrels(int requesterPort) throws RemoteException {
         if(requesterPort != 0) Log.info("[GATEWAY] Barrel " + requesterPort + " requested synchronization");
         else Log.info("[GATEWAY] Starting period sync");
 
@@ -274,67 +274,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
     //---------------------------------------- END OF BARREL HANDLING METHODS -------------------------------------------------//
 
-    //---------------------------------------- MULTICAST METHODS -------------------------------------------------//
-
-    @SuppressWarnings("BusyWait")
-    public boolean multicastEntries(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws RemoteException {
-        boolean atLeastOne = false;
-        int activeBarrelCount = this.barrels.size();
-        int acksReceived = 0;
-
-        if(activeBarrelCount == 0){
-            Log.warning("[GATEWAY] No active barrels found for multicast");
-            return false;
-        }
-
-        for (Map.Entry<Integer, BarrelInterface> entry : barrels.entrySet()) {
-            int port = entry.getKey();
-            BarrelInterface barrel = entry.getValue();
-
-            boolean success = false;
-
-            // To recall that success is in the 'for' condition
-            for (int attempt = 0; attempt < Config.GATEWAY_RETRIES && !success; attempt++) {
-                try {
-                    barrel.ping();
-
-                    String response = barrel.addEntry(url, words, title, citation, relatedUrls);
-                    if (response.equals("ACK")) {
-                        acksReceived++;
-                        success = true;
-                        atLeastOne = true;
-                    }
-                    else {
-                        Log.warning("[GATEWAY] Barrel " + port + " did not ACK entry.");
-                    }
-
-                } catch (RemoteException e) {
-                    long backoff = (long) (Config.GATEWAY_BACKOFF * Math.pow(2, attempt));
-
-                    if (attempt < Config.GATEWAY_RETRIES - 1) {
-                        try {
-                            Thread.sleep(backoff);
-                        } catch (InterruptedException ie) {
-                            Thread.currentThread().interrupt();
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (!success) {
-                Log.error("[GATEWAY] Failed to insert data into barrel " + port + " after retries.");
-            }
-        }
-
-        if (acksReceived < activeBarrelCount) {
-            Log.warning("[GATEWAY] Only " + acksReceived + "/" + activeBarrelCount + " barrels acknowledged.");
-        }
-
-        return atLeastOne;
-    }
-    //---------------------------------------- END OF MULTICAST METHODS -------------------------------------------------//
-
     //------------------------------------------------- CALLBACK METHODS ------------------------------------------------------//
 
 
@@ -362,6 +301,13 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             barrels.remove(barrelPort);
             stats.removeBarrelStats(barrelPort);
             Log.info("[GATEWAY] Barrel " + barrelPort + " unregistered");
+        }
+
+        try{
+            this.queue.changeBarrelStatus(barrelPort, status);
+            Log.info("[GATEWAY] Barrel " + barrelPort + " new status sent to url queue");
+        } catch (RemoteException e) {
+            Log.warning("[GATEWAY] Failed to send barrel " + barrelPort + " status to url queue");
         }
     }
 
@@ -566,11 +512,11 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
             scheduler.scheduleAtFixedRate(() -> {
                 try{
-                    gateway.synchBarrels(0);
+                    gateway.syncBarrels(0);
                 } catch (RemoteException e) {
                     Log.warning("[GATEWAY] Periodic syncer will not be scheduled");
                 }
-                    }, 0, Config.GATEWAY_SYNCH_INTERVAL, TimeUnit.MINUTES);
+                    }, 0, Config.GATEWAY_SYNC_INTERVAL, TimeUnit.MINUTES);
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 scheduler.shutdown();

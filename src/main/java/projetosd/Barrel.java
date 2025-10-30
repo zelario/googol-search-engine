@@ -83,7 +83,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         // deadlocks...
         int attempt = 0;
         while(attempt < Config.BARREL_RETRIES){
-            // There is also a Connection object of jsoup so it is better to explicitly declare it as sql connction object
+            // There is also a Connection object of jsoup so it is better to explicitly declare it as sql connection object
             try (Connection conn = db.getConnection()){
                 // Begin transaction (if it fails jdbc rollbacks automatically)
                 conn.setAutoCommit(false);
@@ -507,7 +507,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             barrel.gateway = (GatewayInterface) registry.lookup("gateway");
 
             Log.info("[BARREL " + barrel.port + "] Requesting sync to gateway");
-            if(barrel.gateway.synchBarrels(barrel.port)){
+            if(barrel.gateway.syncBarrels(barrel.port)){
                 Log.info("[BARREL " + barrel.port + "] Sync successful");
             }
 

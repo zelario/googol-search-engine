@@ -1,10 +1,14 @@
 package projetosd;
 
 import java.io.*;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Collections;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingDeque;
 
 /**
@@ -27,11 +31,17 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     private static final String FILE_NAME = "data/urlQueue.ser";
 
     /**
+     * Map of registered barrels by their port number.
+     */
+    private final Map<Integer, BarrelInterface> barrels;
+
+    /**
      * Constructs the UrlQueue.
      * @throws java.rmi.RemoteException RMI exception
      */
     public UrlQueue() throws java.rmi.RemoteException {
         urlQueue = new LinkedBlockingDeque<>();
+        barrels = new ConcurrentHashMap<>();
         loadQueue();
     }
 
@@ -55,13 +65,19 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
 
     /**
      * Retrieves and removes the next URL from the queue.
-     * @return The next URL, or null if interrupted
-     * @throws RemoteException RMI exception
+     * @param downloaderBarrels Downloader list to be updated for reliable multicast
+     * @return The updated barrel list and the url removed
+     * @throws java.rmi.RemoteException RMI Exception
      */
     @Override
-    public String takeUrl() throws RemoteException {
+    public Map<Map<Integer, BarrelInterface>, String> takeUrl(Map<Integer, BarrelInterface> downloaderBarrels) throws RemoteException {
         try {
-            return urlQueue.take();
+            downloaderBarrels.clear();
+            downloaderBarrels.putAll(this.barrels);
+
+            String url = urlQueue.takeFirst();
+
+            return Collections.singletonMap(downloaderBarrels, url);
         } catch (InterruptedException e) {
             return null;
         }
@@ -77,9 +93,9 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     private void saveQueue(){
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
             oos.writeObject(urlQueue);
-            Log.info("[URLQUEUE] Queue saved successfully.");
+            Log.info("[URLQueue] Queue saved successfully.");
         } catch (IOException e) {
-            Log.warning("[URLQUEUE] Could not save queue");
+            Log.warning("[URLQueue] Could not save queue");
         }
     }
 
@@ -90,7 +106,7 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     private void loadQueue(){
         File file = new File(FILE_NAME);
         if (!file.exists()) {
-            Log.info("[URLQUEUE] No data file found, starting empty queue");
+            Log.info("[URLQueue] No data file found, starting empty queue");
             return;
         }
 
@@ -98,14 +114,14 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
             LinkedBlockingDeque<String> loadedQueue = (LinkedBlockingDeque<String>) ois.readObject();
 
             if(loadedQueue.isEmpty()){
-                Log.info("[URLQUEUE] No data stored, starting new empty queue");
+                Log.info("[URLQueue] No data stored, starting new empty queue");
                 return;
             }
 
             urlQueue.addAll(loadedQueue);
-            Log.info("[URLQUEUE] Queue loaded with " + urlQueue.size() + " URLs.");
+            Log.info("[URLQueue] Queue loaded with " + urlQueue.size() + " URLs.");
         } catch (IOException | ClassNotFoundException e) {
-            Log.warning("[URLQUEUE] Error loading queue: " + e.getMessage());
+            Log.warning("[URLQueue] Error loading queue: " + e.getMessage());
         }
     }
 
@@ -118,6 +134,29 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
 
     //---------------------------------- END OF DATA MANAGEMENT METHODS -----------------------------------------//
 
+    //---------------------------------- BARREL MANAGEMENT ----------------------------------//
+
+    @Override
+    public void changeBarrelStatus(int barrelPort, boolean status) throws java.rmi.RemoteException{
+        if(status){
+            try{
+                Registry registry = LocateRegistry.getRegistry(barrelPort);
+                BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
+
+                this.barrels.put(barrelPort, barrel);
+                Log.info("[URLQueue] Barrel " + barrelPort + " registered");
+            }
+            catch (RemoteException | NotBoundException e){
+                Log.warning("[URLQueue] Failed to register barrel " + barrelPort);
+            }
+        }
+        else {
+            this.barrels.remove(barrelPort);
+            Log.info("[URLQueue] Barrel " + barrelPort + " removed");
+        }
+    }
+
+    //---------------------------------- END OF BARREL MANAGEMENT ----------------------------------//
 
     /**
      * Main for UrlQueue. Starts the RMI registry and binds the queue.
