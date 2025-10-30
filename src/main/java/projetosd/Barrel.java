@@ -443,7 +443,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
             try(PreparedStatement stmt = conn.prepareStatement(query)){
                 for (String rawData: content){
-                    // Double backlash because this is regex
                     String[] values = rawData.split("\u0001", -1);
 
                     for (int i = 0; i < values.length; i++) {

@@ -1,5 +1,6 @@
 package projetosd;
 
+import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -21,11 +22,17 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     private final LinkedBlockingDeque<String> urlQueue;
 
     /**
+     * Serial data file name
+     */
+    private static final String FILE_NAME = "data/urlQueue.ser";
+
+    /**
      * Constructs the UrlQueue.
      * @throws java.rmi.RemoteException RMI exception
      */
     public UrlQueue() throws java.rmi.RemoteException {
         urlQueue = new LinkedBlockingDeque<>();
+        loadQueue();
     }
 
     //---------------------------------- URL QUEUE MANAGEMENT METHODS -----------------------------------------//
@@ -62,6 +69,53 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
 
     //---------------------------------- END OF URL QUEUE MANAGEMENT METHODS -----------------------------------------//
 
+    //---------------------------------- DATA MANAGEMENT METHODS -----------------------------------------//
+
+    /**
+     * Method to attempt to save queue data into file
+     */
+    private void saveQueue(){
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
+            oos.writeObject(urlQueue);
+            Log.info("[URLQUEUE] Queue saved successfully.");
+        } catch (IOException e) {
+            Log.warning("[URLQUEUE] Could not save queue");
+        }
+    }
+
+    /**
+     * Method to attempt to load queue from serial file
+     */
+    @SuppressWarnings("unchecked")
+    private void loadQueue(){
+        File file = new File(FILE_NAME);
+        if (!file.exists()) {
+            Log.info("[URLQUEUE] No data file found, starting empty queue");
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            LinkedBlockingDeque<String> loadedQueue = (LinkedBlockingDeque<String>) ois.readObject();
+
+            if(loadedQueue.isEmpty()){
+                Log.info("[URLQUEUE] No data stored, starting new empty queue");
+                return;
+            }
+
+            urlQueue.addAll(loadedQueue);
+            Log.info("[URLQUEUE] Queue loaded with " + urlQueue.size() + " URLs.");
+        } catch (IOException | ClassNotFoundException e) {
+            Log.warning("[URLQUEUE] Error loading queue: " + e.getMessage());
+        }
+    }
+
+    private void clearQueue(){
+        urlQueue.clear();
+    }
+
+    //---------------------------------- END OF DATA MANAGEMENT METHODS -----------------------------------------//
+
+
     /**
      * Main for UrlQueue. Starts the RMI registry and binds the queue.
      * @param args Command-line arguments
@@ -74,6 +128,7 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
             Log.info("[URLQueue] RMI server ready");
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                queue.saveQueue();
                 Log.info("[URLQueue] Exiting");
             }));            
         } catch (RemoteException e) {
