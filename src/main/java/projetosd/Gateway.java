@@ -322,7 +322,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
         try{
             this.queue.changeBarrelStatus(barrelPort, status);
-            Log.info("[GATEWAY] Barrel " + barrelPort + " new status sent to url queue");
+            Log.info("[GATEWAY] Updated barrel " + barrelPort + " status to url queue");
         } catch (RemoteException e) {
             Log.warning("[GATEWAY] Failed to send barrel " + barrelPort + " status to url queue");
         }

@@ -1,48 +1,145 @@
-[2025-10-31 20:07:30] [INFO] [DOWNLOADER 4] Starting downloader thread.
-[2025-10-31 20:07:30] [INFO] [URLQueue] No data stored, starting new empty queue
-[2025-10-31 20:07:30] [INFO] [DOWNLOADER 5] Starting downloader thread.
-[2025-10-31 20:07:30] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-10-31 20:07:30] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-10-31 20:07:30] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-10-31 20:07:30] [INFO] [STATS] Stats loaded successfully.
-[2025-10-31 20:07:30] [INFO] [URLQueue] RMI server ready
-[2025-10-31 20:07:30] [INFO] [GATEWAY] Connected to URL Queue on localhost:1099
-[2025-10-31 20:07:30] [INFO] [GATEWAY] Gateway ready on localhost:1098
-[2025-10-31 20:07:30] [INFO] [GATEWAY] Starting period sync
-[2025-10-31 20:07:30] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-10-31 20:07:30] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
-[2025-10-31 20:07:30] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
-[2025-10-31 20:07:30] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
-[2025-10-31 20:07:30] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
-[2025-10-31 20:07:30] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
-[2025-10-31 20:07:31] [INFO] [CLIENT 60] Connected to gateway on port 1098 on attempt 1
-[2025-10-31 20:07:31] [INFO] [BARREL 1100] Running on localhost:1100
-[2025-10-31 20:07:31] [INFO] [BARREL 1100] Requesting sync to gateway
-[2025-10-31 20:07:31] [INFO] [GATEWAY] Barrel 1100 requested synchronization
-[2025-10-31 20:07:35] [INFO] [GATEWAY] Client 60 requested stats
-[2025-10-31 20:07:35] [INFO] [GATEWAY] Client 60 stats retrieved successfully
-[2025-10-31 20:07:36] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-10-31 20:07:36] [INFO] [BARREL 1100] Sync successful
-[2025-10-31 20:07:36] [INFO] [GATEWAY] Barrel 1100 registered
-[2025-10-31 20:07:36] [INFO] [URLQueue] Barrel 1100 registered
-[2025-10-31 20:07:36] [INFO] [GATEWAY] Barrel 1100 new status sent to url queue
-[2025-10-31 20:07:36] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
-[2025-10-31 20:07:46] [INFO] [GATEWAY] Client 60 searching for query: coimbra
-[2025-10-31 20:07:46] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
-[2025-10-31 20:07:46] [INFO] [GATEWAY] Search completed on barrel 1100 for query coimbra in 346 ms
-[2025-10-31 20:07:46] [INFO] [GATEWAY] Client 60 search completed successfully on barrel 1100 on attempt 1
-[2025-10-31 20:07:49] [INFO] [GATEWAY] Client 60 searching for query: 
-[2025-10-31 20:07:49] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
-[2025-10-31 20:07:53] [INFO] [GATEWAY] Client 60 requested stats
-[2025-10-31 20:07:53] [INFO] [GATEWAY] Client 60 stats retrieved successfully
-[2025-10-31 20:09:56] [INFO] [DOWNLOADER 4] Starting downloader thread.
-[2025-10-31 20:09:56] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-10-31 20:09:56] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-10-31 20:09:56] [INFO] [DOWNLOADER 5] Starting downloader thread.
-[2025-10-31 20:09:56] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-10-31 20:09:56] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
-[2025-10-31 20:09:56] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
-[2025-10-31 20:09:56] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
-[2025-10-31 20:09:56] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
-[2025-10-31 20:09:56] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
-[2025-10-31 20:09:58] [INFO] [DOWNLOADER] Exiting downloader threads.
+[2025-10-31 22:35:56] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2025-10-31 22:35:56] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2025-10-31 22:35:56] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-10-31 22:35:56] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-10-31 22:35:56] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-10-31 22:35:56] [INFO] [STATS] No saved stats found to load.
+[2025-10-31 22:35:56] [INFO] [GATEWAY] Connected to URL Queue on localhost:1099
+[2025-10-31 22:35:56] [INFO] [GATEWAY] Gateway ready on localhost:1098
+[2025-10-31 22:35:56] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 22:35:56] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 22:35:56] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
+[2025-10-31 22:35:56] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
+[2025-10-31 22:35:56] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
+[2025-10-31 22:35:56] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
+[2025-10-31 22:35:56] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
+[2025-10-31 22:35:56] [INFO] [CLIENT 12] Connected to gateway on port 1098 on attempt 3
+[2025-10-31 22:36:06] [INFO] [GATEWAY] Client added URL to queue: https://en.wikipedia.org/wiki/Kanye_West
+[2025-10-31 22:36:07] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:07] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:07] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:07] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:07] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:07] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:07] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:07] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:07] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:08] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:09] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:09] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:09] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:09] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:09] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:09] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:09] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:09] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:09] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:09] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:10] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:11] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:12] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:14] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:14] [INFO] [BARREL 1100] Running on localhost:1100
+[2025-10-31 22:36:14] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-10-31 22:36:14] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-10-31 22:36:14] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:14] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 22:36:14] [INFO] [BARREL 1100] Sync successful
+[2025-10-31 22:36:14] [INFO] [GATEWAY] Barrel 1100 registered
+[2025-10-31 22:36:14] [INFO] [URLQueue] Barrel 1100 registered
+[2025-10-31 22:36:14] [INFO] [GATEWAY] Barrel 1100 new status sent to url queue
+[2025-10-31 22:36:14] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
+[2025-10-31 22:36:15] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:15] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:15] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:17] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-10-31 22:36:25] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-10-31 22:36:29] [ERROR] [DOWNLOADER 1] Error in downloader thread: Read timed out
+[2025-10-31 22:36:40] [ERROR] [DOWNLOADER 4] Error in downloader thread: Read timed out
+[2025-10-31 22:36:52] [ERROR] [DOWNLOADER 2] Error in downloader thread: Connection reset
+[2025-10-31 22:36:52] [ERROR] [DOWNLOADER 3] Error in downloader thread: cdn.best.complex.com
+[2025-10-31 22:38:46] [ERROR] [DOWNLOADER 5] Error in downloader thread: Too many redirects occurred trying to load URL https://edition.cnn.com/2009/SHOWBIZ/09/14/kanye.west.reaction/index.html
+[2025-10-31 22:38:46] [INFO] [DOWNLOADER] Exiting downloader threads.
+[2025-10-31 22:39:01] [INFO] [STATS] Stats saved successfully.
+[2025-10-31 22:39:01] [INFO] [GATEWAY] Stats saved successfully
+[2025-10-31 22:39:01] [INFO] [GATEWAY] Gateway shutting down

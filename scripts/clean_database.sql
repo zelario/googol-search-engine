@@ -1,1 +1,1 @@
-TRUNCATE TABLE words_url, url_url, words, url;
+TRUNCATE TABLE words_url, url_url, words, url, stop_words;
