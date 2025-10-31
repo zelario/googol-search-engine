@@ -7,11 +7,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -133,12 +129,12 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @param now Timestamp to get consistent hashes
      * @return HashMap with ports as keys and a list of table names where mismatches were found as value
      */
-    private List<String>  checkBarrelMismatches(Timestamp now){
-        List<String> mismatches = new ArrayList<>();
+    private List<String> checkBarrelMismatches(Timestamp now){
+        Set<String> mismatches = new HashSet<>();
         Map<Integer, Map<String, String>> allHashes = this.getBarrelHashes(now);
 
         // No more than 1 barrel, no sync needed
-        if (allHashes.size() <= 1) return mismatches;
+        if (allHashes.size() <= 1) return new ArrayList<>();
 
         // Get a reference db to check against the others
         int referencePort = allHashes.keySet().stream().findFirst().orElse(null);
@@ -159,7 +155,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
         }
 
-        return mismatches;
+        return new ArrayList<>(mismatches);
     }
 
     @SuppressWarnings({"BusyWait", "SleepWhileInLoop"})
