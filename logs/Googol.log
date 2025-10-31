@@ -1,108 +1,48 @@
-[2025-10-31 18:15:46] [INFO] [STATS] Stats loaded successfully.
-[2025-10-31 18:15:46] [INFO] [GATEWAY] Connected to URL Queue on localhost:1099
-[2025-10-31 18:15:46] [INFO] [GATEWAY] Gateway ready on localhost:1098
-[2025-10-31 18:15:46] [INFO] [GATEWAY] Starting period sync
-[2025-10-31 18:15:46] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-10-31 18:15:50] [INFO] [DOWNLOADER 5] Starting downloader thread.
-[2025-10-31 18:15:50] [INFO] [DOWNLOADER 4] Starting downloader thread.
-[2025-10-31 18:15:50] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-10-31 18:15:50] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-10-31 18:15:50] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-10-31 18:15:50] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
-[2025-10-31 18:15:50] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
-[2025-10-31 18:15:50] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
-[2025-10-31 18:15:50] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
-[2025-10-31 18:15:50] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
-[2025-10-31 18:15:57] [INFO] [BARREL 1100] Running on localhost:1100
-[2025-10-31 18:15:57] [INFO] [BARREL 1100] Requesting sync to gateway
-[2025-10-31 18:15:57] [INFO] [GATEWAY] Barrel 1100 requested synchronization
-[2025-10-31 18:16:03] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-10-31 18:16:03] [INFO] [BARREL 1100] Sync successful
-[2025-10-31 18:16:03] [INFO] [GATEWAY] Barrel 1100 registered
-[2025-10-31 18:16:03] [INFO] [URLQueue] Barrel 1100 registered
-[2025-10-31 18:16:03] [INFO] [GATEWAY] Barrel 1100 new status sent to url queue
-[2025-10-31 18:16:03] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
-[2025-10-31 18:16:12] [INFO] [PORTS] Port already in use: 1100
-[2025-10-31 18:16:12] [INFO] [BARREL 1101] Running on localhost:1101
-[2025-10-31 18:16:12] [INFO] [BARREL 1101] Requesting sync to gateway
-[2025-10-31 18:16:12] [INFO] [GATEWAY] Barrel 1101 requested synchronization
-[2025-10-31 18:16:22] [WARNING] [GATEWAY] Barrel mismatch found
-[2025-10-31 18:17:05] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:05] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:05] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:05] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:06] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:09] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:10] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:21] [ERROR] [BARREL] Could not insert missing data in barrel: Batch entry 110 852 INSERT INTO words_url (words_word, url_url) VALUES (('më'),('https://sq.wikipedia.org/wiki/Nazizmi')) ON CONFLICT DO NOTHING was aborted: ERROR: insert or update on table "words_url" violates foreign key constraint "words_url_fk1"
-  Detail: Key (words_word)=(më) is not present in table "words".  Call getNextException to see other errors in the batch.
-[2025-10-31 18:17:21] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:25] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:27] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:27] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:39] [ERROR] [BARREL] Could not insert missing data in barrel: Batch entry 110 852 INSERT INTO words_url (words_word, url_url) VALUES (('më'),('https://sq.wikipedia.org/wiki/Nazizmi')) ON CONFLICT DO NOTHING was aborted: ERROR: insert or update on table "words_url" violates foreign key constraint "words_url_fk1"
-  Detail: Key (words_word)=(më) is not present in table "words".  Call getNextException to see other errors in the batch.
-[2025-10-31 18:17:39] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:40] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:42] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:43] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:54] [ERROR] [BARREL] Could not insert missing data in barrel: Batch entry 110 852 INSERT INTO words_url (words_word, url_url) VALUES (('më'),('https://sq.wikipedia.org/wiki/Nazizmi')) ON CONFLICT DO NOTHING was aborted: ERROR: insert or update on table "words_url" violates foreign key constraint "words_url_fk1"
-  Detail: Key (words_word)=(më) is not present in table "words".  Call getNextException to see other errors in the batch.
-[2025-10-31 18:17:54] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:55] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:58] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:17:59] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:18:10] [ERROR] [BARREL] Could not insert missing data in barrel: Batch entry 110 852 INSERT INTO words_url (words_word, url_url) VALUES (('më'),('https://sq.wikipedia.org/wiki/Nazizmi')) ON CONFLICT DO NOTHING was aborted: ERROR: insert or update on table "words_url" violates foreign key constraint "words_url_fk1"
-  Detail: Key (words_word)=(më) is not present in table "words".  Call getNextException to see other errors in the batch.
-[2025-10-31 18:18:10] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:18:11] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:18:13] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:18:14] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:18:25] [ERROR] [BARREL] Could not insert missing data in barrel: Batch entry 110 852 INSERT INTO words_url (words_word, url_url) VALUES (('më'),('https://sq.wikipedia.org/wiki/Nazizmi')) ON CONFLICT DO NOTHING was aborted: ERROR: insert or update on table "words_url" violates foreign key constraint "words_url_fk1"
-  Detail: Key (words_word)=(më) is not present in table "words".  Call getNextException to see other errors in the batch.
-[2025-10-31 18:18:25] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:18:26] [INFO] [BARREL] Inserted missing data from sync
-[2025-10-31 18:18:26] [INFO] [GATEWAY] Barrel sync completed
-[2025-10-31 18:18:26] [INFO] [BARREL 1101] Sync successful
-[2025-10-31 18:18:26] [INFO] [GATEWAY] Barrel 1101 registered
-[2025-10-31 18:18:26] [INFO] [URLQueue] Barrel 1101 registered
-[2025-10-31 18:18:26] [INFO] [GATEWAY] Barrel 1101 new status sent to url queue
-[2025-10-31 18:18:26] [INFO] [BARREL 1101] Registered with gateway on localhost:1098
-[2025-10-31 18:18:52] [INFO] [CLIENT 18] Connected to gateway on port 1098 on attempt 1
-[2025-10-31 18:18:54] [INFO] [GATEWAY] Client 18 requested stats
-[2025-10-31 18:18:54] [INFO] [GATEWAY] Client 18 stats retrieved successfully
-[2025-10-31 18:18:54] [INFO] === Statistics ===
-
-Top 10 Searches:
-  "kanye" - 1 times
-Active Barrels:
-  "1100" - 0 indexes
-  "1101" - 0 indexes
-Average Response Times:
-
-[2025-10-31 18:19:51] [INFO] [GATEWAY] Client 18 searching for query: kanye
-[2025-10-31 18:19:51] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1101
-[2025-10-31 18:19:51] [INFO] [GATEWAY] Search completed on barrel 1101 for query kanye in 188 ms
-[2025-10-31 18:19:51] [INFO] [GATEWAY] Client 18 search completed successfully on barrel 1101 on attempt 1
-[2025-10-31 18:19:54] [INFO] [GATEWAY] Client 18 requested stats
-[2025-10-31 18:19:54] [INFO] [GATEWAY] Client 18 stats retrieved successfully
-[2025-10-31 18:19:54] [INFO] === Statistics ===
-
-Top 10 Searches:
-  "kanye" - 2 times
-Active Barrels:
-  "1100" - 0 indexes
-  "1101" - 0 indexes
-Average Response Times:
-  "1101" - 2 tenths
-
-[2025-10-31 18:20:09] [ERROR] [DOWNLOADER 5] Error in downloader thread: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-[2025-10-31 18:20:09] [ERROR] [DOWNLOADER 2] Error in downloader thread: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-[2025-10-31 18:20:09] [ERROR] [DOWNLOADER 4] Error in downloader thread: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-[2025-10-31 18:20:09] [ERROR] [DOWNLOADER 1] Error in downloader thread: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-[2025-10-31 18:20:09] [ERROR] [DOWNLOADER 3] Error in downloader thread: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
+[2025-10-31 20:07:30] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2025-10-31 20:07:30] [INFO] [URLQueue] No data stored, starting new empty queue
+[2025-10-31 20:07:30] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2025-10-31 20:07:30] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-10-31 20:07:30] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-10-31 20:07:30] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-10-31 20:07:30] [INFO] [STATS] Stats loaded successfully.
+[2025-10-31 20:07:30] [INFO] [URLQueue] RMI server ready
+[2025-10-31 20:07:30] [INFO] [GATEWAY] Connected to URL Queue on localhost:1099
+[2025-10-31 20:07:30] [INFO] [GATEWAY] Gateway ready on localhost:1098
+[2025-10-31 20:07:30] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 20:07:30] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 20:07:30] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
+[2025-10-31 20:07:30] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
+[2025-10-31 20:07:30] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
+[2025-10-31 20:07:30] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
+[2025-10-31 20:07:30] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
+[2025-10-31 20:07:31] [INFO] [CLIENT 60] Connected to gateway on port 1098 on attempt 1
+[2025-10-31 20:07:31] [INFO] [BARREL 1100] Running on localhost:1100
+[2025-10-31 20:07:31] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-10-31 20:07:31] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-10-31 20:07:35] [INFO] [GATEWAY] Client 60 requested stats
+[2025-10-31 20:07:35] [INFO] [GATEWAY] Client 60 stats retrieved successfully
+[2025-10-31 20:07:36] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 20:07:36] [INFO] [BARREL 1100] Sync successful
+[2025-10-31 20:07:36] [INFO] [GATEWAY] Barrel 1100 registered
+[2025-10-31 20:07:36] [INFO] [URLQueue] Barrel 1100 registered
+[2025-10-31 20:07:36] [INFO] [GATEWAY] Barrel 1100 new status sent to url queue
+[2025-10-31 20:07:36] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
+[2025-10-31 20:07:46] [INFO] [GATEWAY] Client 60 searching for query: coimbra
+[2025-10-31 20:07:46] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
+[2025-10-31 20:07:46] [INFO] [GATEWAY] Search completed on barrel 1100 for query coimbra in 346 ms
+[2025-10-31 20:07:46] [INFO] [GATEWAY] Client 60 search completed successfully on barrel 1100 on attempt 1
+[2025-10-31 20:07:49] [INFO] [GATEWAY] Client 60 searching for query: 
+[2025-10-31 20:07:49] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
+[2025-10-31 20:07:53] [INFO] [GATEWAY] Client 60 requested stats
+[2025-10-31 20:07:53] [INFO] [GATEWAY] Client 60 stats retrieved successfully
+[2025-10-31 20:09:56] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2025-10-31 20:09:56] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-10-31 20:09:56] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-10-31 20:09:56] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2025-10-31 20:09:56] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-10-31 20:09:56] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
+[2025-10-31 20:09:56] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
+[2025-10-31 20:09:56] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
+[2025-10-31 20:09:56] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
+[2025-10-31 20:09:56] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
+[2025-10-31 20:09:58] [INFO] [DOWNLOADER] Exiting downloader threads.

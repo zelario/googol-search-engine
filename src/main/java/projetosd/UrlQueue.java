@@ -1,6 +1,11 @@
 package projetosd;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -172,7 +177,8 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 queue.saveQueue();
                 Log.info("[URLQueue] Exiting");
-            }));            
+            }));        
+                
         } catch (RemoteException e) {
             Log.error("[URLQueue] Exiting. Could not start RMI server: " + e.getMessage());
             System.exit(1);

@@ -502,7 +502,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
         Log.info("[GATEWAY] Client " + clientId + " stats retrieved successfully");
 
-        Log.info(sb.toString());
         return sb.toString();
     }
     //------------------------------------------------ END OF USER METHODS -------------------------------------------------------//
@@ -540,6 +539,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 Log.info("[GATEWAY] Stats saved successfully");
                 Log.info("[GATEWAY] Gateway shutting down");
             }));
+            
         } catch (RemoteException e) {
             Log.error("[GATEWAY] Failed to start Gateway RMI server: " + e.getMessage());
             System.exit(1);

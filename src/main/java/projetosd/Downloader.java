@@ -241,6 +241,10 @@ public class Downloader extends Thread {
     public static void main(String[] args) {
         int threadCounter = Config.DOWNLOADER_THREADS;
 
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            Log.info("[DOWNLOADER] Exiting downloader threads.");
+        }));
+                   
         for (int i = 0; i < threadCounter; i++) {
             new Downloader(i + 1).start();
         }
