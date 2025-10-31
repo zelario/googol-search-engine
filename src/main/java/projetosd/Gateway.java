@@ -7,8 +7,19 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -34,6 +45,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Map of registered barrels by their port number.
      */
     private final Map<Integer, BarrelInterface> barrels;
+
+    private final AtomicInteger lastBarrelIndex = new AtomicInteger(0);
 
     /**
      * Constructs the Gateway.
@@ -61,16 +74,22 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @return Map entry of selected barrel port and instance, or null if none available
      */
     @SuppressWarnings("BusyWait")
-    private Map.Entry<Integer, BarrelInterface> selectBarrel() { 
+    private synchronized Map.Entry<Integer, BarrelInterface> selectBarrel() {
         List<Map.Entry<Integer, BarrelInterface>> entries = new ArrayList<>(barrels.entrySet());
+        if (entries.isEmpty()) return null;
+
+        int size = entries.size();
+        int startIndex = lastBarrelIndex.getAndUpdate(i -> (i + 1) % size);
+        int index = startIndex;
+
         while (!entries.isEmpty()) {
-            int index = (int) (Math.random() * entries.size());
             Map.Entry<Integer, BarrelInterface> entry = entries.get(index);
             int port = entry.getKey();
             BarrelInterface barrel = entry.getValue();
 
             boolean available = false;
             int attempts = 0;
+
             while (attempts < Config.GATEWAY_RETRIES) {
                 try {
                     barrel.ping();
@@ -84,20 +103,25 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                         Thread.sleep((long) (Config.GATEWAY_BACKOFF * Math.pow(2, attempts - 1)));
                     } catch (InterruptedException ie) {
                         Thread.currentThread().interrupt();
-                        break;
+                        return null;
                     }
                 }
             }
-            
+
             if (available) {
                 Log.info("[GATEWAY] Chosen barrel is fine. Selected barrel " + port);
+                lastBarrelIndex.set((index + 1) % entries.size());
                 return entry;
             } else {
                 Log.error("[GATEWAY] Barrel " + port + " not available after retries. Removing from registry");
-                entries.remove(index);
                 barrels.remove(port);
                 stats.removeBarrelStats(port);
+                entries.remove(index);
+                if (entries.isEmpty()) return null;
+                if (index >= entries.size()) index = 0;
             }
+
+            index = (index + 1) % entries.size();
         }
         return null;
     }
@@ -271,9 +295,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     //---------------------------------------- END OF BARREL HANDLING METHODS -------------------------------------------------//
 
     //------------------------------------------------- CALLBACK METHODS ------------------------------------------------------//
-
-
-    //------------------ CALLBACK METHODS ------------------//
 
     /**
      * Callback: Barrels notify state changes.
@@ -515,16 +536,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                     }, 0, Config.GATEWAY_SYNC_INTERVAL, TimeUnit.MINUTES);
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                scheduler.shutdown();
-                try {
-                    if (!scheduler.awaitTermination(5, TimeUnit.SECONDS)) {
-                        scheduler.shutdownNow();
-                    }
-                } catch (InterruptedException e) {
-                    scheduler.shutdownNow();
-                    Thread.currentThread().interrupt();
-                }
-
                 gateway.stats.saveStats();
                 Log.info("[GATEWAY] Stats saved successfully");
                 Log.info("[GATEWAY] Gateway shutting down");
