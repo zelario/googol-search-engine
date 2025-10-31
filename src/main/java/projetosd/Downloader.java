@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,41 +48,6 @@ public class Downloader extends Thread {
     }
 
     /**
-     * Try to find any available barrel from configured ports and set the `barrel` and `barrelPort` fields.
-     * @returns False if it works, true if not. This is to activate any action when it does not work.
-     */
-    @SuppressWarnings("unused")
-    private boolean connectGateway() {
-        try {
-            GatewayInterface gateway = (GatewayInterface) LocateRegistry.getRegistry(Config.GATEWAY_HOST, Config.GATEWAY_PORT).lookup("gateway");
-            return false;
-        } catch (NotBoundException | RemoteException ignored) {return true;}
-    }
-
-    /**
-     * Attempt to reconnect to any barrel with retries and backoff.
-     * @return true if reconnected, false otherwise
-     */
-    @SuppressWarnings({"SleepWhileInLoop", "BusyWait"})
-    private boolean attemptReconnect() {
-        for (int attempt = 1; attempt <= Config.DOWNLOADER_RETRIES; attempt++) {
-            Log.info("[DOWNLOADER " + threadNumber + "] Attempt " + attempt + " to reconnect to a barrel.");
-            if (connectGateway()) {
-                Log.info("[DOWNLOADER " + threadNumber + "] Reconnected to Gateway on port " + Config.GATEWAY_PORT + " (attempt " + attempt + ")");
-                return true;
-            }
-
-            try {
-                Thread.sleep((long) (Config.DOWNLOADER_BACKOFF * Math.pow(2, attempt - 1)));
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break;
-            }
-        }
-        return false;
-    }
-
-    /**
      *  Truncates description to reduce citation size
      *
      * @param description   Text to be truncated or not
@@ -104,10 +73,6 @@ public class Downloader extends Thread {
             Log.info("[DOWNLOADER " + threadNumber + "] Starting downloader thread.");
             UrlQueueInterface queue = (UrlQueueInterface) LocateRegistry.getRegistry(Config.URL_QUEUE_HOST, Config.URL_QUEUE_PORT).lookup("queue");
             Log.info("[DOWNLOADER " + threadNumber + "] Connected to url queue on " + Config.URL_QUEUE_HOST + ":" + Config.URL_QUEUE_PORT);
-
-            if(connectGateway()) attemptReconnect();
-
-            Log.info("[DOWNLOADER " + threadNumber + "] Connected to gateway on " + Config.GATEWAY_HOST + ":" + Config.GATEWAY_PORT);
 
             Map<Integer, BarrelInterface> barrels = new HashMap<>();
 
@@ -180,22 +145,18 @@ public class Downloader extends Thread {
                     }
 
                 } catch (RemoteException e) {
-                    Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Gateway: " + e.getMessage());
-                    if (!attemptReconnect()) {
-                        Log.error("[DOWNLOADER " + threadNumber + "] Could not reconnect to Gateway. Exiting.");
-                        return;
-                    }
+                    Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Barrel during multicast: " + e.getMessage());
                 }
             }
         } catch (IOException | NotBoundException e) {
-            Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Gateway: " + e.getMessage());
+            Log.error("[DOWNLOADER " + threadNumber + "] Error in downloader thread: " + e.getMessage());
         }
     }
 
     //---------------------------------------- MULTICAST METHODS -------------------------------------------------//
 
     /**
-     * Gateway method to multicast the data, that came from the downloader, into all active barrels
+     * Multicasts page entries to all active Barrels.
      * This is a best-effort reliable multicast since sync fixes the rest
      * @param url           Page url
      * @param words         Words in page
@@ -214,7 +175,7 @@ public class Downloader extends Thread {
         AtomicInteger acksReceived = new AtomicInteger();
 
         if (activeBarrelCount == 0) {
-            Log.warning("[GATEWAY] No active barrels found for multicast");
+            Log.warning("[DOWNLOADER] No active barrels to multicast entries.");
             return false;
         }
 
@@ -228,7 +189,7 @@ public class Downloader extends Thread {
                 boolean success = false;
 
                 // To recall that success is in the 'for' condition
-                for (int attempt = 0; attempt < Config.GATEWAY_RETRIES && !success; attempt++) {
+                for (int attempt = 0; attempt < Config.DOWNLOADER_RETRIES && !success; attempt++) {
                     try {
                         barrel.ping();
 
@@ -238,13 +199,13 @@ public class Downloader extends Thread {
                             success = true;
                             atLeastOne.set(true);
                         } else {
-                            Log.warning("[GATEWAY] Barrel " + port + " did not ACK entry.");
+                            Log.warning("[DOWNLOADER] Barrel " + port + " did not ACK entry.");
                         }
 
                     } catch (Exception e) {
-                        long backoff = (long) (Config.GATEWAY_BACKOFF * Math.pow(2, attempt));
+                        long backoff = (long) (Config.DOWNLOADER_BACKOFF * Math.pow(2, attempt));
 
-                        if (attempt < Config.GATEWAY_RETRIES - 1) {
+                        if (attempt < Config.DOWNLOADER_RETRIES - 1) {
                             try {
                                 Thread.sleep(backoff);
                             } catch (InterruptedException ie) {
@@ -256,7 +217,7 @@ public class Downloader extends Thread {
                 }
 
                 if (!success) {
-                    Log.error("[GATEWAY] Failed to insert data into barrel " + port + " after retries.");
+                    Log.error("[DOWNLOADER] Failed to insert data into barrel " + port + " after retries.");
                 }
             }));
         }
@@ -265,7 +226,7 @@ public class Downloader extends Thread {
 
         int acks = acksReceived.get();
         if (acks < activeBarrelCount) {
-            Log.warning("[GATEWAY] Only " + acks + "/" + activeBarrelCount + " barrels acknowledged.");
+            Log.warning("[DOWNLOADER] Only " + acks + "/" + activeBarrelCount + " barrels acknowledged.");
         }
 
         return atLeastOne.get();

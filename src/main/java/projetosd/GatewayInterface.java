@@ -20,6 +20,13 @@ public interface GatewayInterface extends Remote {
      */
     void reportBarrelStatus(int barrelPort, boolean status) throws RemoteException;
 
+    /**
+     * Method that asynchronously checks and handles database synchronization
+     * @returns Boolean (always true) to block barrel execution so they complete the sync before registering as active
+     * @throws RemoteException RMI Exception
+     */
+    boolean syncBarrels(int requesterPort) throws RemoteException;
+
     /*
      * CALLBACK: Notifies the Gateway to update statistics from a Barrel.
      * @param barrelPort Barrel port
@@ -68,12 +75,5 @@ public interface GatewayInterface extends Remote {
      * @throws RemoteException RMI Exception
      */
     String stats(String clientId) throws RemoteException;
-
-    /**
-     * Method that asynchronously checks and handles database synchronization
-     * @returns Boolean (always true) to block barrel execution so they complete the sync before registering as active
-     * @throws RemoteException RMI Exception
-     */
-    boolean syncBarrels(int requesterPort) throws RemoteException;
 }
 

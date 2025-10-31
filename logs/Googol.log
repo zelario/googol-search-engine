@@ -1,10 +1,54 @@
-[2025-10-29 22:04:23] [INFO] [STATS] Stats loaded successfully.
-[2025-10-29 22:04:23] [INFO] [GATEWAY] Connected to URL Queue on port 1099
-[2025-10-29 22:04:23] [INFO] [GATEWAY] Gateway ready on port 1098
-[2025-10-29 22:04:28] [INFO] [BARREL 1100] Running on port: 1100
-[2025-10-29 22:04:28] [INFO] [BARREL 1100] Requesting sync to gateway
-[2025-10-29 22:04:28] [INFO] [GATEWAY] Barrel 1100 requested synchronization
-[2025-10-29 22:04:36] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-10-29 22:04:36] [INFO] [BARREL 1100] Sync successful
-[2025-10-29 22:04:36] [INFO] [GATEWAY] Barrel 1100 registered.
-[2025-10-29 22:04:36] [INFO] [BARREL 1100] Registered with gateway on port: 1098
+[2025-10-31 13:06:15] [INFO] [STATS] Stats loaded successfully.
+[2025-10-31 13:06:15] [INFO] [GATEWAY] Connected to URL Queue on localhost:1099
+[2025-10-31 13:06:15] [INFO] [GATEWAY] Gateway ready on localhost:1098
+[2025-10-31 13:06:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 13:06:15] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 13:06:15] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-10-31 13:06:15] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2025-10-31 13:06:15] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2025-10-31 13:06:15] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-10-31 13:06:15] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-10-31 13:06:15] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
+[2025-10-31 13:06:15] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
+[2025-10-31 13:06:15] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
+[2025-10-31 13:06:15] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
+[2025-10-31 13:06:15] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
+[2025-10-31 13:06:15] [INFO] [DOWNLOADER 4] Connected to gateway on localhost:1098
+[2025-10-31 13:06:16] [INFO] [DOWNLOADER 3] Connected to gateway on localhost:1098
+[2025-10-31 13:06:16] [INFO] [DOWNLOADER 1] Connected to gateway on localhost:1098
+[2025-10-31 13:06:16] [INFO] [DOWNLOADER 5] Connected to gateway on localhost:1098
+[2025-10-31 13:06:16] [INFO] [DOWNLOADER 2] Connected to gateway on localhost:1098
+[2025-10-31 13:06:16] [INFO] [BARREL 1100] Running on localhost:1100
+[2025-10-31 13:06:16] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-10-31 13:06:16] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-10-31 13:06:16] [INFO] [CLIENT 25] Connected to gateway on port 1098 on attempt 1
+[2025-10-31 13:06:22] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 13:06:22] [INFO] [BARREL 1100] Sync successful
+[2025-10-31 13:06:22] [INFO] [GATEWAY] Barrel 1100 registered
+[2025-10-31 13:06:22] [INFO] [URLQueue] Barrel 1100 registered
+[2025-10-31 13:06:22] [INFO] [GATEWAY] Barrel 1100 new status sent to url queue
+[2025-10-31 13:06:22] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
+[2025-10-31 13:11:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 13:11:21] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 13:16:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 13:16:21] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 13:21:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 13:21:23] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 13:26:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 13:26:20] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 13:31:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 13:31:21] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 13:36:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 13:36:20] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 13:41:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 13:41:21] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 13:46:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 13:46:20] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 13:51:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 13:51:20] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 13:56:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 13:56:23] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 14:01:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 14:01:21] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-10-31 14:06:15] [INFO] [GATEWAY] Starting period sync
+[2025-10-31 14:06:22] [INFO] [GATEWAY] Found no mismatches in barrels
