@@ -458,7 +458,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             conn.commit();
         }
         catch (SQLException e){
-            Log.error("[BARREL] Could not insert missing data in barrel: " + e.getMessage());
+            //Log.error("[BARREL] Could not insert missing data in barrel: " + e.getMessage());  TODO
         }
 
         Log.info("[BARREL] Inserted missing data from sync");
