@@ -57,7 +57,7 @@ public interface GatewayInterface extends Remote {
     * @return formatted search results string
     * @throws RemoteException RMI Exception
     */
-    List<Page> search(String clientId, String query, int pageNumber) throws RemoteException;
+    List<Page> search(String clientId, String query, int pageNumber, int filter, String domain) throws RemoteException;
 
     /**
      * Get the backlinks for a specific page.

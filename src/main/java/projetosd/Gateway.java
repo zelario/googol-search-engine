@@ -383,7 +383,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     @Override
     @SuppressWarnings("BusyWait")
-    public List<Page> search(String clientId, String query, int pageNumber) throws RemoteException {
+    public List<Page> search(String clientId, String query, int pageNumber, int filter, String domain) throws RemoteException {
         Log.info("[GATEWAY] Client " + clientId + " searching for query: " + query);
 
         String[] terms = Arrays.stream(query.split("\\s+"))
@@ -402,7 +402,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             int barrelPort = entry.getKey();
 
             try {
-                List<Page> pages = barrel.searchQuery(query, terms, pageNumber);
+                List<Page> pages = barrel.searchQuery(query, terms, pageNumber, filter, domain);
                 if (pages == null || pages.isEmpty()) {
                     return null;
                 }

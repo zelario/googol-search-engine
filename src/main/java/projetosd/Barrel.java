@@ -180,7 +180,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @return Returns a list of pages (urls and metadata).
      */
     @Override
-    public List<Page> searchQuery(String rawQuery, String[] terms, int pageNumber) {
+    public List<Page> searchQuery(String rawQuery, String[] terms, int pageNumber, int filter, String domain) throws RemoteException {
         long startTime = System.currentTimeMillis();
 
         if (terms == null || terms.length == 0) return Collections.emptyList();
@@ -192,16 +192,27 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         try (java.sql.Connection conn = db.getConnection()) {
             String placeholders = String.join(",", Collections.nCopies(terms.length, "?"));
 
+            StringBuilder filterQuery = new StringBuilder();
+            filterQuery.append("WHERE w.word IN (").append(placeholders).append(") ");
+            filterQuery.append("AND u.title != 'Page' ");
+            filterQuery.append("AND u.title IS NOT NULL ");
+            filterQuery.append("AND u.citation IS NOT NULL ");
+
+            if (filter == 2 || filter == 4) { 
+                filterQuery.append("AND u.url LIKE '%.").append(domain).append("%' ");
+            }
+            
+            if (filter == 3 || filter == 4) { 
+                filterQuery.append("AND u.title ~ '^[A-Za-zÀ-ÖØ-öø-ÿ0-9[:punct:] ]*$' ");
+                filterQuery.append("AND u.citation ~ '^[A-Za-zÀ-ÖØ-öø-ÿ0-9[:punct:] ]*$' ");
+            }
+
             String query = "SELECT u.url, u.title, u.citation, COUNT(DISTINCT uu.url_url) AS ref_count " +
                 "FROM url u " +
                 "JOIN words_url wu ON wu.url_url = u.url " +
                 "JOIN words w ON wu.words_word = w.word " +
                 "LEFT JOIN url_url uu ON uu.url_url1 = u.url " +
-                "WHERE w.word IN (" + placeholders + ") " +
-                "AND u.title != 'Page' " +
-                // allow NULL titles/citations, otherwise require characters to be in latin ranges
-                "AND (u.title ~ '^[A-Za-zÀ-ÖØ-öø-ÿ0-9[:punct:] ]*$' OR u.title IS NULL) " +
-                "AND (u.citation ~ '^[A-Za-zÀ-ÖØ-öø-ÿ0-9[:punct:] ]*$' OR u.citation IS NULL) " +
+                filterQuery.toString() +
                 "GROUP BY u.url, u.title, u.citation " +
                 "HAVING COUNT(DISTINCT w.word) = ? " +
                 "ORDER BY ref_count DESC " +

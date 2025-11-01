@@ -20,7 +20,7 @@ public interface BarrelInterface extends Remote {
      * @param pageNumber The page number for pagination (1-based)
      * @return Returns a list of pages (urls and metadata).
      */
-    List<Page> searchQuery(String rawQuery, String[] terms, int pageNumber) throws java.rmi.RemoteException;
+    List<Page> searchQuery(String rawQuery, String[] terms, int pageNumber, int filter, String domain) throws java.rmi.RemoteException;
 
     /**
      * Pings the barrel to check if working.

@@ -33,6 +33,16 @@ public class Client {
     private static int pageNumber;
 
     /**
+     * Current filter for search.
+     */
+    private static int filter = 1;
+
+    /**
+     * Current domain for search.
+     */
+    private static String domain;
+
+    /**
      * Constructs the Client object.
      */
     public Client() {
@@ -182,7 +192,7 @@ public class Client {
         }
         
         System.out.print("===== Welcome to Googol! You are client " + client.id + "! =====\n\n");
-            System.out.print("SEARCH: To search for a url\nINDEX: To add new url\nSTATS: To see statistics\nEXIT: To exit the app\n");
+        System.out.print("SEARCH: To search for a url\nFILTER: Filter results\nINDEX: To add new url\nSTATS: To see statistics\nEXIT: To exit the app\n");
 
             boolean run = true;
             String mode = "SEARCH";
@@ -210,6 +220,19 @@ public class Client {
                             Log.error("[CLIENT " + client.id + "] Stats failed after retries: " + e.getMessage());
                         }
                         continue;
+                    } else if (query.equals("FILTER") || query.equals("filter")) {
+                        System.out.print("\n=== Apply Filter ===\n\n1. No filter\n2. Domain filter\n3. Language filter\n4. Both Filters\n\n>  ");
+                        filter = Integer.parseInt(scanner.nextLine().trim());
+
+                        if (filter < 1 || filter > 4) {
+                            System.out.print("\nInvalid filter selection. Defaulting to no filter.\n");
+                            filter = 1;
+                        } else if (filter == 2 || filter == 4) {
+                            System.out.print("\n- Please enter domain (google.DOMAIN):\n\n> ");
+                            domain = scanner.nextLine().trim();
+                        }
+                        System.out.print("\n- Filter applied\n\n> ");
+                        continue;
                     } else if (query.equals("EXIT") || query.equals("exit")) {
                         run = false;
                         System.out.println("=== Exiting. Goodbye! ===");
@@ -221,7 +244,7 @@ public class Client {
                                 pageNumber = 1;
                                 System.out.print("\n=== Search Results ===\n");
                                 while(true){
-                                    List<Page> results = client.callGateway(() -> client.gateway.search(client.id, query, pageNumber));
+                                    List<Page> results = client.callGateway(() -> client.gateway.search(client.id, query, pageNumber, filter, domain));
                                     client.printResults(results);
                                     System.out.print("\n                 Prev             Backlinks              Next\n\n> ");
                                     String command = scanner.nextLine().trim();
