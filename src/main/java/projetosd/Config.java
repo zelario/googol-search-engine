@@ -99,6 +99,11 @@ public class Config {
     public static int DOWNLOADER_RETRIES;
 
     /*
+     * Downloader page connection timeout
+     */
+    public static int DOWNLOADER_CONNECTION_TIMEOUT;
+
+    /*
      * Debug mode
      */
     public static boolean DEBUG;
@@ -129,6 +134,7 @@ public class Config {
         BARREL_RETRIES = 3;
         DOWNLOADER_BACKOFF = 300;
         DOWNLOADER_RETRIES = 3;
+        DOWNLOADER_CONNECTION_TIMEOUT = 10000;
         DEBUG = true;
 
         BARREL_HOSTS_TRANSLATION_TABLE = new HashMap<>();
@@ -158,6 +164,7 @@ public static synchronized void loadConfiguration() {
     int defaultBarrelBackoff = 300;
     int defaultDownloaderRetries = 3;
     int defaultDownloaderBackoff = 300;
+    int defaultDownloaderConnectionTimeout = 10000;
     boolean defaultDebug = true;
 
     if (!Files.exists(path)) {
@@ -198,6 +205,7 @@ public static synchronized void loadConfiguration() {
 
         DOWNLOADER_RETRIES = Integer.parseInt(properties.getProperty("downloader.retries", String.valueOf(defaultDownloaderRetries)));
         DOWNLOADER_BACKOFF = Integer.parseInt(properties.getProperty("downloader.backoff", String.valueOf(defaultDownloaderBackoff)));
+        DOWNLOADER_CONNECTION_TIMEOUT = Integer.parseInt(properties.getProperty("downloader.connection.timeout", String.valueOf(defaultDownloaderConnectionTimeout)));
 
         DEBUG = Boolean.parseBoolean(properties.getProperty("debug.enabled", String.valueOf(defaultDebug)));
 

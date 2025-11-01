@@ -79,8 +79,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         if (entries.isEmpty()) return null;
 
         int size = entries.size();
-        int startIndex = lastBarrelIndex.getAndUpdate(i -> (i + 1) % size);
-        int index = startIndex;
+        int index = lastBarrelIndex.getAndUpdate(i -> (i + 1) % size);
 
         while (!entries.isEmpty()) {
             Map.Entry<Integer, BarrelInterface> entry = entries.get(index);

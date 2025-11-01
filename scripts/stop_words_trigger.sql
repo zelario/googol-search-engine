@@ -13,9 +13,9 @@ BEGIN
     IF url_count + 1 > 100 THEN
         INSERT INTO stop_words(word) VALUES (NEW.words_word)
             ON CONFLICT (word) DO NOTHING;
-        DELETE FROM words WHERE word = NEW.words_word;
         DELETE FROM words_url WHERE words_word = NEW.words_word;
-        RETURN NULL; 
+        DELETE FROM words WHERE word = NEW.words_word;
+        RETURN NULL;
     END IF;
 
     RETURN NEW; 

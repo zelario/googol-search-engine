@@ -1,0 +1,1 @@
+DROP TABLE stop_words, url_url, words_url, words, url;

@@ -1,9 +1,12 @@
 package projetosd;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +19,7 @@ import java.util.regex.Pattern;
 
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
+import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -75,80 +79,96 @@ public class Downloader extends Thread {
             Log.info("[DOWNLOADER " + threadNumber + "] Connected to url queue on " + Config.URL_QUEUE_HOST + ":" + Config.URL_QUEUE_PORT);
 
             Map<Integer, BarrelInterface> barrels = new HashMap<>();
-
             while (true) {
-                Map<Map<Integer, BarrelInterface>, String> returnedInfo = queue.takeUrl(barrels);
+                String url = null;
 
-                barrels = returnedInfo.keySet().iterator().next();
-                String url = returnedInfo.values().iterator().next();
-
-                if(!url.startsWith("http")) continue;
-
-                Log.url("[DOWNLOADER " + threadNumber + "] Downloading URL: " + url);
-                Document doc;
                 try {
-                    doc = Jsoup.connect(url).get();
+                    Map<Map<Integer, BarrelInterface>, String> returnedInfo = queue.takeUrl(barrels);
+
+                    barrels = returnedInfo.keySet().iterator().next();
+                    url = returnedInfo.values().iterator().next();
+
+                    if (!url.startsWith("http")) continue;
+
+                    Log.url("[DOWNLOADER " + threadNumber + "] Downloading URL: " + url);
+                    Document doc;
+
+                    doc = Jsoup.connect(url).timeout(Config.DOWNLOADER_CONNECTION_TIMEOUT).get();
                     //System.out.println(doc);
-                } catch (HttpStatusException e) {
-                    continue;
-                }
 
-                ArrayList<String> pageWords = new ArrayList<>();
-                ArrayList<String> relatedUrls = new ArrayList<>();
+                    ArrayList<String> pageWords = new ArrayList<>();
+                    ArrayList<String> relatedUrls = new ArrayList<>();
 
-                String text = doc.body().text();
-                StringTokenizer st = new StringTokenizer(text, " \t\n\r\f,.:;?![]'\"");
+                    String text = doc.body().text();
+                    StringTokenizer st = new StringTokenizer(text, " \t\n\r\f,.:;?![]'\"");
 
-                while (st.hasMoreTokens()) {
-                    String token = st.nextToken();
-                    // Word max length is 64 (it is validated in the regex)
-                    if(VALID_WORDS.matcher(token).matches()) pageWords.add(token.toLowerCase());
-                }
-
-                Elements links = doc.select("a[href]");
-
-                for (Element link : links) {
-                    String pageUrl = link.attr("href");
-                    if ((pageUrl.startsWith("https://"))) {
-                        queue.addUrl(pageUrl, false);
-                        relatedUrls.add(pageUrl);
-                    }
-                }
-
-                // Fetch title and description
-                String title = doc.title();
-                if(title.length() > 128) title =  title.substring(0, 128).trim();
-                String description = "";
-
-                // Try different descriptions/citations from the pages
-                String metaDesc = doc.select("meta[name=description]").attr("content");
-                if(!metaDesc.isBlank()) description = truncateDescription(metaDesc);
-
-                if(description.isEmpty()){
-                    Elements paragraphs = doc.select("p");
-                    for (Element p : paragraphs){
-                        String paraText = p.text().trim();
-                        // Ignore very short descriptions
-                        if (text.length() > 15) description = truncateDescription(paraText);
-                    }
-                }
-
-                if(description.isEmpty()){
-                    String bodyText = doc.body().text();
-                    description = truncateDescription(bodyText);
-                }
-
-                try{
-                    // If no barrel got the info, re-insert url in url queue
-                    if(!this.multicastEntries(url, pageWords, title, description, relatedUrls, barrels)){
-                        queue.addUrl(url, false);
+                    while (st.hasMoreTokens()) {
+                        String token = st.nextToken();
+                        // Word max length is 64 (it is validated in the regex)
+                        if (VALID_WORDS.matcher(token).matches()) pageWords.add(token.toLowerCase());
                     }
 
-                } catch (RemoteException e) {
-                    Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Barrel during multicast: " + e.getMessage());
+                    Elements links = doc.select("a[href]");
+
+                    for (Element link : links) {
+                        String pageUrl = link.attr("href");
+                        if ((pageUrl.startsWith("https://"))) {
+                            queue.addUrl(pageUrl, false);
+                            relatedUrls.add(pageUrl);
+                        }
+                    }
+
+                    // Fetch title and description
+                    String title = doc.title();
+                    if (title.length() > 128) title = title.substring(0, 128).trim();
+                    String description = "";
+
+                    // Try different descriptions/citations from the pages
+                    String metaDesc = doc.select("meta[name=description]").attr("content");
+                    if (!metaDesc.isBlank()) description = truncateDescription(metaDesc);
+
+                    if (description.isEmpty()) {
+                        Elements paragraphs = doc.select("p");
+                        for (Element p : paragraphs) {
+                            String paraText = p.text().trim();
+                            // Ignore very short descriptions
+                            if (text.length() > 15) description = truncateDescription(paraText);
+                        }
+                    }
+
+                    if (description.isEmpty()) {
+                        String bodyText = doc.body().text();
+                        description = truncateDescription(bodyText);
+                    }
+
+                    try {
+                        // If no barrel got the info, re-insert url in url queue
+                        if (!this.multicastEntries(url, pageWords, title, description, relatedUrls, barrels)) {
+                            queue.addUrl(url, false);
+                        }
+
+                    } catch (RemoteException e) {
+                        Log.error("[DOWNLOADER " + threadNumber + "] Lost connection to Barrel during multicast: " + e.getMessage());
+                    }
+                }
+                // Possible temporary issues -> re-insert url to be parsed later
+                catch (IOException | UncheckedIOException e) {
+                    // Data or connection related issues -> ignored
+                    if(e instanceof UnsupportedMimeTypeException || e instanceof MalformedURLException ||
+                        e instanceof HttpStatusException && ((HttpStatusException) e).getStatusCode() == 404 ||
+                        e instanceof ParseException
+                    ) continue;
+
+                    Log.warning("[DOWNLOADER " + threadNumber + "] Error downloading/parsing " + url + ", retrying later");
+
+                    try {queue.addUrl(url, false);}
+                    catch (RemoteException e2){
+                        Log.warning("[DOWNLOADER " + threadNumber + "] Error re-inserting url: " +  e2.getMessage());
+                    }
                 }
             }
-        } catch (IOException | NotBoundException e) {
+
+        } catch (RemoteException | NotBoundException e) {
             Log.error("[DOWNLOADER " + threadNumber + "] Error in downloader thread: " + e.getMessage());
         }
     }
@@ -241,9 +261,8 @@ public class Downloader extends Thread {
     public static void main(String[] args) {
         int threadCounter = Config.DOWNLOADER_THREADS;
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            Log.info("[DOWNLOADER] Exiting downloader threads.");
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->
+                Log.info("[DOWNLOADER] Exiting downloader threads.")));
                    
         for (int i = 0; i < threadCounter; i++) {
             new Downloader(i + 1).start();
