@@ -341,7 +341,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
         colsAndOrder[0] = switch (tableName) {
             case "url" -> "url, title, citation";
-            case "words" -> "word";
+            case "words", "stop_words" -> "word";
             case "words_url" -> "words_word, url_url";
             case "url_url" -> "url_url, url_url1";
             default -> "*";
@@ -350,7 +350,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         colsAndOrder[1] = switch (tableName) {
             case "url" -> "url";
             case "url_url" -> "url_url, url_url1";
-            case "words" -> "word";
+            case "words", "stop_words" -> "word";
             case "words_url" -> "words_word, url_url";
             default -> "*";
         };
@@ -365,7 +365,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     private Map<String, String> calcDataBaseMd5Hash(Timestamp now){
         Database db = new Database(this.port);
         Map<String, String> hashes = new HashMap<>();
-        String[] tables = {"words", "url", "words_url", "url_url"};
+        String[] tables = {"stop_words", "words", "url", "words_url", "url_url"};
 
         try(java.sql.Connection conn = db.getConnection()){
             for(String table : tables){

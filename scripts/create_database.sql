@@ -27,8 +27,9 @@ CREATE TABLE url_url (
 );
 
 CREATE TABLE stop_words (
-	word VARCHAR(512),
-	PRIMARY KEY(word)
+                        word VARCHAR(512),
+                        created_at TIMESTAMP NOT NULL DEFAULT now(),
+                        PRIMARY KEY(word)
 );
 
 ALTER TABLE words_url ADD CONSTRAINT words_url_fk1 FOREIGN KEY (words_word) REFERENCES words(word) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;

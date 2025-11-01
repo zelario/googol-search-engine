@@ -245,7 +245,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         }
 
         // Force order on insertion
-        List<String> tableInsertOrder = List.of("words", "url", "words_url", "url_url");
+        List<String> tableInsertOrder = List.of("stop_words", "words", "url", "words_url", "url_url");
 
         // finally introduce missing data into barrels by filtering which rows are not present in each barrel
         futures.clear();
