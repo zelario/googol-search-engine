@@ -10,6 +10,13 @@ import java.util.List;
 public interface GatewayInterface extends Remote {
 
     /**
+     * Callback: URL Queue notifies state changes.
+     * @param status true if active, false if inactive
+     * @throws RemoteException RMI exception
+     */
+    public void reportQueueStatus(boolean status) throws RemoteException;
+
+    /**
      * CALLBACK: Notifies the Gateway about a Barrel's status change.
      * @param barrelPort Barrel port
      * @param status Status message

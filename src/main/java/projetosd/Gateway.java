@@ -54,16 +54,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     public Gateway() throws RemoteException {
         stats = new Stats();
-
-        try {
-            Registry registry = LocateRegistry.getRegistry(Config.URL_QUEUE_HOST, Config.URL_QUEUE_PORT);
-            queue = (UrlQueueInterface) registry.lookup("queue");
-            Log.info("[GATEWAY] Connected to URL Queue on " + Config.URL_QUEUE_HOST + ":" + Config.URL_QUEUE_PORT);
-        } catch (NotBoundException | RemoteException e) {
-            Log.error("[GATEWAY] URL Queue not available: " + e.getMessage());
-            queue = null;
-        }
-
         barrels = new ConcurrentHashMap<>();
     }
 
@@ -298,6 +288,27 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     //------------------------------------------------- CALLBACK METHODS ------------------------------------------------------//
 
     /**
+     * Callback: URL Queue notifies state changes.
+     * @param status true if active, false if inactive
+     * @throws RemoteException RMI exception
+     */
+    @Override
+    public void reportQueueStatus(boolean status) throws RemoteException {
+        try {
+            if (status) {
+                Registry registry = LocateRegistry.getRegistry(Config.URL_QUEUE_HOST, Config.URL_QUEUE_PORT);
+                queue = (UrlQueueInterface) registry.lookup("queue");
+                Log.info("[GATEWAY] URL Queue registered");
+            } else {
+                queue = null;
+                Log.info("[GATEWAY] URL Queue unregistered. Indexing disabled");
+            }
+        } catch (NotBoundException | RemoteException e) {
+            Log.error("[GATEWAY] Failed to update URL Queue status: " + e.getMessage());
+        }
+    }
+
+    /**
      * Callback: Barrels notify state changes.
      * @param barrelPort Barrel port
      * @param status true if active, false if inactive
@@ -372,7 +383,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 Log.error("[GATEWAY] Failed to add URL to queue: " + e.getMessage());
             }
         } else {
-            Log.error("[GATEWAY] Queue is not available");
+            Log.error("[GATEWAY] Queue is not available. Indexing disabled.");
         }
     }
 
@@ -518,11 +529,6 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
         try {
             Gateway gateway = new Gateway();
-
-            if (gateway.queue == null) {
-                Log.error("[GATEWAY] Exiting due to unavailable URL Queue");
-                return;
-            }
 
             Registry registry = LocateRegistry.createRegistry(Config.GATEWAY_PORT);
             registry.rebind("gateway", gateway);

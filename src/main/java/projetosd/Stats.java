@@ -180,9 +180,9 @@ public class Stats implements Serializable {
 			this.queryCounts.putAll(stats.queryCounts);
 			this.barrelIndexSizes.putAll(stats.barrelIndexSizes);
 			this.barrelTimes.putAll(stats.barrelTimes);
-			Log.info("[STATS] Stats loaded successfully.");
+			Log.info("[GATEWAY] Stats loaded successfully.");
 		} catch (Exception e) {
-			Log.error("[STATS] Failed to load stats: " + e.getMessage());
+			Log.error("[GATEWAY] Failed to load stats: " + e.getMessage());
 		}
 	}
 

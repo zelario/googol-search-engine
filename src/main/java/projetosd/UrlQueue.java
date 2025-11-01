@@ -13,6 +13,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -26,6 +27,11 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
      * Queue for storing URLs.
      */
     private final LinkedBlockingDeque<String> urlQueue;
+
+    /**
+     * Gateway reference for communication with other components.
+     */
+    private GatewayInterface gateway;
 
     /**
      * Serial data file name
@@ -171,12 +177,37 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
             registry.rebind("queue", queue);
             Log.info("[URLQueue] RMI server ready");
 
+            registry = LocateRegistry.getRegistry(Config.GATEWAY_HOST, Config.GATEWAY_PORT);
+            queue.gateway = (GatewayInterface) registry.lookup("gateway");
+            queue.gateway.reportQueueStatus(true);
+            Log.info("[URLQueue] Connected to Gateway on port " + Config.GATEWAY_PORT);
+
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 queue.saveQueue();
-                Log.info("[URLQueue] Exiting");
-            }));        
                 
-        } catch (RemoteException e) {
+                try {
+                    queue.gateway.reportQueueStatus(false);
+                } catch (RemoteException e) {
+                    Log.error("[URLQueue] Could not notify Gateway of shutdown: " + e.getMessage());
+                }
+
+                Log.info("[URLQueue] Exiting");
+            }));
+
+            try (Scanner scanner = new Scanner(System.in)) {
+                while (true) {
+                    String input = scanner.nextLine();
+                    if (input.isEmpty()) {
+                        queue.clearQueue();
+                        Log.info("[URLQueue] Queue cleared by user.");
+                    }
+                }
+            }
+            catch (Exception e) {
+                Log.error("[URLQueue] Error in input handling: " + e.getMessage());
+            }
+            
+        } catch (RemoteException | NotBoundException e) {
             Log.error("[URLQueue] Exiting. Could not start RMI server: " + e.getMessage());
             System.exit(1);
         }
