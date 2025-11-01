@@ -19,9 +19,6 @@ import java.util.concurrent.LinkedBlockingDeque;
 /**
  * Implementation of the UrlQueueInterface for managing a queue of URLs.
  * Handles addition and retrieval of URLs for distributed crawling.
- * 
- * @author Jose Amado & José Capinha
- * @version 1.0
  */
 public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
 

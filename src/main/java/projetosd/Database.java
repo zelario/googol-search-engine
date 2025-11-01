@@ -8,9 +8,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 /**
  * Database Class for Barrels Management and Connection
- *
- * @authors José Capinha & José Amado
- * @version 1.0
  */
 public class Database {
     /**
@@ -45,6 +42,7 @@ public class Database {
 
     /**
      * Database Class Constructor
+     * @param identifier DB id
      */
     public Database(int identifier) {
         if (dotenv == null) dotenv = Dotenv.configure().directory("config/.env").load();

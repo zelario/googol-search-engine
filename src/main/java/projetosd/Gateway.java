@@ -25,9 +25,6 @@ import java.util.stream.Collectors;
 /**
  * Implementation of the GatewayInterface for clients.
  * Exposes RMI methods for adding URLs and searching.
- * 
- * @author Jose Amado & José Capinha
- * @version 1.0
  */
 public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
@@ -46,6 +43,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      */
     private final Map<Integer, BarrelInterface> barrels;
 
+    /**
+     * Index of last barrel
+     */
     private final AtomicInteger lastBarrelIndex = new AtomicInteger(0);
 
     /**
@@ -127,6 +127,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
     /**
      * Method to get barrel all hashes to check consistency
+     * @param now Current timestamp for sync purposes
      * @return Map with ports as keys and as values hash maps with tables as keys as the MD5 hashes as values
      */
     private Map<Integer, Map<String, String>> getBarrelHashes(Timestamp now){
@@ -508,6 +509,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
     /**
      * Main method for the Gateway.
+     * @param args Command line arguments
      */
     public static void main(String[] args) {
         Log.clearLog();

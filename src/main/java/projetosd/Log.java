@@ -9,9 +9,6 @@ import java.time.format.DateTimeFormatter;
 /**
  * Debug utility class.
  * Set DEBUG to false in production to disable all debug prints.
- * 
- * @author Jose Amado & José Capinha
- * @version 1.0
  */
 public class Log {
     

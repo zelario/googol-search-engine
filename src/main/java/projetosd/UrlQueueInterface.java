@@ -5,9 +5,6 @@ import java.util.Map;
 
 /**
  * Remote interface for a distributed URL queue.
- * 
- * @author Jose Amado & José Capinha
- * @version 1.0
  */
 public interface UrlQueueInterface extends Remote {
     /**

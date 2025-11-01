@@ -10,9 +10,6 @@ import java.util.concurrent.Callable;
 
 /**
  * Console for the Gateway RMI server.
- * 
- * @author Jose Amado & Joao Capinha
- * @version 1.0
  */
 public class Client {
 
@@ -112,6 +109,7 @@ public class Client {
 
     /**
      * Lookup the gateway with retry/backoff.
+     * @throws Exception Generic Exception
      */
     @SuppressWarnings({"BusyWait", ""})
     private void lookupGateway() throws Exception {
@@ -143,6 +141,8 @@ public class Client {
      * Execute a gateway call with automatic retries. If an exception occurs the client will try to re-lookup the gateway and retry the call.
      * @param <T> The return type of the callable action.
      * @param action The callable action to execute.
+     * @return Given action call
+     * @throws Exception Generic Exception
      */
     @SuppressWarnings("BusyWait")
     private <T> T callGateway(Callable<T> action) throws Exception {

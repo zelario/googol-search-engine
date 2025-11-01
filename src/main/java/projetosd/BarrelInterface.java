@@ -8,9 +8,6 @@ import java.util.Map;
 
 /**
  * Remote interface for the distributed index server.
- * 
- * @author Jose Amado & José Capinha
- * @version 1.0
  */
 public interface BarrelInterface extends Remote {
     /**
@@ -18,7 +15,10 @@ public interface BarrelInterface extends Remote {
      * @param rawQuery The raw user query
      * @param terms The search terms
      * @param pageNumber The page number for pagination (1-based)
+     * @param filter Filter type
+     * @param domain Domain to be filtered
      * @return Returns a list of pages (urls and metadata).
+     * @throws java.rmi.RemoteException RMI Exception
      */
     List<Page> searchQuery(String rawQuery, String[] terms, int pageNumber, int filter, String domain) throws java.rmi.RemoteException;
 
@@ -57,6 +57,8 @@ public interface BarrelInterface extends Remote {
 
     /**
      * RMI Method to calculate MD5 hash. If a table name is passed it computes the table hash per row, if not it computes for each table
+     * @param tableName Name of the table to get hash
+     * @param now Current time for sync
      * @return  Map with tables as keys as hashes as values
      * @throws java.rmi.RemoteException RMI Exception
      */

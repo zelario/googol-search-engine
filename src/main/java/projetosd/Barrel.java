@@ -20,9 +20,6 @@ import java.util.Objects;
 /**
  * Implementation of the Index barrel remote interface.
  * Handles indexing and searching of words across URLs.
- * 
- * @author Jose Amado & José Capinha
- * @version 1.0
  */
 public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
@@ -360,6 +357,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
     /**
      * Method to calculate MD5 hash for each table to later verify db states
+     * @param now Current time for sync purposes
      * @return  Map with tables as keys as hashes as values
      */
     private Map<String, String> calcDataBaseMd5Hash(Timestamp now){

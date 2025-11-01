@@ -6,9 +6,6 @@ import java.util.List;
 
 /**
  * Class representing page information including URL, title, and snippet.
- * 
- * @author Jose Amado & José Capinha
- * @version 1.0
  */
 public class Page implements Serializable {
 

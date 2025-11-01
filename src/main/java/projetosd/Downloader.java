@@ -27,9 +27,6 @@ import org.jsoup.select.Elements;
 /**
  * Downloader for fetching and processing web pages.
  * Handles downloading, parsing, indexing, and queueing new URLs.
- * 
- * @author Jose Amado & José Capinha
- * @version 1.0
  */
 public class Downloader extends Thread {
 

@@ -16,9 +16,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Statistics collector for search queries and barrel performance.
- * 
- * @author Jose Amado & José Capinha
- * @version 1.0
  */
 public class Stats implements Serializable {
 
@@ -144,6 +141,7 @@ public class Stats implements Serializable {
 
 	/**
 	 * Remove a barrel from active list.
+     * @param barrelPort Port of barrel to be removed
 	 */
 	public void removeBarrelStats(int barrelPort) {
 		barrelIndexSizes.remove(barrelPort);

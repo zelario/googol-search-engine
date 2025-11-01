@@ -6,9 +6,6 @@ import java.util.List;
 
 /**
  * Remote interface for the Gateway for clients.
- * 
- * @author Jose Amado & José Capinha
- * @version 1.0
  */
 public interface GatewayInterface extends Remote {
 
@@ -22,7 +19,8 @@ public interface GatewayInterface extends Remote {
 
     /**
      * Method that asynchronously checks and handles database synchronization
-     * @returns Boolean (always true) to block barrel execution so they complete the sync before registering as active
+     * @param requesterPort Port of the requesting barrel
+     * @return Boolean (always true) to block barrel execution so they complete the sync before registering as active
      * @throws RemoteException RMI Exception
      */
     boolean syncBarrels(int requesterPort) throws RemoteException;
@@ -31,6 +29,7 @@ public interface GatewayInterface extends Remote {
      * CALLBACK: Notifies the Gateway to update statistics from a Barrel.
      * @param barrelPort Barrel port
      * @param indexSize Size of Barrel index
+     * @throws RemoteException RMI Exception
      */
     void reportIndexStats(int barrelPort, int indexSize) throws RemoteException;
 
@@ -54,6 +53,9 @@ public interface GatewayInterface extends Remote {
     * Search for a query.
     * @param query Search query
     * @param clientId Client identifier
+    * @param pageNumber Current page being looked at
+    * @param filter Filter to be used
+    * @param domain Domain being used
     * @return formatted search results string
     * @throws RemoteException RMI Exception
     */
