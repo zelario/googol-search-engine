@@ -192,20 +192,20 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         try (java.sql.Connection conn = db.getConnection()) {
             String placeholders = String.join(",", Collections.nCopies(terms.length, "?"));
 
-        String query = "SELECT u.url, u.title, u.citation, COUNT(DISTINCT uu.url_url) AS ref_count " +
-            "FROM url u " +
-            "JOIN words_url wu ON wu.url_url = u.url " +
-            "JOIN words w ON wu.words_word = w.word " +
-            "LEFT JOIN url_url uu ON uu.url_url1 = u.url " +
-            "WHERE w.word IN (" + placeholders + ") " +
-            "AND u.title != 'Page' " +
-            // allow NULL titles/citations, otherwise require characters to be in latin ranges
-            "AND (u.title ~ '^[A-Za-zÀ-ÖØ-öø-ÿ0-9[:punct:] ]*$' OR u.title IS NULL) " +
-            "AND (u.citation ~ '^[A-Za-zÀ-ÖØ-öø-ÿ0-9[:punct:] ]*$' OR u.citation IS NULL) " +
-            "GROUP BY u.url, u.title, u.citation " +
-            "HAVING COUNT(DISTINCT w.word) = ? " +
-            "ORDER BY ref_count DESC " +
-            "LIMIT 10 OFFSET ?;";
+            String query = "SELECT u.url, u.title, u.citation, COUNT(DISTINCT uu.url_url) AS ref_count " +
+                "FROM url u " +
+                "JOIN words_url wu ON wu.url_url = u.url " +
+                "JOIN words w ON wu.words_word = w.word " +
+                "LEFT JOIN url_url uu ON uu.url_url1 = u.url " +
+                "WHERE w.word IN (" + placeholders + ") " +
+                "AND u.title != 'Page' " +
+                // allow NULL titles/citations, otherwise require characters to be in latin ranges
+                "AND (u.title ~ '^[A-Za-zÀ-ÖØ-öø-ÿ0-9[:punct:] ]*$' OR u.title IS NULL) " +
+                "AND (u.citation ~ '^[A-Za-zÀ-ÖØ-öø-ÿ0-9[:punct:] ]*$' OR u.citation IS NULL) " +
+                "GROUP BY u.url, u.title, u.citation " +
+                "HAVING COUNT(DISTINCT w.word) = ? " +
+                "ORDER BY ref_count DESC " +
+                "LIMIT 10 OFFSET ?;";
 
             PreparedStatement stmt = conn.prepareStatement(query);
 
