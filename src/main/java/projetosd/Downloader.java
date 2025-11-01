@@ -6,11 +6,11 @@ import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -44,6 +44,16 @@ public class Downloader extends Thread {
     private static final Pattern VALID_WORDS = Pattern.compile("^\\p{L}[\\p{L}\\p{M}\\p{Pd}'’]{1,63}$");
 
     /**
+     * Set with invalid file extensions for pages
+     */
+    private static final Set<String> INVALID_EXTENSIONS = Set.of(
+            ".jpg", ".jpeg", ".png", ".gif", ".svg", ".webp",
+            ".pdf", ".docx", ".xls", ".xlsx", ".zip", ".rar",
+            ".mp3", ".mp4", ".avi", ".mov", ".wmv",
+            ".css", ".js", ".json"
+    );
+
+    /**
      * Constructs a Downloader.
      * @param threadNum The thread number
      */
@@ -69,6 +79,22 @@ public class Downloader extends Thread {
     }
 
     /**
+     * Helper method to verify if url is valid and does not contain invalid file types
+     * @param url   Url to verify
+     * @return      True if valid, false otherwise
+     */
+    private boolean isValidUrl(String url){
+        if(url == null || !url.startsWith("http")) return false;
+
+        String lower = url.toLowerCase();
+        for (String ext : INVALID_EXTENSIONS){
+            if (lower.contains(ext)) return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Work for the downloader thread. Fetches URLs, parses content, updates index, and adds new links to the queue.
      */
     @Override
@@ -89,7 +115,7 @@ public class Downloader extends Thread {
                     barrels = returnedInfo.keySet().iterator().next();
                     url = returnedInfo.values().iterator().next();
 
-                    if (!url.startsWith("http")) continue;
+                    if (!this.isValidUrl(url)) continue;
 
                     Log.url("[DOWNLOADER " + threadNumber + "] Downloading URL: " + url);
                     Document doc;
@@ -155,9 +181,9 @@ public class Downloader extends Thread {
                 // Possible temporary issues -> re-insert url to be parsed later
                 catch (IOException | UncheckedIOException e) {
                     // Data or connection related issues -> ignored
-                    if(e instanceof UnsupportedMimeTypeException || e instanceof MalformedURLException ||
-                        e instanceof HttpStatusException && ((HttpStatusException) e).getStatusCode() == 404 ||
-                        e instanceof ParseException
+                    if(e instanceof UnsupportedMimeTypeException ||
+                        e instanceof MalformedURLException ||
+                        e instanceof HttpStatusException && ((HttpStatusException) e).getStatusCode() == 404
                     ) continue;
 
                     Log.warning("[DOWNLOADER " + threadNumber + "] Error downloading/parsing " + url + ", retrying later");
