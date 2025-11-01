@@ -37,9 +37,9 @@
 
 --- Extra (até 5 pontos) ---
 
-0 - Aprendizagem computacional distribuída num trabalho de grupo de 2 alunos (5p)
+1 - Aprendizagem computacional distribuída num trabalho de grupo de 2 alunos (5p)
 0 - Uso de estruturas avançadas tais como filtro de Bloom, mapa WordID->DocIDs (5p)
-0 - Pesquisas avançadas e melhores algoritmos de ranking de páginas (4p)
+1 - Pesquisas avançadas e melhores algoritmos de ranking de páginas (4p)
 1 - Novo storage barrel sincroniza-se com os existentes (5p)
 0 - Cache de pesquisas recentes no gateway (especificado apenas no enunciado)
 
