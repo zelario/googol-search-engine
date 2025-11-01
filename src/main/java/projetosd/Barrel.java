@@ -163,7 +163,11 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                     catch (InterruptedException ignored){}
                 }
                 else {
-                    Log.error("[DOWNLOADER] Error adding entry to barrels: " + e.getMessage());
+                    String msg = e.getMessage();
+                    // Ignore common race condition, fixed with sync
+                    if(!(msg != null && msg.contains("violates foreign key constraint \"words_url_fk1\""))){
+                        Log.error("[DOWNLOADER] Error adding entry to barrels: " + msg);
+                    }
                     return "NACK";
                 }
             }
@@ -207,12 +211,13 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                 filterQuery.append("AND u.citation ~ '^[A-Za-zÀ-ÖØ-öø-ÿ0-9[:punct:] ]*$' ");
             }
 
+            //noinspection SqlShouldBeInGroupBy
             String query = "SELECT u.url, u.title, u.citation, COUNT(DISTINCT uu.url_url) AS ref_count " +
                 "FROM url u " +
                 "JOIN words_url wu ON wu.url_url = u.url " +
                 "JOIN words w ON wu.words_word = w.word " +
                 "LEFT JOIN url_url uu ON uu.url_url1 = u.url " +
-                filterQuery.toString() +
+                filterQuery +
                 "GROUP BY u.url, u.title, u.citation " +
                 "HAVING COUNT(DISTINCT w.word) = ? " +
                 "ORDER BY ref_count DESC " +

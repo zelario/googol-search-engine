@@ -72,6 +72,7 @@ public class Downloader extends Thread {
      * Work for the downloader thread. Fetches URLs, parses content, updates index, and adds new links to the queue.
      */
     @Override
+    @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
         try {
             Log.info("[DOWNLOADER " + threadNumber + "] Starting downloader thread.");
@@ -93,7 +94,7 @@ public class Downloader extends Thread {
                     Log.url("[DOWNLOADER " + threadNumber + "] Downloading URL: " + url);
                     Document doc;
 
-                    doc = Jsoup.connect(url).timeout(Config.DOWNLOADER_CONNECTION_TIMEOUT).get();
+                    doc = Jsoup.connect(url).timeout(Config.DOWNLOADER_CONNECTION_TIMEOUT).userAgent("ZearchBot/1.0 (Distributed Systems university project)").get();
                     //System.out.println(doc);
 
                     ArrayList<String> pageWords = new ArrayList<>();

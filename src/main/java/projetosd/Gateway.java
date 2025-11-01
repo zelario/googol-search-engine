@@ -73,7 +73,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * Select an available barrel entry (port + barrel instance) by pinging them.
      * @return Map entry of selected barrel port and instance, or null if none available
      */
-    @SuppressWarnings("BusyWait")
+    @SuppressWarnings({"ConstantConditions", "BusyWait"})
     private synchronized Map.Entry<Integer, BarrelInterface> selectBarrel() {
         List<Map.Entry<Integer, BarrelInterface>> entries = new ArrayList<>(barrels.entrySet());
         if (entries.isEmpty()) return null;

@@ -182,9 +182,9 @@ public class Client {
     public static void main(String[] args) {
         Client client = new Client();
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            Log.info("[CLIENT " + client.id + "] Exiting client.");
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->
+                Log.info("[CLIENT " + client.id + "] Exiting client."))
+        );
 
         if (client.gateway == null) {
             Log.error("[CLIENT " + client.id + "] Exiting due to no gateway connection");
