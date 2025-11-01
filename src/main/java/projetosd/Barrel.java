@@ -26,12 +26,12 @@ import java.util.Objects;
  */
 public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
-    /*
+    /**
      * Reference to the Gateway for callbacks
      */
     private GatewayInterface gateway;
 
-    /*
+    /**
      * Port where this barrel is running
      */
     private int port;

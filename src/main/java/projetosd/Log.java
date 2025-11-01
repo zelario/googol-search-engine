@@ -81,6 +81,10 @@ public class Log {
         writeToLog("WARNING", message);
     }
 
+    /**
+     * Prints url message
+     * @param message The warning message to print
+     */
     public static void url(String message) {
         if (Config.DEBUG) {
             System.out.println("[URL] " + message);

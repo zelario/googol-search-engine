@@ -22,24 +22,25 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class Stats implements Serializable {
 
-	/*
+	/**
      * Count occurrences of search queries
      */
 	private final ConcurrentMap<String, AtomicLong> queryCounts;
 
-	/*
+	/**
      * Active barrels and their index sizes
      */
 	private final ConcurrentMap<Integer, Long> barrelIndexSizes;
 
-	/*
+	/**
      * Barrel response time stats class
      */
 	private static class ResponseTime implements Serializable {
 		final AtomicLong total = new AtomicLong(0);
 		final AtomicLong count = new AtomicLong(0);
 	}
-	/*
+
+	/**
 	 * Barrel response times
 	 */
 	private final ConcurrentMap<Integer, ResponseTime> barrelTimes;
@@ -153,6 +154,9 @@ public class Stats implements Serializable {
 
 	//---------------------------------- STATS PERSISTENCE METHODS -----------------------------------------//
 
+    /**
+     * Saves stats into serial file
+     */
 	public void saveStats() {
 		File file = new File("data/stats.ser");
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
@@ -164,6 +168,9 @@ public class Stats implements Serializable {
 		}
 	}
 
+    /**
+     * Loads stats from serial file
+     */
 	public void loadStats() {
 		File file = new File("data/stats.ser");
 		if (!file.exists()) {

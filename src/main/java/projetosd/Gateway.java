@@ -181,6 +181,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         return new ArrayList<>(mismatches);
     }
 
+    @Override
     @SuppressWarnings({"BusyWait", "SleepWhileInLoop"})
     public boolean syncBarrels(int requesterPort) throws RemoteException {
         if(requesterPort != 0) Log.info("[GATEWAY] Barrel " + requesterPort + " requested synchronization");

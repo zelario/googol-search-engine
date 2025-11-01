@@ -27,7 +27,7 @@ public interface GatewayInterface extends Remote {
      */
     boolean syncBarrels(int requesterPort) throws RemoteException;
 
-    /*
+    /**
      * CALLBACK: Notifies the Gateway to update statistics from a Barrel.
      * @param barrelPort Barrel port
      * @param indexSize Size of Barrel index
