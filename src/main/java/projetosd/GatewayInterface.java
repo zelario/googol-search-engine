@@ -3,6 +3,7 @@ package projetosd;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Remote interface for the Gateway for clients.
@@ -14,7 +15,7 @@ public interface GatewayInterface extends Remote {
      * @param status true if active, false if inactive
      * @throws RemoteException RMI exception
      */
-    public void reportQueueStatus(boolean status) throws RemoteException;
+    void reportQueueStatus(boolean status) throws RemoteException;
 
     /**
      * CALLBACK: Notifies the Gateway about a Barrel's status change.
@@ -23,6 +24,13 @@ public interface GatewayInterface extends Remote {
      * @throws RemoteException RMI Exception
      */
     void reportBarrelStatus(int barrelPort, boolean status) throws RemoteException;
+
+    /**
+     * Get map of active barrels
+     * @return  HashMap of active barrels
+     * @throws RemoteException RMI Exception
+     */
+    Map<Integer, BarrelInterface> getActiveBarrels() throws RemoteException;
 
     /**
      * Method that asynchronously checks and handles database synchronization

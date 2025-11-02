@@ -80,6 +80,8 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     @Override
     public Map<Map<Integer, BarrelInterface>, String> takeUrl(Map<Integer, BarrelInterface> downloaderBarrels) throws RemoteException {
         try {
+            this.barrels.putAll(this.gateway.getActiveBarrels());
+
             downloaderBarrels.clear();
             downloaderBarrels.putAll(this.barrels);
 
@@ -89,6 +91,10 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
         } catch (InterruptedException e) {
             return null;
         }
+    }
+
+    @Override
+    public void ping() throws java.rmi.RemoteException{
     }
 
     //---------------------------------- END OF URL QUEUE MANAGEMENT METHODS -----------------------------------------//
@@ -181,6 +187,8 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
             queue.gateway = (GatewayInterface) registry.lookup("gateway");
             queue.gateway.reportQueueStatus(true);
             Log.info("[URLQueue] Connected to Gateway on port " + Config.GATEWAY_PORT);
+
+            queue.barrels.putAll(queue.gateway.getActiveBarrels());
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 queue.saveQueue();

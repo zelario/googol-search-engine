@@ -24,6 +24,12 @@ public interface UrlQueueInterface extends Remote {
     void addUrl(String url, boolean userInput) throws java.rmi.RemoteException;
 
     /**
+     * Ping queue to check connectivity
+     * @throws java.rmi.RemoteException RMI Exception
+     */
+    void ping() throws java.rmi.RemoteException;
+
+    /**
      * Changes barrel status to keep track of active barrels
      * @param barrelPort    Barrel port
      * @param status        New status

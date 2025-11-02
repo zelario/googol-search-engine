@@ -115,6 +115,11 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         return null;
     }
 
+    @Override
+    public Map<Integer, BarrelInterface> getActiveBarrels() throws RemoteException{
+        return this.barrels;
+    }
+
     /**
      * Method to get barrel all hashes to check consistency
      * @param now Current timestamp for sync purposes
