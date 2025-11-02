@@ -102,9 +102,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 lastBarrelIndex.set((index + 1) % entries.size());
                 return entry;
             } else {
-                Log.error("[GATEWAY] Barrel " + port + " not available after retries. Removing from registry");
-                barrels.remove(port);
-                stats.removeBarrelStats(port);
+                Log.error("[GATEWAY] Barrel " + port + " not available after retries.");
                 entries.remove(index);
                 if (entries.isEmpty()) return null;
                 if (index >= entries.size()) index = 0;
