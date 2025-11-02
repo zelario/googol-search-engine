@@ -44,7 +44,7 @@
 0 - Cache de pesquisas recentes no gateway (especificado apenas no enunciado)
 
 --- No dia da defesa ---
-
+1
 Trazem duas máquinas (e.g., dois portáteis ou um portátil com uma VM)
 Máquina #1 corre 1 downloader, 1 storage barrel e a gateway
 Máquina #2 corre 1 downloader, 1 storage barrel e 1 cliente RPC/RMI
