@@ -95,7 +95,7 @@ public class Downloader extends Thread {
      * Work for the downloader thread. Fetches URLs, parses content, updates index, and adds new links to the queue.
      */
     @Override
-    @SuppressWarnings("InfiniteLoopStatement")
+    @SuppressWarnings({"InfiniteLoopStatement", "BusyWait"})
     public void run() {
         try {
             Log.info("[DOWNLOADER " + threadNumber + "] Starting downloader thread.");
@@ -103,7 +103,35 @@ public class Downloader extends Thread {
             Log.info("[DOWNLOADER " + threadNumber + "] Connected to url queue on " + Config.URL_QUEUE_HOST + ":" + Config.URL_QUEUE_PORT);
 
             Map<Integer, BarrelInterface> barrels = new HashMap<>();
+
+            int counter = 0;
+            long waitTime = Config.DOWNLOADER_QUEUE_WAIT;
+
             while (true) {
+                // Attempt connection to queue, if it fails attempts again
+                while(true){
+                    try{
+                        queue.ping();
+                        counter = 0;
+                        waitTime = Config.DOWNLOADER_QUEUE_WAIT;
+                        break;
+                    } catch (RemoteException e){
+                        if(counter == 0) Log.warning("[DOWNLOADER " + threadNumber + "] Lost connection to Url Queue. Retrying...");
+
+                        try {
+                            queue = (UrlQueueInterface) LocateRegistry
+                                    .getRegistry(Config.URL_QUEUE_HOST, Config.URL_QUEUE_PORT)
+                                    .lookup("queue");
+                        } catch (Exception ignored) {
+                        }
+
+                        counter++;
+                        Thread.sleep(waitTime);
+                        // Cap max time at 30s
+                        waitTime = Math.min(waitTime * 2, 30000);
+                    }
+                }
+
                 String url = null;
 
                 try {
@@ -179,8 +207,8 @@ public class Downloader extends Thread {
                 catch (IOException | UncheckedIOException e) {
                     // Data or connection related issues -> ignored
                     if(e instanceof UnsupportedMimeTypeException ||
-                        e instanceof MalformedURLException ||
-                        e instanceof HttpStatusException && ((HttpStatusException) e).getStatusCode() == 404
+                            e instanceof MalformedURLException ||
+                            e instanceof HttpStatusException && ((HttpStatusException) e).getStatusCode() == 404
                     ) continue;
 
                     Log.warning("[DOWNLOADER " + threadNumber + "] Error downloading/parsing " + url + ", retrying later");
@@ -192,7 +220,7 @@ public class Downloader extends Thread {
                 }
             }
 
-        } catch (RemoteException | NotBoundException e) {
+        } catch (RemoteException | NotBoundException | InterruptedException e) {
             Log.error("[DOWNLOADER " + threadNumber + "] Error in downloader thread: " + e.getMessage());
         }
     }
