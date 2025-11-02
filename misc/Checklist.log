@@ -22,18 +22,18 @@
 
 --- Pontos Obrigatórios---
 
-0 - O projeto corre distribuído por várias máquinas (-10)
+1 - O projeto corre distribuído por várias máquinas (-10)
 1 - Configuração em ".properties files" não requer recompilação (-5)
-0 - A aplicação não apresenta erros/exceções/avarias (-5)
+1 - A aplicação não apresenta erros/exceções/avarias (-5)
 1 - Código legível e bem documentado (-5)
 
 --- Relatório ---
 
-0 - Testes de software (tabela com descrição + pass/fail de cada teste)
-0 - Arquitetura de software detalhadamente descrita
-0 - Detalhes do funcionamento do RPC/RMI (interfaces, componentes, etc.)
-0 - Detalhes do funcionamento da replicação (reliable multicast)
-0 - Distribuição de tarefas pelos elementos do grupo
+1 - Testes de software (tabela com descrição + pass/fail de cada teste)
+1 - Arquitetura de software detalhadamente descrita
+1 - Detalhes do funcionamento do RPC/RMI (interfaces, componentes, etc.)
+1 - Detalhes do funcionamento da replicação (reliable multicast)
+1 - Distribuição de tarefas pelos elementos do grupo
 
 --- Extra (até 5 pontos) ---
 
@@ -44,7 +44,7 @@
 0 - Cache de pesquisas recentes no gateway (especificado apenas no enunciado)
 
 --- No dia da defesa ---
-1
+
 Trazem duas máquinas (e.g., dois portáteis ou um portátil com uma VM)
 Máquina #1 corre 1 downloader, 1 storage barrel e a gateway
 Máquina #2 corre 1 downloader, 1 storage barrel e 1 cliente RPC/RMI

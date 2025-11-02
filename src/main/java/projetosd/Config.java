@@ -129,7 +129,7 @@ public class Config {
         URL_QUEUE_HOST = "localhost";
         URL_QUEUE_PORT = 1099;
         BARREL_HOSTS = new String[]{"localhost", "localhost", "localhost", "localhost", "localhost"};
-        BARREL_PORTS = new int[]{1,2,3,4,5};
+        BARREL_PORTS = new int[]{1100, 1101, 1102, 1103, 1104};
         DOWNLOADER_THREADS = 3;
         CLIENT_BACKOFF = 500;
         CLIENT_RETRIES = 5;
@@ -163,7 +163,7 @@ public class Config {
         String defaultUrlQueueHost = "localhost";
         int defaultUrlQueuePort = 1099;
         String defaultBarrelHosts = "localhost, localhost, localhost, localhost, localhost";
-        String defaultBarrelPorts = "1,2,3,4,5";
+        String defaultBarrelPorts = "1100, 1101, 1102, 1103, 1104";
         int defaultDownloaderThreads = 3;
         int defaultClientRetries = 5;
         int defaultClientBackoff = 500;
