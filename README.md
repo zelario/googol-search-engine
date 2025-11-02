@@ -4,17 +4,17 @@ A distributed web search engine implementation using Java RMI that provides web 
 
 # Project Structure
 
-src/main/java/projetosd/
-├── Gateway.java          # Central coordination service
-├── UrlQueue.java         # URL management and distribution
-├── Barrel.java           # Index storage and search
-├── Downloader.java       # Web crawling and parsing
-├── Client.java           # User interface
-├── Config.java           # System configuration
-├── Database.java         # Database connection management
-├── Stats.java            # Performance statistics
-├── Page.java             # Web page data model
-└── Log.java              # Logging utilities
+src/main/java/projetosd/                                  
+├── Gateway.java          # Central coordination service                                        
+├── UrlQueue.java         # URL management and distribution                        
+├── Barrel.java           # Index storage and search                            
+├── Downloader.java       # Web crawling and parsing                       
+├── Client.java           # User interface                      
+├── Config.java           # System configuration                        
+├── Database.java         # Database connection management                       
+├── Stats.java            # Performance statistics                       
+├── Page.java             # Web page data model                             
+└── Log.java              # Logging utilities                                 
 
 # Architecture Components
 
@@ -48,18 +48,18 @@ src/main/java/projetosd/
 1. Create PostgreSQL databases for each barrel (defaultly named: `Barrel1100` and `Barrel1101`)
 2. Run the database initialization scripts: `create_database` and `stop_words_triggers`
 3. Navigate to the `config/` folder and alter `.env.example` to `.env`
-4. Edit `.env` with your database connection details:
-   DB1100_HOSTNAME=`your_barrel_1100_host`
-   DB1100_PORT=`5432`
-   DB1100_NAME=`Barrel1100`
-   DB1100_USERNAME=`your_username`
-   DB1100_PASSWORD=`your_password`
+4. Edit `.env` with your database connection details:                       
+   DB1100_HOSTNAME=`your_barrel_1100_host`                         
+   DB1100_PORT=`5432`                               
+   DB1100_NAME=`Barrel1100`                            
+   DB1100_USERNAME=`your_username`                             
+   DB1100_PASSWORD=`your_password`                              
 
-   DB1101_HOSTNAME=`your_barrel_1101_host`
-   DB1101_PORT=`5432`
-   DB1101_NAME=`Barrel1101`
-   DB1101_USERNAME=`your_username`
-   DB1101_PASSWORD=`your_password`
+   DB1101_HOSTNAME=`your_barrel_1101_host`                           
+   DB1101_PORT=`5432`                            
+   DB1101_NAME=`Barrel1101`                            
+   DB1101_USERNAME=`your_username`                         
+   DB1101_PASSWORD=`your_password`     
 5. Compile the project using Maven or Javac (if you are in VS Code you can also run the task: "Compile Project")
 6. Run each component in the order: `Gateway`, `URL Queue`, `Barrels`, `Downloaders`, `Clients`.
 
