@@ -1,44 +1,91 @@
-[2025-11-02 17:01:59] [INFO] [GATEWAY] Stats loaded successfully.
-[2025-11-02 17:01:59] [INFO] [GATEWAY] Gateway ready on 25.36.191.97:1098
-[2025-11-02 17:01:59] [INFO] [GATEWAY] Starting period sync
-[2025-11-02 17:02:02] [INFO] [URLQueue] Queue loaded with 35435 URLs.
-[2025-11-02 17:02:02] [INFO] [URLQueue] RMI server ready
-[2025-11-02 17:02:02] [INFO] [GATEWAY] URL Queue registered
-[2025-11-02 17:02:02] [INFO] [URLQueue] Connected to Gateway on port 1098
-[2025-11-02 17:02:03] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-11-02 17:04:56] [INFO] [PORTS] Port already in use: 1100
-[2025-11-02 17:04:56] [INFO] [BARREL 1101] Running on 25.39.245.93:1101
-[2025-11-02 17:04:56] [INFO] [BARREL 1101] Requesting sync to gateway
-[2025-11-02 17:05:12] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 17:05:12] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 17:05:13] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 17:05:13] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 17:05:14] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 17:05:14] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 17:05:15] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 17:05:15] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 17:05:15] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 17:05:15] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 17:03:06] [WARNING] [DOWNLOADER] Barrel 1100 did not ACK entry.
-[2025-11-02 17:03:16] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/page/160/, retrying later
-[2025-11-02 17:03:50] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 17:03:50] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 17:03:50] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 17:03:50] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 17:03:54] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 17:03:54] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 17:03:54] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 17:03:54] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 17:03:54] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 17:03:54] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 17:03:58] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 17:03:58] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 17:03:58] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 17:03:58] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 17:03:59] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/categoria/desporto/page/2/, retrying later
-[2025-11-02 17:04:01] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 17:04:01] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 17:04:01] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 17:04:01] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 17:04:06] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 17:04:06] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
+[2025-11-02 18:37:02] [INFO] [STATS] No saved stats found to load.
+[2025-11-02 18:37:02] [INFO] [GATEWAY] Gateway ready on localhost:1098
+[2025-11-02 18:37:02] [INFO] [GATEWAY] Starting period sync
+[2025-11-02 18:37:02] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-11-02 18:37:02] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2025-11-02 18:37:02] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-11-02 18:37:02] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-11-02 18:37:02] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2025-11-02 18:37:02] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-11-02 18:37:02] [ERROR] [DOWNLOADER 1] Error in downloader thread: Connection refused to host: localhost; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-02 18:37:02] [ERROR] [DOWNLOADER 4] Error in downloader thread: Connection refused to host: localhost; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-02 18:37:02] [ERROR] [DOWNLOADER 5] Error in downloader thread: Connection refused to host: localhost; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-02 18:37:02] [ERROR] [DOWNLOADER 3] Error in downloader thread: Connection refused to host: localhost; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-02 18:37:02] [ERROR] [DOWNLOADER 2] Error in downloader thread: Connection refused to host: localhost; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-02 18:37:02] [INFO] [DOWNLOADER] Exiting downloader threads.
+[2025-11-02 18:37:03] [INFO] [BARREL 1100] Running on localhost:1100
+[2025-11-02 18:37:03] [INFO] [URLQueue] No data stored, starting new empty queue
+[2025-11-02 18:37:03] [INFO] [URLQueue] RMI server ready
+[2025-11-02 18:37:03] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-11-02 18:37:03] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-11-02 18:37:03] [INFO] [GATEWAY] URL Queue registered
+[2025-11-02 18:37:03] [INFO] [URLQueue] Connected to Gateway on port 1098
+[2025-11-02 18:37:03] [INFO] [CLIENT 76] Connected to gateway on port 1098 on attempt 1
+[2025-11-02 18:37:03] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-11-02 18:37:03] [INFO] [BARREL 1100] Sync successful
+[2025-11-02 18:37:03] [INFO] [GATEWAY] Barrel 1100 registered
+[2025-11-02 18:37:03] [INFO] [URLQueue] Barrel 1100 registered
+[2025-11-02 18:37:03] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
+[2025-11-02 18:37:03] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
+[2025-11-02 18:37:13] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-11-02 18:37:13] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-11-02 18:37:13] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2025-11-02 18:37:13] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2025-11-02 18:37:13] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-11-02 18:37:13] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
+[2025-11-02 18:37:13] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
+[2025-11-02 18:37:13] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
+[2025-11-02 18:37:13] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
+[2025-11-02 18:37:13] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
+[2025-11-02 18:37:21] [INFO] [GATEWAY] Client 76 searching for query: https://en.wikipedia.org/wiki/Kanye_West
+[2025-11-02 18:37:21] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
+[2025-11-02 18:37:21] [INFO] [GATEWAY] Search completed on barrel 1100 for query https://en.wikipedia.org/wiki/Kanye_West in 63 ms
+[2025-11-02 18:37:27] [INFO] [GATEWAY] Client added URL to queue: https://en.wikipedia.org/wiki/Kanye_West
+[2025-11-02 18:37:30] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-02 18:37:31] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-02 18:37:32] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-02 18:37:33] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-02 18:37:34] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-02 18:37:35] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-02 18:37:45] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-02 18:38:11] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.washingtonpost.com/arts-entertainment/2022/10/25/kanye-west-career-future/, retrying later
+[2025-11-02 18:38:18] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.pantagraph.com/news/article_79bc1031-1dc9-511b-8444-243951568e4b.html, retrying later
+[2025-11-02 18:38:23] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.time.com/time/magazine/article/0,9171,1096499,00.html, retrying later
+[2025-11-02 18:38:23] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.nydailynews.com/entertainment/gossip/donda-west-gave-enrich-son-kanye-west-life-article-1.256037, retrying later
+[2025-11-02 18:38:24] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://web.archive.org/web/20161208084954/https://www.washingtonpost.com/wp-dyn/content/article/2006/12/06/AR2006120602139.html, retrying later
+[2025-11-02 18:38:24] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.washingtonpost.com/wp-dyn/content/article/2006/12/06/AR2006120602139.html, retrying later
+[2025-11-02 18:38:27] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.chicagotribune.com/2007/11/13/kanye-and-his-mom-shared-special-bond/, retrying later
+[2025-11-02 18:38:46] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://archive.today/20130119184429/https://cdn.best.complex.com/music/2011/09/clinton-sparks-30-favorite-mixtapes/get-well-soon, retrying later
+[2025-11-02 18:38:46] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://cdn.best.complex.com/music/2011/09/clinton-sparks-30-favorite-mixtapes/get-well-soon, retrying later
+[2025-11-02 18:38:48] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.blackcollegian.com/kanye-west-the-man-the-music-and-the-message/, retrying later
+[2025-11-02 18:39:18] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://isni.org/isni/0000000116557565, retrying later
+[2025-11-02 18:39:19] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://datos.bne.es/resource/XX4417928, retrying later
+[2025-11-02 18:39:23] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://music-mix.ew.com/2009/09/13/kanye-west-taylor-swift/, retrying later
+[2025-11-02 18:39:27] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.nli.org.il/en/authorities/987007332256905171, retrying later
+[2025-11-02 18:39:32] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://archive.today/20121205110150/https://www.people.com/package/article/0,,20302940_20304704,00.html, retrying later
+[2025-11-02 18:39:37] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://entertainment.timesonline.co.uk/tol/arts_and_entertainment/music/article6833664.ece, retrying later
+[2025-11-02 18:39:41] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://web.archive.org/web/20100328130534/https://www.mtv.com/news/articles/1621550/2009915/swift__taylor.jhtml, retrying later
+[2025-11-02 18:39:42] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.time.com/time/specials/packages/article/0,28804,2035319_2035313_2035394,00.html, retrying later
+[2025-11-02 18:39:54] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.chicagotribune.com/entertainment/music/turnitup/chi-kanye-west-yeezus-review-20130616,0,6122329.column, retrying later
+[2025-11-02 18:39:58] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://au.ibtimes.com/articles/480410/20130619/kanye-west-yeezus-kim-kardashian.htm, retrying later
+[2025-11-02 18:40:00] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://musicbrainz.org/artist/164f0d73-1234-4e2c-8743-d77bf2191051, retrying later
+[2025-11-02 18:40:05] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.blackpast.org/african-american-history/west-kanye-omari-1977/, retrying later
+[2025-11-02 18:40:11] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.xxlmag.com/news/2013/11/kanye-west-hopes-new-album-summer/, retrying later
+[2025-11-02 18:40:12] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.xxlmag.com/news/2013/12/q-tip-will-produce-kanye-wests-next-album-rick-rubin/, retrying later
+[2025-11-02 18:40:13] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://musicbrainz.org/artist/164f0d73-1234-4e2c-8743-d77bf2191051, retrying later
+[2025-11-02 18:40:22] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://myspace.com/kanyewest, retrying later
+[2025-11-02 18:40:26] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://blogs.wsj.com/speakeasy/2016/04/01/kanye-wests-the-life-of-pablo-now-widely-available-to-stream/, retrying later
+[2025-11-02 18:40:27] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://isni.org/isni/0000000116557565, retrying later
+[2025-11-02 18:40:28] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://archive.today/20160313050042/https://twitter.com/kanyewest/status/703446573552967680, retrying later
+[2025-11-02 18:40:28] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://time.com/4356393/kanye-west-new-album-cruel-winter/, retrying later
+[2025-11-02 18:40:32] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://hiphopdx.com/news/id.40174/title.kanye-west-soars-above-crowd-to-kick-off-saint-pablo-tour, retrying later
+[2025-11-02 18:40:33] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.reuters.com/article/us-music-kanyewest/exhausted-kanye-west-hospitalized-cancels-tour-after-bizarre-rants-idUSKBN13G1X6, retrying later
+[2025-11-02 18:40:34] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://lod.nl.go.kr/resource/KAC2020S1352, retrying later
+[2025-11-02 18:40:38] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.nli.org.il/ar/authorities/987007332256905171, retrying later
+[2025-11-02 18:40:40] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://web.archive.org/web/20180420202857/https://www.highsnobiety.com/2017/05/09/kanye-west-next-album/, retrying later
+[2025-11-02 18:40:41] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://web.archive.org/web/20200831115341/https://www.highsnobiety.com/p/kanye-west-new-album-details-release-date/, retrying later
