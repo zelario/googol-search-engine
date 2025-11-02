@@ -1,341 +1,231 @@
-[2025-11-01 22:28:36] [INFO] [GATEWAY] Stats loaded successfully.
-[2025-11-01 22:28:36] [INFO] [GATEWAY] Gateway ready on localhost:1098
-[2025-11-01 22:28:36] [INFO] [GATEWAY] Starting period sync
-[2025-11-01 22:28:36] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-11-01 22:28:36] [INFO] [URLQueue] Queue loaded with 19780 URLs.
-[2025-11-01 22:28:36] [INFO] [URLQueue] RMI server ready
-[2025-11-01 22:28:36] [INFO] [BARREL 1100] Running on localhost:1100
-[2025-11-01 22:28:37] [INFO] [BARREL 1100] Requesting sync to gateway
-[2025-11-01 22:28:37] [INFO] [GATEWAY] Barrel 1100 requested synchronization
-[2025-11-01 22:28:37] [INFO] [GATEWAY] URL Queue registered
-[2025-11-01 22:28:37] [INFO] [URLQueue] Connected to Gateway on port 1098
-[2025-11-01 22:28:37] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-11-01 22:28:37] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-11-01 22:28:37] [INFO] [DOWNLOADER 5] Starting downloader thread.
-[2025-11-01 22:28:37] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-11-01 22:28:37] [INFO] [DOWNLOADER 4] Starting downloader thread.
-[2025-11-01 22:28:37] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
-[2025-11-01 22:28:37] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
-[2025-11-01 22:28:37] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
-[2025-11-01 22:28:37] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
-[2025-11-01 22:28:37] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
-[2025-11-01 22:28:37] [INFO] [CLIENT 99] Connected to gateway on port 1098 on attempt 1
-[2025-11-01 22:28:38] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-11-01 22:28:38] [INFO] [BARREL 1100] Sync successful
-[2025-11-01 22:28:38] [INFO] [GATEWAY] Barrel 1100 registered
-[2025-11-01 22:28:38] [INFO] [URLQueue] Barrel 1100 registered
-[2025-11-01 22:28:38] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
-[2025-11-01 22:28:38] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
-[2025-11-01 22:28:38] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-01 22:28:38] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-01 22:28:38] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-01 22:28:39] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-01 22:28:39] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-01 22:28:55] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/page/1037/, retrying later
-[2025-11-01 22:28:57] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/2025/11/01/enfermeiros-encerramento-das-urgencias-dos-covoes-e-a-morte-do-servico/, retrying later
-[2025-11-01 22:29:01] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/page/1088/, retrying later
-[2025-11-01 22:29:01] [WARNING] [DOWNLOADER] Barrel 1100 did not ACK entry.
-[2025-11-01 22:29:03] [WARNING] [DOWNLOADER] Barrel 1100 did not ACK entry.
-[2025-11-01 22:29:06] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-01 22:29:07] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-01 22:29:14] [ERROR] [URLQueue] Error in input handling: No line found
-[2025-11-01 22:29:14] [INFO] [URLQueue] Queue saved successfully.
-[2025-11-01 22:29:14] [INFO] [GATEWAY] URL Queue unregistered. Indexing disabled
-[2025-11-01 22:29:14] [INFO] [URLQueue] Exiting
-[2025-11-01 22:29:14] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/tags/95-anos-com-o-meu-jornal/, retrying later
-[2025-11-01 22:29:16] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:17] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/ultimas/, retrying later
-[2025-11-01 22:29:17] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/categoria/tome-nota/, retrying later
-[2025-11-01 22:29:18] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/categoria/vida/, retrying later
-[2025-11-01 22:29:18] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/2025/10/28/tecnologia-ao-volante-como-os-softwares-de-logistica-tornam-a-vida-dos-motoristas-mais-facil/, retrying later
-[2025-11-01 22:29:18] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:19] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:19] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:20] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:20] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:20] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:21] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:21] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:22] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:22] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:22] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:23] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:23] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:24] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:24] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:24] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:25] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:25] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:26] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:26] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:26] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:27] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:27] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:28] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:28] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:28] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:29] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:30] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:30] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:30] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:31] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:31] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:32] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:32] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:32] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:33] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:33] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:34] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:34] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:34] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:35] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:35] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:36] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:36] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:36] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:37] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:37] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:38] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:38] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:38] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:39] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:39] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:40] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:40] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:40] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:41] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:41] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:42] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:42] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:43] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:43] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:43] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:44] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:44] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:45] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:45] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:45] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:46] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:46] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:47] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:47] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:47] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:48] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:48] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:49] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:49] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:49] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:50] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:50] [INFO] [URLQueue] Queue loaded with 42312 URLs.
-[2025-11-01 22:29:50] [INFO] [URLQueue] RMI server ready
-[2025-11-01 22:29:50] [INFO] [GATEWAY] URL Queue registered
-[2025-11-01 22:29:50] [INFO] [URLQueue] Connected to Gateway on port 1098
-[2025-11-01 22:29:50] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:51] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:51] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:51] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:52] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:52] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:53] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:53] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:53] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:54] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:54] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:55] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:55] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:55] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:56] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:56] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:57] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:57] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:29:57] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:58] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:58] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:59] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:59] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:29:59] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:00] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:00] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:01] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:01] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:01] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:02] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:02] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:03] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:03] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:03] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:04] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:04] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:05] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:05] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:05] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:06] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:06] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:07] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:07] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:07] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:08] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:09] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:09] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:09] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:10] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:10] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:11] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:11] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:11] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:12] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:12] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:13] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:13] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:13] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:14] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:14] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:15] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:15] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:15] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:16] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:16] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:17] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:17] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:17] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:18] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:18] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:19] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:19] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:19] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:20] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:20] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:21] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:21] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:21] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:22] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:22] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:23] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:23] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:23] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:24] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:24] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:25] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:25] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:25] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:26] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:26] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:27] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:27] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:27] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:28] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:28] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:29] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:29] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:29] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:30] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:30] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:31] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:31] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:31] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:32] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:32] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:33] [WARNING] [DOWNLOADER 2] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:33] [WARNING] [DOWNLOADER 4] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:33] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 26.11.203.193; nested exception is: 
-	java.net.ConnectException: Connection refused: connect
-[2025-11-01 22:30:34] [WARNING] [DOWNLOADER 3] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:34] [WARNING] [DOWNLOADER 1] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:35] [WARNING] [DOWNLOADER 2] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:35] [WARNING] [DOWNLOADER 4] Error downloading/parsing null, retrying later
-[2025-11-01 22:30:35] [WARNING] [DOWNLOADER 5] Error downloading/parsing null, retrying later
+[2025-11-02 15:22:14] [INFO] [GATEWAY] Stats loaded successfully.
+[2025-11-02 15:22:15] [INFO] [GATEWAY] Gateway ready on localhost:1098
+[2025-11-02 15:22:15] [INFO] [GATEWAY] Starting period sync
+[2025-11-02 15:22:15] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-11-02 15:22:15] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2025-11-02 15:22:15] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2025-11-02 15:22:15] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-11-02 15:22:15] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-11-02 15:22:15] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-11-02 15:22:15] [ERROR] [DOWNLOADER 1] Error in downloader thread: Connection refused to host: localhost; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-02 15:22:15] [ERROR] [DOWNLOADER 3] Error in downloader thread: Connection refused to host: localhost; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-02 15:22:15] [ERROR] [DOWNLOADER 2] Error in downloader thread: Connection refused to host: localhost; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-02 15:22:15] [ERROR] [DOWNLOADER 4] Error in downloader thread: Connection refused to host: localhost; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-02 15:22:15] [ERROR] [DOWNLOADER 5] Error in downloader thread: Connection refused to host: localhost; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-02 15:22:15] [INFO] [DOWNLOADER] Exiting downloader threads.
+[2025-11-02 15:22:15] [INFO] [BARREL 1100] Running on localhost:1100
+[2025-11-02 15:22:15] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-11-02 15:22:15] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-11-02 15:22:15] [INFO] [CLIENT 78] Connected to gateway on port 1098 on attempt 1
+[2025-11-02 15:22:16] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-11-02 15:22:16] [INFO] [BARREL 1100] Sync successful
+[2025-11-02 15:22:16] [INFO] [GATEWAY] Barrel 1100 registered
+[2025-11-02 15:22:16] [INFO] [URLQueue] Queue loaded with 42312 URLs.
+[2025-11-02 15:22:16] [INFO] [URLQueue] RMI server ready
+[2025-11-02 15:22:16] [INFO] [GATEWAY] URL Queue registered
+[2025-11-02 15:22:16] [INFO] [URLQueue] Connected to Gateway on port 1098
+[2025-11-02 15:22:26] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-11-02 15:22:26] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2025-11-02 15:22:26] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-11-02 15:22:26] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-11-02 15:22:26] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2025-11-02 15:22:26] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
+[2025-11-02 15:22:26] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
+[2025-11-02 15:22:26] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
+[2025-11-02 15:22:26] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
+[2025-11-02 15:22:26] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
+[2025-11-02 15:22:27] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:27] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:27] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:27] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:27] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:27] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:27] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:27] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:28] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:28] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:28] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:28] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:29] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:30] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:30] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:30] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:30] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:30] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:30] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:30] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:31] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:31] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:31] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:32] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:32] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:32] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:32] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:32] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:32] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:32] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:32] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:33] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:33] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:33] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:33] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:33] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:33] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:33] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:33] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:33] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:33] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:34] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:34] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:34] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:34] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:34] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:34] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:34] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:34] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:37] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/edicaoimpressa/, retrying later
+[2025-11-02 15:22:37] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:39] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:39] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:39] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:39] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:39] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.sodicentro.pt/, retrying later
+[2025-11-02 15:22:39] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.sodicentro.pt/, retrying later
+[2025-11-02 15:22:39] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:39] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:39] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:39] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:40] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:40] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/edicaoimpressa/, retrying later
+[2025-11-02 15:22:40] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:41] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:42] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:43] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:43] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:43] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:43] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:43] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:43] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:43] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:43] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:43] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:43] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:44] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:44] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [INFO] [BARREL 1100] Running on localhost:1100
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-11-02 15:22:45] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:45] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:46] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:46] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:46] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:46] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-11-02 15:22:46] [INFO] [BARREL 1100] Sync successful
+[2025-11-02 15:22:46] [INFO] [GATEWAY] Barrel 1100 registered
+[2025-11-02 15:22:46] [INFO] [URLQueue] Barrel 1100 registered
+[2025-11-02 15:22:46] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
+[2025-11-02 15:22:46] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
+[2025-11-02 15:22:47] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/regiao/coimbra/page/728/, retrying later
+[2025-11-02 15:22:47] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/edicaoimpressa/, retrying later
+[2025-11-02 15:22:47] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:48] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-02 15:22:50] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/regiao/regional/page/2/, retrying later
+[2025-11-02 15:22:52] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/regiao/regional/page/2/, retrying later
+[2025-11-02 15:22:54] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/regiao/regional/page/2/, retrying later
+[2025-11-02 15:22:55] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/regiao/regional/page/2/, retrying later
+[2025-11-02 15:23:00] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/regiao/regional/page/2/, retrying later
+[2025-11-02 15:23:01] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/regiao/regional/page/1475/, retrying later
+[2025-11-02 15:23:01] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/regiao/regional/page/2/, retrying later
+[2025-11-02 15:23:04] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.sodicentro.pt/, retrying later
+[2025-11-02 15:23:04] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.sodicentro.pt/, retrying later
+[2025-11-02 15:23:22] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.sodicentro.pt/, retrying later
+[2025-11-02 15:23:22] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.sodicentro.pt/, retrying later
+[2025-11-02 15:23:25] [INFO] [DOWNLOADER] Exiting downloader threads.
