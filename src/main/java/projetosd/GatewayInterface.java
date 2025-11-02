@@ -20,14 +20,14 @@ public interface GatewayInterface extends Remote {
     /**
      * CALLBACK: Notifies the Gateway about a Barrel's status change.
      * @param barrelPort Barrel port
-     * @param status Status message
+    *  @param status true if active, false if inactive
      * @throws RemoteException RMI Exception
      */
     void reportBarrelStatus(int barrelPort, boolean status) throws RemoteException;
 
     /**
      * Get map of active barrels
-     * @return  HashMap of active barrels
+     * @return  Map of active barrels
      * @throws RemoteException RMI Exception
      */
     Map<Integer, BarrelInterface> getActiveBarrels() throws RemoteException;
@@ -66,12 +66,12 @@ public interface GatewayInterface extends Remote {
 
     /**
     * Search for a query.
-    * @param query Search query
-    * @param clientId Client identifier
+    * @param clientId   Client identifier
+    * @param query      Search query
     * @param pageNumber Current page being looked at
-    * @param filter Filter to be used
-    * @param domain Domain being used
-    * @return formatted search results string
+    * @param filter     Filter to be used
+    * @param domain     Domain constraint when filter requires it
+    * @return list of pages for the requested page number (up to 10)
     * @throws RemoteException RMI Exception
     */
     List<Page> search(String clientId, String query, int pageNumber, int filter, String domain) throws RemoteException;

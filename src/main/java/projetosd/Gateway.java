@@ -392,8 +392,12 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
     /**
      * Search for a query, returning found pages.
-     * @param query Search query
-     * @return list of lists of pages (each inner list has up to 10 pages)
+     * @param clientId   Client identifier
+     * @param query      Search query
+     * @param pageNumber Page number for pagination (1-based)
+     * @param filter     Filter to be used
+     * @param domain     Domain constraint when filter requires it
+     * @return list of pages for the requested page (up to 10 results)
      * @throws RemoteException RMI exception
      */
     @Override

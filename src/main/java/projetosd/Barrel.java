@@ -60,7 +60,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
      * @param title         Page title
      * @param citation      Short citation from the page
      * @param relatedUrls   All urls in that page
-     * @return              Boolean to indicate success or not
+     * @return              "ACK" on success, "NACK" otherwise
      */
     @Override
     @SuppressWarnings("BusyWait")
@@ -175,10 +175,12 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
     /**
      * Search for pages where url contains all terms.
-     * @param rawQuery The raw user query
-     * @param terms The search terms
+     * @param rawQuery   The raw user query
+     * @param terms      The search terms
      * @param pageNumber The page number for pagination (1-based)
-     * @return Returns a list of pages (urls and metadata).
+     * @param filter     Filter type to apply to results
+     * @param domain     Domain constraint when filter requires it
+     * @return           List of pages (urls and metadata)
      */
     @Override
     public List<Page> searchQuery(String rawQuery, String[] terms, int pageNumber, int filter, String domain) throws RemoteException {
@@ -293,7 +295,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     }
 
     /**
-     * Returns all words found in a page
+     * Populates the given Page with all words found in it.
      * @param page Given Page
      */
     @Override

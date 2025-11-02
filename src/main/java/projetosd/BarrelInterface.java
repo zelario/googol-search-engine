@@ -35,7 +35,7 @@ public interface BarrelInterface extends Remote {
      * @param title         Page title
      * @param citation      Short citation from the page
      * @param relatedUrls   All urls in that page
-     * @return              Boolean to indicate success or not
+     * @return              "ACK" on success, "NACK" otherwise
      * @throws java.rmi.RemoteException RMI Exception
      */
     String addEntry(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls) throws java.rmi.RemoteException;
