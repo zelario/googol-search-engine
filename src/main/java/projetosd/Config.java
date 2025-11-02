@@ -2,6 +2,7 @@ package projetosd;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -239,7 +240,7 @@ public class Config {
      */
     public static int claimBarrelPort() {
         for (int port : BARREL_PORTS) {
-            try (ServerSocket ignored = new ServerSocket(port)) {
+           try (ServerSocket ignored = new ServerSocket(port, 0, InetAddress.getByName(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(port)))) {
                 return port;
             } catch (IOException e) {
                 Log.info("[PORTS] Port already in use: " + port);
