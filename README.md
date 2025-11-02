@@ -61,7 +61,7 @@ src/main/java/projetosd/
    DB1101_USERNAME=`your_username`
    DB1101_PASSWORD=`your_password`
 5. Compile the project using Maven or Javac (if you are in VS Code you can also run the task: "Compile Project")
-6. Run each component in the order: `Gateway`, `URL Queue`, `Downloaders`, `Barrels`, `Clients`.
+6. Run each component in the order: `Gateway`, `URL Queue`, `Barrels`, `Downloaders`, `Clients`.
 
 # Usage
 
@@ -80,7 +80,7 @@ Use `Ctrl+C` in each component's terminal to stop it gracefully
 
 # Data Management
 
-- **Clear Barrel Data**: Run `scripts/delete_data.sql` in your databases
+- **Barrel Data**: Run `scripts/delete_data.sql` in your databases
 - **Url Queue**: The URL queue automatically saves/loads its state from `data/urlQueue.ser`
 - **Stats**: The Gateway automatically saves/loads the stats from `data/stats.ser`
 
