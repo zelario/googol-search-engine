@@ -104,3 +104,8 @@ Use `Ctrl+C` in each component's terminal to stop it gracefully
    - Verify Java 17+ is installed
    - Check Maven dependencies are downloaded
    - Clear `target/` directory and rebuild
+
+# Authorship
+
+-**José Amado**
+-**José Silva**
