@@ -537,6 +537,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         try {
             Gateway gateway = new Gateway();
 
+            System.setProperty("java.rmi.server.hostname", Config.GATEWAY_HOST);
             Registry registry = LocateRegistry.createRegistry(Config.GATEWAY_PORT);
             registry.rebind("gateway", gateway);
             Log.info("[GATEWAY] Gateway ready on " + Config.GATEWAY_HOST + ":" + Config.GATEWAY_PORT);

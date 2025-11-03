@@ -513,6 +513,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         try {
             Barrel barrel = new Barrel();
 
+            System.setProperty("java.rmi.server.hostname",  Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrel.port));
             Registry registry = LocateRegistry.createRegistry(barrel.port);
             registry.rebind("barrel", barrel);
             Log.info("[BARREL " + barrel.port + "] Running on " + Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrel.port) + ":" + barrel.port);
