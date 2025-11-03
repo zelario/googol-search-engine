@@ -10,7 +10,7 @@ BEGIN
     END IF;
 
     SELECT COUNT(DISTINCT url_url) INTO url_count FROM words_url WHERE words_word = NEW.words_word;
-    IF url_count + 1 > 100 THEN
+    IF url_count + 1 > 1000 THEN
         INSERT INTO stop_words(word) VALUES (NEW.words_word)
             ON CONFLICT (word) DO NOTHING;
         DELETE FROM words_url WHERE words_word = NEW.words_word;

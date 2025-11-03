@@ -122,7 +122,7 @@ public class Downloader extends Thread {
                             queue = (UrlQueueInterface) LocateRegistry
                                     .getRegistry(Config.URL_QUEUE_HOST, Config.URL_QUEUE_PORT)
                                     .lookup("queue");
-                        } catch (Exception ignored) {
+                        } catch (NotBoundException | RemoteException ignored) {
                         }
 
                         counter++;
@@ -274,7 +274,7 @@ public class Downloader extends Thread {
                             Log.warning("[DOWNLOADER] Barrel " + port + " did not ACK entry.");
                         }
 
-                    } catch (Exception e) {
+                    } catch (RemoteException e) {
                         long backoff = (long) (Config.DOWNLOADER_BACKOFF * Math.pow(2, attempt));
 
                         if (attempt < Config.DOWNLOADER_RETRIES - 1) {

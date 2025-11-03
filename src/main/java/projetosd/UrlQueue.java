@@ -13,7 +13,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -139,13 +138,6 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
         }
     }
 
-    /**
-     * Clears all data in the queue
-     */
-    private void clearQueue(){
-        urlQueue.clear();
-    }
-
     //---------------------------------- END OF DATA MANAGEMENT METHODS -----------------------------------------//
 
     //---------------------------------- BARREL MANAGEMENT ----------------------------------//
@@ -203,19 +195,6 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
 
                 Log.info("[URLQueue] Exiting");
             }));
-
-            try (Scanner scanner = new Scanner(System.in)) {
-                while (true) {
-                    String input = scanner.nextLine();
-                    if (input.isEmpty()) {
-                        queue.clearQueue();
-                        Log.info("[URLQueue] Queue cleared by user.");
-                    }
-                }
-            }
-            catch (Exception e) {
-                Log.error("[URLQueue] Error in input handling: " + e.getMessage());
-            }
             
         } catch (RemoteException | NotBoundException e) {
             Log.error("[URLQueue] Exiting. Could not start RMI server: " + e.getMessage());

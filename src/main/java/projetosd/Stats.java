@@ -45,6 +45,7 @@ public class Stats implements Serializable {
 	/**
 	 * Constructs the Stats object.
 	 */
+    @SuppressWarnings("OverridableMethodCallInConstructor")
 	public Stats() {
 		queryCounts = new ConcurrentHashMap<>();
 		barrelIndexSizes = new ConcurrentHashMap<>();
