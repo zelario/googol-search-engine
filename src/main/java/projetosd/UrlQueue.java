@@ -81,7 +81,7 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
         try {
 
             downloaderBarrels.clear();
-            downloaderBarrels.putAll(this.barrels);
+            downloaderBarrels.putAll(barrels);
 
             String url = urlQueue.takeFirst();
 

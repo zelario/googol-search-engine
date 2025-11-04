@@ -1,52 +1,6 @@
-[2025-11-04 22:08:45] [INFO] [STATS] No saved stats found to load.
-[2025-11-04 22:08:45] [INFO] [GATEWAY] Gateway ready on localhost:1098
-[2025-11-04 22:08:45] [INFO] [GATEWAY] Starting period sync
-[2025-11-04 22:08:45] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-11-04 22:08:49] [INFO] [URLQueue] No data stored, starting new empty queue
-[2025-11-04 22:08:49] [INFO] [URLQueue] RMI server ready
-[2025-11-04 22:08:49] [INFO] [GATEWAY] URL Queue registered
-[2025-11-04 22:08:49] [INFO] [URLQueue] Connected to Gateway on port 1098
-[2025-11-04 22:08:53] [INFO] [DOWNLOADER 4] Starting downloader thread.
-[2025-11-04 22:08:53] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-11-04 22:08:53] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-11-04 22:08:53] [INFO] [DOWNLOADER 5] Starting downloader thread.
-[2025-11-04 22:08:53] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-11-04 22:08:53] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
-[2025-11-04 22:08:53] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
-[2025-11-04 22:08:53] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
-[2025-11-04 22:08:53] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
-[2025-11-04 22:08:53] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
-[2025-11-04 22:08:58] [INFO] [BARREL 1100] Running on localhost:1100
-[2025-11-04 22:08:58] [INFO] [BARREL 1100] Requesting sync to gateway
-[2025-11-04 22:08:58] [INFO] [GATEWAY] Barrel 1100 requested synchronization
-[2025-11-04 22:08:58] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-11-04 22:08:58] [INFO] [BARREL 1100] Sync successful
-[2025-11-04 22:08:58] [INFO] [GATEWAY] Barrel 1100 registered
-[2025-11-04 22:08:58] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
-[2025-11-04 22:08:58] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
-[2025-11-04 22:09:03] [INFO] [CLIENT 77] Connected to gateway on port 1098 on attempt 1
-[2025-11-04 22:09:07] [INFO] [GATEWAY] Client 77 searching for query: kanye
-[2025-11-04 22:09:07] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
-[2025-11-04 22:09:07] [INFO] [GATEWAY] Search completed on barrel 1100 for query kanye in 58 ms
-[2025-11-04 22:09:11] [INFO] [GATEWAY] Client 77 searching for query: 
-[2025-11-04 22:09:11] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
-[2025-11-04 22:09:14] [INFO] [GATEWAY] Client 77 searching for query: coimbra
-[2025-11-04 22:09:14] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
-[2025-11-04 22:09:14] [INFO] [GATEWAY] Search completed on barrel 1100 for query coimbra in 55 ms
-[2025-11-04 22:09:33] [INFO] [GATEWAY] Client added URL to queue: https://www.diariocoimbra.pt/
-[2025-11-04 22:09:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-04 22:09:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-04 22:09:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-04 22:09:38] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-04 22:09:40] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/regiao/coimbra/, retrying later
-[2025-11-04 22:09:40] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/regiao/nacional/, retrying later
-[2025-11-04 22:09:42] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/regiao/coimbra/, retrying later
-[2025-11-04 22:09:43] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-04 22:09:43] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-04 22:09:43] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/regiao/nacional/, retrying later
-[2025-11-04 22:09:48] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/regiao/coimbra/, retrying later
-[2025-11-04 22:09:49] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/regiao/nacional/, retrying later
-[2025-11-04 22:09:54] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/page/3/, retrying later
-[2025-11-04 22:09:55] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/page/3/, retrying later
-[2025-11-04 22:10:05] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/page/240/, retrying later
-[2025-11-04 22:10:10] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/page/3638/, retrying later
+[2025-11-04 22:41:30] [INFO] [GATEWAY] Gateway ready on localhost:1098
+[2025-11-04 22:41:30] [INFO] [GATEWAY] Gateway revived. Checking connections
+[2025-11-04 22:41:30] [INFO] [GATEWAY] Gateway queue is alive
+[2025-11-04 22:41:30] [INFO] [GATEWAY] Gateway barrel 1100 is alive
+[2025-11-04 22:41:30] [INFO] [GATEWAY] Starting period sync
+[2025-11-04 22:41:31] [INFO] [GATEWAY] Found no mismatches in barrels
