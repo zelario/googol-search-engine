@@ -104,6 +104,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             } else {
                 Log.error("[GATEWAY] Barrel " + port + " not available after retries.");
                 entries.remove(index);
+                barrels.remove(port);
+                stats.removeBarrelStats(port);
                 if (entries.isEmpty()) return null;
                 if (index >= entries.size()) index = 0;
             }
@@ -336,7 +338,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         }
 
         try{
-            this.queue.changeBarrelStatus(barrelPort, status);
+            queue.updateBarrelList(barrels);
             Log.info("[GATEWAY] Updated barrel " + barrelPort + " status to url queue");
         } catch (RemoteException e) {
             Log.warning("[GATEWAY] Failed to send barrel " + barrelPort + " status to url queue");

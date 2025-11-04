@@ -13,7 +13,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -80,7 +79,6 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     @Override
     public Map<Map<Integer, BarrelInterface>, String> takeUrl(Map<Integer, BarrelInterface> downloaderBarrels) throws RemoteException {
         try {
-            this.barrels.putAll(this.gateway.getActiveBarrels());
 
             downloaderBarrels.clear();
             downloaderBarrels.putAll(this.barrels);
@@ -139,35 +137,19 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
         }
     }
 
-    /**
-     * Clears all data in the queue
-     */
-    private void clearQueue(){
-        urlQueue.clear();
-    }
-
     //---------------------------------- END OF DATA MANAGEMENT METHODS -----------------------------------------//
 
     //---------------------------------- BARREL MANAGEMENT ----------------------------------//
 
+    /**
+     * Changes barrel status to keep track of active barrels
+     * @param barrels       Map of barrels with their statuses
+     * @throws java.rmi.RemoteException RMI Exception
+     */
     @Override
-    public void changeBarrelStatus(int barrelPort, boolean status) throws java.rmi.RemoteException{
-        if(status){
-            try{
-                Registry registry = LocateRegistry.getRegistry(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrelPort), barrelPort);
-                BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
-
-                this.barrels.put(barrelPort, barrel);
-                Log.info("[URLQueue] Barrel " + barrelPort + " registered");
-            }
-            catch (RemoteException | NotBoundException e){
-                Log.warning("[URLQueue] Failed to register barrel " + barrelPort);
-            }
-        }
-        else {
-            this.barrels.remove(barrelPort);
-            Log.info("[URLQueue] Barrel " + barrelPort + " removed");
-        }
+    public void updateBarrelList(Map<Integer, BarrelInterface> barrels) throws java.rmi.RemoteException{
+        this.barrels.clear();
+        this.barrels.putAll(barrels);
     }
 
     //---------------------------------- END OF BARREL MANAGEMENT ----------------------------------//
@@ -188,8 +170,6 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
             queue.gateway.reportQueueStatus(true);
             Log.info("[URLQueue] Connected to Gateway on port " + Config.GATEWAY_PORT);
 
-            queue.barrels.putAll(queue.gateway.getActiveBarrels());
-
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 queue.saveQueue();
                 
@@ -201,19 +181,6 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
 
                 Log.info("[URLQueue] Exiting");
             }));
-
-            try (Scanner scanner = new Scanner(System.in)) {
-                while (true) {
-                    String input = scanner.nextLine();
-                    if (input.isEmpty()) {
-                        queue.clearQueue();
-                        Log.info("[URLQueue] Queue cleared by user.");
-                    }
-                }
-            }
-            catch (Exception e) {
-                Log.error("[URLQueue] Error in input handling: " + e.getMessage());
-            }
             
         } catch (RemoteException | NotBoundException e) {
             Log.error("[URLQueue] Exiting. Could not start RMI server: " + e.getMessage());

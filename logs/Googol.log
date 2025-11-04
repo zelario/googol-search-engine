@@ -1,271 +1,52 @@
-[2025-11-02 15:22:49] [INFO] [GATEWAY] Stats loaded successfully.
-[2025-11-02 15:22:49] [INFO] [GATEWAY] Gateway ready on localhost:1098
-[2025-11-02 15:22:49] [INFO] [GATEWAY] Starting period sync
-[2025-11-02 15:22:49] [INFO] [GATEWAY] Found no mismatches in barrels
-[2025-11-02 15:22:55] [INFO] [URLQueue] Queue loaded with 391110 URLs.
-[2025-11-02 15:22:55] [INFO] [URLQueue] RMI server ready
-[2025-11-02 15:22:55] [INFO] [GATEWAY] URL Queue registered
-[2025-11-02 15:22:55] [INFO] [URLQueue] Connected to Gateway on port 1098
-[2025-11-02 15:23:01] [INFO] [BARREL 1100] Running on localhost:1100
-[2025-11-02 15:23:01] [INFO] [BARREL 1100] Requesting sync to gateway
-[2025-11-02 15:23:01] [INFO] [GATEWAY] Barrel 1100 requested synchronization
-[2025-11-02 15:23:05] [INFO] [PORTS] Port already in use: 1100
-[2025-11-02 15:23:05] [INFO] [BARREL 1101] Running on localhost:1101
-[2025-11-02 15:23:05] [INFO] [BARREL 1101] Requesting sync to gateway
-[2025-11-02 15:23:05] [INFO] [GATEWAY] Barrel 1101 requested synchronization
-[2025-11-02 15:23:10] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-11-02 15:23:10] [INFO] [DOWNLOADER 4] Starting downloader thread.
-[2025-11-02 15:23:10] [INFO] [DOWNLOADER 5] Starting downloader thread.
-[2025-11-02 15:23:10] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-11-02 15:23:10] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-11-02 15:23:10] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
-[2025-11-02 15:23:10] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
-[2025-11-02 15:23:10] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
-[2025-11-02 15:23:10] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
-[2025-11-02 15:23:10] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
-[2025-11-02 15:23:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:13] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:14] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:14] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:14] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:14] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:14] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:14] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:15] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:15] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:15] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:15] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:15] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:15] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:16] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:16] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:16] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:16] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:16] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:16] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:17] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:17] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:17] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:17] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:17] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:17] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:18] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:18] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:18] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:18] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:18] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:19] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:19] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:19] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:19] [WARNING] [GATEWAY] Barrel mismatch found
-[2025-11-02 15:23:19] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:19] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:19] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:19] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:20] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:20] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:20] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:20] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:20] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:20] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:21] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:21] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-02 15:23:21] [WARNING] [GATEWAY] Barrel mismatch found
-[2025-11-02 15:23:22] [INFO] [DOWNLOADER] Exiting downloader threads.
-[2025-11-02 15:24:00] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:00] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:00] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:00] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:00] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:00] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [GATEWAY] Barrel sync completed
-[2025-11-02 15:24:01] [INFO] [BARREL 1100] Sync successful
-[2025-11-02 15:24:01] [INFO] [GATEWAY] Barrel 1100 registered
-[2025-11-02 15:24:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-02 15:24:01] [INFO] [GATEWAY] Barrel sync completed
-[2025-11-02 15:24:01] [INFO] [BARREL 1101] Sync successful
-[2025-11-02 15:24:01] [INFO] [GATEWAY] Barrel 1101 registered
-[2025-11-02 15:24:01] [INFO] [URLQueue] Barrel 1101 registered
-[2025-11-02 15:24:01] [INFO] [URLQueue] Barrel 1100 registered
-[2025-11-02 15:24:01] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
-[2025-11-02 15:24:01] [INFO] [GATEWAY] Updated barrel 1101 status to url queue
-[2025-11-02 15:24:01] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
-[2025-11-02 15:24:01] [INFO] [BARREL 1101] Registered with gateway on localhost:1098
-[2025-11-02 15:24:25] [INFO] [URLQueue] Queue saved successfully.
-[2025-11-02 15:24:25] [INFO] [GATEWAY] URL Queue unregistered. Indexing disabled
-[2025-11-02 15:24:25] [INFO] [URLQueue] Exiting
-[2025-11-02 15:24:32] [INFO] [URLQueue] Queue loaded with 392560 URLs.
-[2025-11-02 15:24:32] [INFO] [URLQueue] RMI server ready
-[2025-11-02 15:24:32] [INFO] [GATEWAY] URL Queue registered
-[2025-11-02 15:24:32] [INFO] [URLQueue] Connected to Gateway on port 1098
-[2025-11-02 15:24:36] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-11-02 15:24:36] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-11-02 15:24:36] [INFO] [DOWNLOADER 5] Starting downloader thread.
-[2025-11-02 15:24:36] [INFO] [DOWNLOADER 4] Starting downloader thread.
-[2025-11-02 15:24:36] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-11-02 15:24:37] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
-[2025-11-02 15:24:37] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
-[2025-11-02 15:24:37] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
-[2025-11-02 15:24:37] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
-[2025-11-02 15:24:37] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
-[2025-11-02 15:24:47] [INFO] [URLQueue] Queue saved successfully.
-[2025-11-02 15:24:47] [INFO] [GATEWAY] URL Queue unregistered. Indexing disabled
-[2025-11-02 15:24:47] [INFO] [URLQueue] Exiting
-[2025-11-02 15:24:48] [WARNING] [DOWNLOADER 4] Lost connection to Url Queue. Retrying...
-[2025-11-02 15:24:48] [WARNING] [DOWNLOADER 1] Lost connection to Url Queue. Retrying...
-[2025-11-02 15:24:48] [WARNING] [DOWNLOADER 2] Lost connection to Url Queue. Retrying...
-[2025-11-02 15:24:48] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://minutofinancasparatodos.cmjornal.pt/, retrying later
-[2025-11-02 15:24:48] [WARNING] [DOWNLOADER 5] Error re-inserting url: Connection refused to host: 127.0.1.1; nested exception is: 
-	java.net.ConnectException: Connection refused
-[2025-11-02 15:24:48] [WARNING] [DOWNLOADER 5] Lost connection to Url Queue. Retrying...
-[2025-11-02 15:24:49] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://minutofinancasparatodos.cmjornal.pt/./literacia-financeira/, retrying later
-[2025-11-02 15:24:49] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 127.0.1.1; nested exception is: 
-	java.net.ConnectException: Connection refused
-[2025-11-02 15:24:49] [WARNING] [DOWNLOADER 3] Lost connection to Url Queue. Retrying...
-[2025-11-02 15:25:03] [INFO] [URLQueue] Queue loaded with 393170 URLs.
-[2025-11-02 15:25:03] [INFO] [URLQueue] RMI server ready
-[2025-11-02 15:25:03] [INFO] [GATEWAY] URL Queue registered
-[2025-11-02 15:25:03] [INFO] [URLQueue] Connected to Gateway on port 1098
-[2025-11-02 15:26:01] [INFO] [GATEWAY] Barrel 1100 unregistered
-[2025-11-02 15:26:01] [INFO] [STATS] Stats saved successfully.
-[2025-11-02 15:26:01] [INFO] [GATEWAY] Barrel 1101 unregistered
-[2025-11-02 15:26:01] [INFO] [GATEWAY] Stats saved successfully
-[2025-11-02 15:26:01] [INFO] [GATEWAY] Gateway shutting down
-[2025-11-02 15:26:01] [INFO] [URLQueue] Barrel 1100 removed
-[2025-11-02 15:26:01] [INFO] [DOWNLOADER] Exiting downloader threads.
-[2025-11-02 15:26:01] [ERROR] [BARREL 1101] Failed to notify gateway on shutdown: Error unmarshaling return header; nested exception is: 
-	java.io.EOFException
-[2025-11-02 15:26:01] [ERROR] [BARREL 1100] Failed to notify gateway on shutdown: Error unmarshaling return header; nested exception is: 
-	java.io.EOFException
-[2025-11-02 15:26:03] [INFO] [URLQueue] Queue saved successfully.
-[2025-11-02 15:26:03] [ERROR] [URLQueue] Could not notify Gateway of shutdown: Connection refused to host: 127.0.1.1; nested exception is: 
-	java.net.ConnectException: Connection refused
-[2025-11-02 15:26:03] [INFO] [URLQueue] Exiting
-[2025-11-02 15:50:23] [INFO] [BARREL 1100] Running on 25.36.191.97:1100
-[2025-11-02 15:52:39] [ERROR] [BARREL] Failed to start Barrel RMI Server: Connection refused to host: 25.36.191.97; nested exception is: 
-	java.net.ConnectException: Connection timed out
-[2025-11-02 15:57:25] [INFO] [PORTS] Port already in use: 1100
-[2025-11-02 15:57:25] [INFO] [BARREL 1101] Running on 25.37.7.110:1101
-[2025-11-02 15:59:41] [ERROR] [BARREL] Failed to start Barrel RMI Server: Connection refused to host: 25.36.191.97; nested exception is: 
-	java.net.ConnectException: Connection timed out
-[2025-11-02 15:59:55] [INFO] [PORTS] Port already in use: 1100
-[2025-11-02 15:59:55] [INFO] [BARREL 1101] Running on 25.37.7.110:1101
-[2025-11-02 15:59:55] [ERROR] [BARREL] Failed to start Barrel RMI Server: Connection refused to host: 25.36.191.97; nested exception is: 
-	java.net.ConnectException: Connection refused
-[2025-11-02 16:00:17] [INFO] [PORTS] Port already in use: 1100
-[2025-11-02 16:00:17] [INFO] [BARREL 1101] Running on 25.37.7.110:1101
-[2025-11-02 16:00:17] [INFO] [BARREL 1101] Requesting sync to gateway
-[2025-11-02 16:00:17] [INFO] [BARREL 1101] Sync successful
-[2025-11-02 16:00:17] [INFO] [BARREL 1101] Registered with gateway on 25.36.191.97:1098
-[2025-11-02 16:00:36] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-11-02 16:00:36] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-11-02 16:00:36] [INFO] [DOWNLOADER 4] Starting downloader thread.
-[2025-11-02 16:00:36] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-11-02 16:00:36] [INFO] [DOWNLOADER 5] Starting downloader thread.
-[2025-11-02 16:00:37] [INFO] [DOWNLOADER 2] Connected to url queue on 25.36.191.97:1099
-[2025-11-02 16:00:37] [INFO] [DOWNLOADER 1] Connected to url queue on 25.36.191.97:1099
-[2025-11-02 16:00:37] [INFO] [DOWNLOADER 3] Connected to url queue on 25.36.191.97:1099
-[2025-11-02 16:00:37] [INFO] [DOWNLOADER 5] Connected to url queue on 25.36.191.97:1099
-[2025-11-02 16:00:37] [INFO] [DOWNLOADER 4] Connected to url queue on 25.36.191.97:1099
-[2025-11-02 16:00:47] [INFO] [CLIENT 63] Connected to gateway on port 1098 on attempt 1
-[2025-11-02 16:01:19] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-02 16:01:32] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-02 16:01:33] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/edicaoimpressa/, retrying later
-[2025-11-02 16:01:37] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/edicaoimpressa/, retrying later
-[2025-11-02 16:01:52] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-02 16:01:54] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-02 16:01:54] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-02 16:01:54] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-02 16:02:02] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/minha-conta/lost-password/, retrying later
-[2025-11-02 16:02:21] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/regiao/internacional/page/2/, retrying later
-[2025-11-02 16:02:22] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/categoria/economia/page/3/, retrying later
-[2025-11-02 16:02:24] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/regiao/nacional/page/6740/, retrying later
-[2025-11-02 16:02:25] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/categoria/desporto/page/2/, retrying later
-[2025-11-02 16:02:26] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/categoria/economia/page/2/, retrying later
-[2025-11-02 16:02:28] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/categoria/desporto/page/4097/, retrying later
-[2025-11-02 16:02:31] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/2025/10/30/novas-aplicacoes-tornam-mais-eficiente-pagamento-de-parquimetros-em-coimbra/, retrying later
-[2025-11-02 16:02:33] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/2025/11/01/benfica-goleia-no-reduto-do-v-guimaraes/, retrying later
-[2025-11-02 16:02:34] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/2025/10/31/sporting-supera-alverca-e-iguala-fc-porto-a-condicao-no-topo-da-i-liga/, retrying later
-[2025-11-02 16:02:36] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/categoria/desporto/page/2/, retrying later
-[2025-11-02 16:02:49] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/2025/11/02/mais-de-20-horas-de-espera-no-hospital-amadora-sintra/, retrying later
-[2025-11-02 16:02:58] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/2025/11/01/inem-tem-todos-os-novos-helicopteros-a-funcionarem-em-pleno/, retrying later
-[2025-11-02 16:03:00] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/2025/10/30/detidos-cinco-novos-suspeitos-do-assalto-ao-museu-do-louvre/, retrying later
-[2025-11-02 16:03:04] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/2025/11/01/academica-soma-segundo-empate-seguido-na-liga-3/, retrying later
-[2025-11-02 16:03:06] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/2025/10/29/empresa-inicia-vendas-de-robo-para-tarefas-domesticas/, retrying later
-[2025-11-02 16:03:10] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/2025/10/29/taxa-de-desemprego-desce-para-60-em-setembro/, retrying later
-[2025-11-02 16:03:13] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/2025/10/29/suspeitos-do-assalto-ao-museu-do-louvre-admitiram-parcialmente-envolvimento/, retrying later
-[2025-11-02 16:03:14] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/2025/11/01/ruinas-vc-procura-reencontro-com-as-vitorias-no-algarve/, retrying later
-[2025-11-02 16:03:19] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/2025/11/01/distrito-com-sete-equipas-em-acao-nas-provas-nacionais-de-futsal/, retrying later
-[2025-11-02 16:03:22] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/2025/11/01/distrito-com-sete-equipas-em-acao-nas-provas-nacionais-de-futsal/, retrying later
-[2025-11-02 16:03:23] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/2025/10/26/oe2026-pan-vai-abster-se-na-votacao-do-orcamento-do-estado-para-2026/, retrying later
-[2025-11-02 16:03:25] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/categoria/desporto/page/513/, retrying later
-[2025-11-02 16:03:44] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-02 16:03:44] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-02 16:03:49] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/minha-conta/lost-password/, retrying later
-[2025-11-02 16:03:52] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/categoria/sociedade/, retrying later
-[2025-11-02 16:04:00] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/categoria/sociedade/, retrying later
-[2025-11-02 16:04:04] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/regiao/coimbra/page/2/, retrying later
-[2025-11-02 16:04:05] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/regiao/coimbra/page/3/, retrying later
-[2025-11-02 16:04:11] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/regiao/regional/page/2/, retrying later
-[2025-11-02 16:04:12] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/regiao/coimbra/page/2/, retrying later
-[2025-11-02 16:04:21] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-02 16:04:52] [WARNING] [DOWNLOADER] Barrel 1100 did not ACK entry.
-[2025-11-02 16:05:19] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/page/3624/, retrying later
-[2025-11-02 16:05:26] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-02 16:06:12] [INFO] [BARREL 1101] Shutdown notification sent to gateway. Exiting.
-[2025-11-02 16:06:14] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 16:06:14] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 16:06:14] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 16:06:14] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 16:06:15] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1101 after retries.
-[2025-11-02 16:06:15] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 16:06:19] [INFO] [PORTS] Port already in use: 1100
-[2025-11-02 16:06:19] [INFO] [BARREL 1101] Running on 25.37.7.110:1101
-[2025-11-02 16:06:20] [INFO] [BARREL 1101] Requesting sync to gateway
-[2025-11-02 16:06:22] [INFO] [BARREL 1101] Sync successful
-[2025-11-02 16:06:23] [INFO] [BARREL 1101] Registered with gateway on 25.36.191.97:1098
-[2025-11-02 16:08:21] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.sodicentro.pt/, retrying later
-[2025-11-02 16:09:08] [WARNING] [BARREL 1101] Deadlock detected on insertion
-[2025-11-02 16:09:23] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.diariocoimbra.pt/regiao/internacional/, retrying later
-[2025-11-02 16:09:32] [ERROR] [BARREL 1101] Failed to report index stats to gateway: Connection refused to host: 25.36.191.97; nested exception is: 
-	java.net.ConnectException: Connection refused
-[2025-11-02 16:09:32] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diarioleiria.pt/, retrying later
-[2025-11-02 16:09:32] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diarioaveiro.pt/, retrying later
-[2025-11-02 16:09:32] [WARNING] [DOWNLOADER 3] Error re-inserting url: Connection refused to host: 25.36.191.97; nested exception is: 
-	java.net.ConnectException: Connection refused
-[2025-11-02 16:09:32] [WARNING] [DOWNLOADER 1] Error re-inserting url: Connection refused to host: 25.36.191.97; nested exception is: 
-	java.net.ConnectException: Connection refused
-[2025-11-02 16:09:32] [WARNING] [DOWNLOADER 1] Lost connection to Url Queue. Retrying...
-[2025-11-02 16:09:32] [WARNING] [DOWNLOADER 3] Lost connection to Url Queue. Retrying...
-[2025-11-02 16:09:32] [ERROR] [BARREL 1101] Failed to report index stats to gateway: Connection refused to host: 25.36.191.97; nested exception is: 
-	java.net.ConnectException: Connection refused
-[2025-11-02 16:09:32] [ERROR] [BARREL 1101] Failed to report index stats to gateway: Connection refused to host: 25.36.191.97; nested exception is: 
-	java.net.ConnectException: Connection refused
-[2025-11-02 16:09:34] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1100 after retries.
-[2025-11-02 16:09:34] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1100 after retries.
-[2025-11-02 16:09:34] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 16:09:34] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 16:09:34] [ERROR] [DOWNLOADER] Failed to insert data into barrel 1100 after retries.
-[2025-11-02 16:09:34] [WARNING] [DOWNLOADER] Only 1/2 barrels acknowledged.
-[2025-11-02 16:09:34] [WARNING] [DOWNLOADER 2] Lost connection to Url Queue. Retrying...
-[2025-11-02 16:09:34] [WARNING] [DOWNLOADER 5] Lost connection to Url Queue. Retrying...
-[2025-11-02 16:09:34] [WARNING] [DOWNLOADER 4] Lost connection to Url Queue. Retrying...
-[2025-11-02 16:09:40] [INFO] [DOWNLOADER] Exiting downloader threads.
-[2025-11-02 16:09:41] [ERROR] [BARREL 1101] Failed to notify gateway on shutdown: Connection refused to host: 25.36.191.97; nested exception is: 
-	java.net.ConnectException: Connection refused
-[2025-11-02 16:09:43] [INFO] [CLIENT 63] Exiting client.
+[2025-11-04 22:08:45] [INFO] [STATS] No saved stats found to load.
+[2025-11-04 22:08:45] [INFO] [GATEWAY] Gateway ready on localhost:1098
+[2025-11-04 22:08:45] [INFO] [GATEWAY] Starting period sync
+[2025-11-04 22:08:45] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-11-04 22:08:49] [INFO] [URLQueue] No data stored, starting new empty queue
+[2025-11-04 22:08:49] [INFO] [URLQueue] RMI server ready
+[2025-11-04 22:08:49] [INFO] [GATEWAY] URL Queue registered
+[2025-11-04 22:08:49] [INFO] [URLQueue] Connected to Gateway on port 1098
+[2025-11-04 22:08:53] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2025-11-04 22:08:53] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-11-04 22:08:53] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-11-04 22:08:53] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2025-11-04 22:08:53] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-11-04 22:08:53] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
+[2025-11-04 22:08:53] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
+[2025-11-04 22:08:53] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
+[2025-11-04 22:08:53] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
+[2025-11-04 22:08:53] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
+[2025-11-04 22:08:58] [INFO] [BARREL 1100] Running on localhost:1100
+[2025-11-04 22:08:58] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-11-04 22:08:58] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-11-04 22:08:58] [INFO] [GATEWAY] Found no mismatches in barrels
+[2025-11-04 22:08:58] [INFO] [BARREL 1100] Sync successful
+[2025-11-04 22:08:58] [INFO] [GATEWAY] Barrel 1100 registered
+[2025-11-04 22:08:58] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
+[2025-11-04 22:08:58] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
+[2025-11-04 22:09:03] [INFO] [CLIENT 77] Connected to gateway on port 1098 on attempt 1
+[2025-11-04 22:09:07] [INFO] [GATEWAY] Client 77 searching for query: kanye
+[2025-11-04 22:09:07] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
+[2025-11-04 22:09:07] [INFO] [GATEWAY] Search completed on barrel 1100 for query kanye in 58 ms
+[2025-11-04 22:09:11] [INFO] [GATEWAY] Client 77 searching for query: 
+[2025-11-04 22:09:11] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
+[2025-11-04 22:09:14] [INFO] [GATEWAY] Client 77 searching for query: coimbra
+[2025-11-04 22:09:14] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
+[2025-11-04 22:09:14] [INFO] [GATEWAY] Search completed on barrel 1100 for query coimbra in 55 ms
+[2025-11-04 22:09:33] [INFO] [GATEWAY] Client added URL to queue: https://www.diariocoimbra.pt/
+[2025-11-04 22:09:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-04 22:09:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-04 22:09:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-04 22:09:38] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-04 22:09:40] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/regiao/coimbra/, retrying later
+[2025-11-04 22:09:40] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/regiao/nacional/, retrying later
+[2025-11-04 22:09:42] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/regiao/coimbra/, retrying later
+[2025-11-04 22:09:43] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.sodicentro.pt/, retrying later
+[2025-11-04 22:09:43] [WARNING] [DOWNLOADER 4] Error downloading/parsing https://www.sodicentro.pt/, retrying later
+[2025-11-04 22:09:43] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/regiao/nacional/, retrying later
+[2025-11-04 22:09:48] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/regiao/coimbra/, retrying later
+[2025-11-04 22:09:49] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/regiao/nacional/, retrying later
+[2025-11-04 22:09:54] [WARNING] [DOWNLOADER 5] Error downloading/parsing https://www.diariocoimbra.pt/page/3/, retrying later
+[2025-11-04 22:09:55] [WARNING] [DOWNLOADER 2] Error downloading/parsing https://www.diariocoimbra.pt/page/3/, retrying later
+[2025-11-04 22:10:05] [WARNING] [DOWNLOADER 1] Error downloading/parsing https://www.diariocoimbra.pt/page/240/, retrying later
+[2025-11-04 22:10:10] [WARNING] [DOWNLOADER 3] Error downloading/parsing https://www.diariocoimbra.pt/page/3638/, retrying later

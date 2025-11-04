@@ -31,9 +31,8 @@ public interface UrlQueueInterface extends Remote {
 
     /**
      * Changes barrel status to keep track of active barrels
-     * @param barrelPort    Barrel port
-     * @param status        New status
+     * @param barrels       Map of barrels with their statuses
      * @throws java.rmi.RemoteException RMI Exception
      */
-    void changeBarrelStatus(int barrelPort, boolean status) throws java.rmi.RemoteException;
+    void updateBarrelList(Map<Integer, BarrelInterface> barrels) throws java.rmi.RemoteException;
 }
