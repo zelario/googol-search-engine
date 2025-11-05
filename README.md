@@ -6,16 +6,16 @@ You can find the full report on  **docs/** folder.
 # Project Structure
 
 src/main/java/projetosd/
-├── Gateway.java          # Central coordination service
-├── UrlQueue.java         # URL management and distribution
-├── Barrel.java           # Index storage and search
-├── Downloader.java       # Web crawling and parsing
-├── Client.java           # User interface
-├── Config.java           # System configuration
-├── Database.java         # Database connection management
-├── Stats.java            # Performance statistics
-├── Page.java             # Web page data model
-└── Log.java              # Logging utilities
+├── Gateway.java          # Central coordination service             
+├── UrlQueue.java         # URL management and distribution            
+├── Barrel.java           # Index storage and search                      
+├── Downloader.java       # Web crawling and parsing                  
+├── Client.java           # User interface                   
+├── Config.java           # System configuration                  
+├── Database.java         # Database connection management                
+├── Stats.java            # Performance statistics                 
+├── Page.java             # Web page data model                
+└── Log.java              # Logging utilities                   
 
 # Architecture Components
 
