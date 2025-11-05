@@ -70,7 +70,13 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         // Because the downloader might insert urls that are in pages before they've been parsed...
         // Here we manage conflicts by updating the remaining info with the excluded insertion
         // Also every query has handling of conflicts because duplicates are common
-        String insertUrlQuery = "INSERT INTO url(url, title, citation) VALUES (?, ?, ?) ON CONFLICT (url) DO UPDATE SET title = EXCLUDED.title, citation = EXCLUDED.citation, updated_at = now()";
+        String insertUrlQuery = "INSERT INTO url(url, title, citation) VALUES (?, ?, ?) " +
+                "ON CONFLICT (url) " +
+                "DO UPDATE " +
+                "SET title = EXCLUDED.title, citation = EXCLUDED.citation, updated_at = now() " +
+                "WHERE url.title IS DISTINCT FROM EXCLUDED.title " +
+                "OR url.citation IS DISTINCT FROM EXCLUDED.citation " +
+                "RETURNING XMAX";
         // Insert page urls before to avoid breaking foreign keys constraints
         String preInsertPageUrlsQuery = "INSERT INTO url(url) VALUES (?) ON CONFLICT (url) DO NOTHING";
         String insertPageUrlsQuery = "INSERT INTO url_url(url_url, url_url1) VALUES (?, ?) ON CONFLICT DO NOTHING";
@@ -87,14 +93,21 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                 // Set transactions to READ_COMMITED (default apparently but here anyway to make sure, some drivers can overlap)
                 conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
+                boolean newOrUpdated = false;
+
                 try (PreparedStatement psUrl = conn.prepareStatement(insertUrlQuery)) {
                     psUrl.setString(1, url);
                     psUrl.setString(2, title);
                     psUrl.setString(3, citation);
 
-                    psUrl.executeUpdate();
+                    //psUrl.executeUpdate();
+                    try(ResultSet rs = psUrl.executeQuery()){
+                        if(rs.next()) newOrUpdated = true;
+                    }
                 }
                 conn.commit();
+
+                if(!newOrUpdated) return "ACK";
 
                 // noinspection  DuplicatedCode
                 if (relatedUrls != null && !relatedUrls.isEmpty()) {
@@ -473,7 +486,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
             conn.commit();
         }
-        catch (SQLException e){}
+        catch (SQLException ignored){}
 
         Log.info("[BARREL] Inserted missing data from sync");
     }

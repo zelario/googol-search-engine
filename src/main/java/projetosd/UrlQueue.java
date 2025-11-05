@@ -62,6 +62,8 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
      */
     @Override
     public void addUrl(String url, boolean userInput) throws RemoteException {
+        if(urlQueue.contains(url)) return;
+
         if (userInput) {
             urlQueue.addFirst(url);
         } else {

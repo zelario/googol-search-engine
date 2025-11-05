@@ -163,8 +163,8 @@ public class Downloader extends Thread {
                     Elements links = doc.select("a[href]");
 
                     for (Element link : links) {
-                        String pageUrl = link.attr("href");
-                        if ((pageUrl.startsWith("https://"))) {
+                        String pageUrl = link.absUrl("href");
+                        if (!(pageUrl.isBlank())) {
                             queue.addUrl(pageUrl, false);
                             relatedUrls.add(pageUrl);
                         }
