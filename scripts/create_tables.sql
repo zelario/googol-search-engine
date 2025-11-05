@@ -8,7 +8,6 @@ CREATE TABLE url (
 
 CREATE TABLE words (
                        word	 VARCHAR(64),
-                       doc_frequency BIGINT NOT NULL DEFAULT 0,
                        created_at TIMESTAMP NOT NULL DEFAULT now(),
                        PRIMARY KEY(word)
 );

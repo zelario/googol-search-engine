@@ -6,10 +6,17 @@ DECLARE
 BEGIN
     SELECT COUNT(*) INTO total_docs FROM url;
 
+    WITH word_stats AS (
+        SELECT
+            wu.words_word AS word,
+            COUNT(DISTINCT wu.url_url) AS doc_frequency
+        FROM words_url wu
+        GROUP BY wu.words_word
+    )
     INSERT INTO stop_words(word)
-    SELECT w.word
-    FROM words w
-    WHERE LN(total_docs::FLOAT / NULLIF(w.doc_freq, 0)::FLOAT) < threshold
+    SELECT ws.word
+    FROM word_stats ws
+    WHERE LN(total_docs::FLOAT / NULLIF(ws.doc_frequency, 0)::FLOAT) < threshold
     ON CONFLICT (word) DO NOTHING;
 END;
 $$;
