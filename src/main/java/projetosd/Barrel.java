@@ -81,8 +81,14 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         // Insert page urls before to avoid breaking foreign keys constraints
         String preInsertPageUrlsQuery = "INSERT INTO url(url) VALUES (?) ON CONFLICT (url) DO NOTHING";
         String insertPageUrlsQuery = "INSERT INTO url_url(url_url, url_url1) VALUES (?, ?) ON CONFLICT DO NOTHING";
-        String insertWordsQuery = "INSERT INTO words(word) VALUES (?) ON CONFLICT (word) DO NOTHING";
-        String insertWordsUrlQuery = "INSERT INTO words_url(words_word, url_url) VALUES (?, ?) ON CONFLICT DO NOTHING ";
+        String insertWordsQuery = "INSERT INTO words(word) " +
+                "SELECT ? " +
+                "WHERE NOT EXISTS (SELECT 1 FROM stop_words WHERE word = ?) " +
+                "ON CONFLICT (word) DO NOTHING";
+        String insertWordsUrlQuery = "INSERT INTO words_url(words_word, url_url) " +
+                "SELECT ?, ? " +
+                "WHERE NOT EXISTS (SELECT 1 FROM stop_words WHERE word = ?) " +
+                "ON CONFLICT DO NOTHING";
 
         // deadlocks...
         int attempt = 0;
