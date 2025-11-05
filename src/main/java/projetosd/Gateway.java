@@ -238,13 +238,19 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     @SuppressWarnings({"BusyWait", "SleepWhileInLoop"})
     public boolean syncBarrels(int requesterPort) throws RemoteException {
         if(requesterPort != 0) Log.info("[GATEWAY] Barrel " + requesterPort + " requested synchronization");
-        else Log.info("[GATEWAY] Starting period sync");
+        else Log.info("[GATEWAY] Starting period barrel sync");
 
         Timestamp syncTime = Timestamp.valueOf(LocalDateTime.now());
         List<String> mismatches = checkBarrelMismatches(syncTime);
 
-        if(mismatches.isEmpty()){
-            Log.info("[GATEWAY] Found no mismatches in barrels");
+        if(mismatches.isEmpty()) {
+            if (barrels.size() > 1) {
+                Log.info("[GATEWAY] All barrels are consistent");
+            } else if (barrels.size() == 1) {
+                Log.info("[GATEWAY] Only one barrel active, no synchronization needed");
+            } else {
+                Log.info("[GATEWAY] No active barrels, no synchronization needed");
+            }
             return true;
         }
 
@@ -340,7 +346,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         }
 
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
-        Log.info("[GATEWAY] Barrel sync completed");
+        Log.info("[GATEWAY] Barrel synchronization completed");
 
         return true;
     }
@@ -607,7 +613,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 try{
                     gateway.syncBarrels(0);
                 } catch (RemoteException e) {
-                    Log.warning("[GATEWAY] Periodic syncer will not be scheduled");
+                    Log.warning("[GATEWAY] Periodic synchronizer will not be scheduled");
                 }
                     }, 0, Config.GATEWAY_SYNC_INTERVAL, TimeUnit.MINUTES);
 
