@@ -239,7 +239,7 @@ public class Downloader extends Thread {
      * @return              Boolean that if true multicast worked, if false no info was introduced in any Barrel (DB) so downloaders must re-insert url into queue
      * @throws RemoteException  RMI Exception
      */
-    @SuppressWarnings("BusyWait")
+    @SuppressWarnings({"BusyWait", "CollectionsToArray"})
     public boolean multicastEntries(String url, ArrayList<String> words, String title, String citation, ArrayList<String> relatedUrls, Map<Integer, BarrelInterface> barrels) throws RemoteException {
         // Atomic vars fix the issue of vars inside the async block having to be final while going to be reassigned
         AtomicBoolean atLeastOne = new AtomicBoolean(false);

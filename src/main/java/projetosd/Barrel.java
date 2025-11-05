@@ -351,6 +351,8 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     private String[] getColumnsAndOrder(String tableName){
         String[] colsAndOrder = new String[2];
 
+        if (tableName == null) return new String[] {"*", "*"};
+
         colsAndOrder[0] = switch (tableName) {
             case "url" -> "url, title, citation";
             case "words", "stop_words" -> "word";

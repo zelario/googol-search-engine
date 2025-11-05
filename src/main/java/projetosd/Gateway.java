@@ -121,8 +121,11 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
      * @return Map entry of selected barrel port and instance, or null if none available
      */
     @SuppressWarnings({"ConstantConditions", "BusyWait"})
-    private synchronized Map.Entry<Integer, BarrelInterface> selectBarrel() {
-        List<Map.Entry<Integer, BarrelInterface>> entries = new ArrayList<>(barrels.entrySet());
+    private Map.Entry<Integer, BarrelInterface> selectBarrel() {
+        List<Map.Entry<Integer, BarrelInterface>> entries;
+        synchronized (this) {
+            entries = new ArrayList<>(barrels.entrySet());
+        }
         if (entries.isEmpty()) return null;
 
         int size = entries.size();
@@ -160,9 +163,11 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 return entry;
             } else {
                 Log.error("[GATEWAY] Barrel " + port + " not available after retries.");
-                entries.remove(index);
-                barrels.remove(port);
-                stats.removeBarrelStats(port);
+                synchronized (this) {
+                    entries.remove(index);
+                    barrels.remove(port);
+                    stats.removeBarrelStats(port);
+                }
                 if (entries.isEmpty()) return null;
                 if (index >= entries.size()) index = 0;
             }
@@ -235,7 +240,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     }
 
     @Override
-    @SuppressWarnings({"BusyWait", "SleepWhileInLoop"})
+    @SuppressWarnings({"BusyWait", "SleepWhileInLoop", "CollectionsToArray"})
     public boolean syncBarrels(int requesterPort) throws RemoteException {
         if(requesterPort != 0) Log.info("[GATEWAY] Barrel " + requesterPort + " requested synchronization");
         else Log.info("[GATEWAY] Starting period barrel sync");

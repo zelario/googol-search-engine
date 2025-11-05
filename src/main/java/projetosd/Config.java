@@ -240,7 +240,8 @@ public class Config {
      */
     public static int claimBarrelPort() {
         for (int port : BARREL_PORTS) {
-           try (ServerSocket ignored = new ServerSocket(port, 0, InetAddress.getByName(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(port)))) {
+           try {
+                new ServerSocket(port, 0, InetAddress.getByName(BARREL_HOSTS_TRANSLATION_TABLE.get(port))).close();
                 return port;
             } catch (IOException e) {
                 Log.info("[PORTS] Port already in use: " + port);
