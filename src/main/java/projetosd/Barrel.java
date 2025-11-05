@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -517,6 +518,48 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         }
         catch (SQLException e){
             Log.error("[BARREL] Error fetching index size: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Checks and updates stop words in the barrel database.
+     */
+    @Override
+    public void checkStopWords() throws RemoteException{
+        Database db = new Database(port);
+
+        try (java.sql.Connection conn = db.getConnection()) {
+
+            String query = "SELECT COUNT(*) AS page_count FROM url;";
+            int pageCount = 0;
+
+            try (PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    pageCount = rs.getInt("page_count");
+                }
+            } catch (SQLException e) {
+                Log.error("[BARREL " + port + "] Error fetching page count: " + e.getMessage());
+                return;
+            }
+
+            float threshold;
+            if (pageCount < 1000) threshold = 0.5f;
+            else if (pageCount < 10000) threshold = 0.8f;
+            else if (pageCount < 100000) threshold = 1.0f;
+            else if (pageCount < 1000000) threshold = 1.2f;
+            else threshold = 1.5f;
+
+            try (CallableStatement cs = conn.prepareCall("CALL check_stop_words(?)")) {
+                cs.setFloat(1, threshold);
+                cs.execute();
+                Log.info("[BARREL " + port + "] Stop words checked");
+            } catch (SQLException e) {
+                Log.error("[BARREL " + port + "] Error calling procedure: " + e.getMessage());
+            }
+
+        } catch (SQLException e) {
+            Log.error("[BARREL " + port + "] Error connecting to DB: " + e.getMessage());
         }
     }
 

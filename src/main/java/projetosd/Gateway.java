@@ -618,6 +618,9 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             scheduler.scheduleAtFixedRate(() -> {
                 try{
                     gateway.syncBarrels(0);
+                    for(BarrelInterface barrel : gateway.barrels.values()){
+                        barrel.checkStopWords();
+                    }
                 } catch (RemoteException e) {
                     Log.warning("[GATEWAY] Periodic synchronizer will not be scheduled");
                 }

@@ -71,4 +71,10 @@ public interface BarrelInterface extends Remote {
      * @throws java.rmi.RemoteException RMI Exception
      */
     void insertMissingRows(String table, ArrayList<String> content) throws java.rmi.RemoteException;
+
+    /**
+     * Checks and updates stop words in the barrel database.
+     * @throws java.rmi.RemoteException RMI Exception
+     */
+    public void checkStopWords() throws java.rmi.RemoteException;
 }
