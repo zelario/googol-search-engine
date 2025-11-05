@@ -1,5 +1,10 @@
 package projetosd;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -31,7 +36,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     /**
      * Stats object to track various statistics.
      */
-    private final Stats stats;
+    private Stats stats;
 
     /**
      * Reference to the URL queue.
@@ -55,7 +60,59 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     public Gateway() throws RemoteException {
         stats = new Stats();
         barrels = new ConcurrentHashMap<>();
+        queue = null;
     }
+
+    //------------------------------------------- PERSISTENCE METHODS --------------------------------------------------//
+
+    /**
+     * Saves the current state of the Gateway to a file.
+     */
+    private void saveGateway(){
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/gateway.ser"))) {
+            oos.writeObject(this);
+            Log.info("[GATEWAY] Gateway state saved successfully.");
+        } catch (IOException e) {
+            Log.error("[GATEWAY] Error saving gateway state: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Revives the Gateway state from a file.
+     */
+    private void reviveGateway(){
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data/gateway.ser"))) {
+            Gateway savedGateway = (Gateway) ois.readObject();
+            this.barrels.putAll(savedGateway.barrels);
+            this.queue = savedGateway.queue;
+            this.stats = savedGateway.stats;
+            Log.info("[GATEWAY] Gateway revived. Checking connections");
+        } catch (IOException | ClassNotFoundException e) {
+            Log.info("[GATEWAY] No previous Gateway state found");
+            return;
+        }
+
+        try{
+            queue.ping();
+            Log.info("[GATEWAY] Gateway queue is alive");
+        } catch (RemoteException | NullPointerException e) {
+            queue = null;
+            Log.info("[GATEWAY] Gateway queue is not reachable");
+        }
+
+        for(Integer barrelPort : barrels.keySet()){
+            try{
+                barrels.get(barrelPort).ping();
+                Log.info("[GATEWAY] Gateway barrel " + barrelPort + " is alive");
+            } catch (RemoteException | NullPointerException e){
+                barrels.remove(barrelPort);
+                stats.removeBarrelStats(barrelPort);
+                Log.info("[GATEWAY] Gateway barrel " + barrelPort + " is not reachable");
+            }
+        }
+    }
+
+    //------------------------------------------- END OF PERSISTENCE METHODS --------------------------------------------------//
 
     //------------------------------------------- BARREL HANDLING METHODS --------------------------------------------------//
 
@@ -104,6 +161,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             } else {
                 Log.error("[GATEWAY] Barrel " + port + " not available after retries.");
                 entries.remove(index);
+                barrels.remove(port);
+                stats.removeBarrelStats(port);
                 if (entries.isEmpty()) return null;
                 if (index >= entries.size()) index = 0;
             }
@@ -336,7 +395,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         }
 
         try{
-            this.queue.changeBarrelStatus(barrelPort, status);
+            queue.updateBarrelList(barrels);
             Log.info("[GATEWAY] Updated barrel " + barrelPort + " status to url queue");
         } catch (RemoteException e) {
             Log.warning("[GATEWAY] Failed to send barrel " + barrelPort + " status to url queue");
@@ -542,6 +601,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
             registry.rebind("gateway", gateway);
             Log.info("[GATEWAY] Gateway ready on " + Config.GATEWAY_HOST + ":" + Config.GATEWAY_PORT);
 
+            gateway.reviveGateway();
+
             scheduler.scheduleAtFixedRate(() -> {
                 try{
                     gateway.syncBarrels(0);
@@ -551,8 +612,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                     }, 0, Config.GATEWAY_SYNC_INTERVAL, TimeUnit.MINUTES);
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                gateway.stats.saveStats();
-                Log.info("[GATEWAY] Stats saved successfully");
+                gateway.saveGateway();
                 Log.info("[GATEWAY] Gateway shutting down");
             }));
             

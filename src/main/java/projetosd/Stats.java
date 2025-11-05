@@ -1,10 +1,5 @@
 package projetosd;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +45,6 @@ public class Stats implements Serializable {
 		queryCounts = new ConcurrentHashMap<>();
 		barrelIndexSizes = new ConcurrentHashMap<>();
 		barrelTimes = new ConcurrentHashMap<>();
-		loadStats();
 	}
 
 	//---------------------------------- STATS UPDATE METHODS -----------------------------------------//
@@ -148,45 +142,6 @@ public class Stats implements Serializable {
 		barrelIndexSizes.remove(barrelPort);
 		barrelTimes.remove(barrelPort);
 	}
-
-	//---------------------------------- END OF STATS RETRIEVAL METHODS -----------------------------------------//
-
-	//---------------------------------- STATS PERSISTENCE METHODS -----------------------------------------//
-
-    /**
-     * Saves stats into serial file
-     */
-	public void saveStats() {
-		File file = new File("data/stats.ser");
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-			file.getParentFile().mkdirs();
-			oos.writeObject(this);
-			Log.info("[STATS] Stats saved successfully.");
-		} catch (Exception e) {
-			Log.error("[STATS] Failed to save stats: " + e.getMessage());
-		}
-	}
-
-    /**
-     * Loads stats from serial file
-     */
-	public void loadStats() {
-		File file = new File("data/stats.ser");
-		if (!file.exists()) {
-			Log.info("[STATS] No saved stats found to load.");
-			return;
-		}
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-			Stats stats = (Stats) ois.readObject();
-			this.queryCounts.putAll(stats.queryCounts);
-			this.barrelIndexSizes.putAll(stats.barrelIndexSizes);
-			this.barrelTimes.putAll(stats.barrelTimes);
-			Log.info("[GATEWAY] Stats loaded successfully.");
-		} catch (Exception e) {
-			Log.error("[GATEWAY] Failed to load stats: " + e.getMessage());
-		}
-	}
-
-	//---------------------------------- END OF STATS PERSISTENCE METHODS -----------------------------------------//
 }
 
+	//-------------------------------- END OF STATS RETRIEVAL METHODS -----------------------------------------//

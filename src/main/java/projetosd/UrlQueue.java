@@ -79,10 +79,9 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
     @Override
     public Map<Map<Integer, BarrelInterface>, String> takeUrl(Map<Integer, BarrelInterface> downloaderBarrels) throws RemoteException {
         try {
-            this.barrels.putAll(this.gateway.getActiveBarrels());
 
             downloaderBarrels.clear();
-            downloaderBarrels.putAll(this.barrels);
+            downloaderBarrels.putAll(barrels);
 
             String url = urlQueue.takeFirst();
 
@@ -142,24 +141,15 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
 
     //---------------------------------- BARREL MANAGEMENT ----------------------------------//
 
+    /**
+     * Changes barrel status to keep track of active barrels
+     * @param barrels       Map of barrels with their statuses
+     * @throws java.rmi.RemoteException RMI Exception
+     */
     @Override
-    public void changeBarrelStatus(int barrelPort, boolean status) throws java.rmi.RemoteException{
-        if(status){
-            try{
-                Registry registry = LocateRegistry.getRegistry(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrelPort), barrelPort);
-                BarrelInterface barrel = (BarrelInterface) registry.lookup("barrel");
-
-                this.barrels.put(barrelPort, barrel);
-                Log.info("[URLQueue] Barrel " + barrelPort + " registered");
-            }
-            catch (RemoteException | NotBoundException e){
-                Log.warning("[URLQueue] Failed to register barrel " + barrelPort);
-            }
-        }
-        else {
-            this.barrels.remove(barrelPort);
-            Log.info("[URLQueue] Barrel " + barrelPort + " removed");
-        }
+    public void updateBarrelList(Map<Integer, BarrelInterface> barrels) throws java.rmi.RemoteException{
+        this.barrels.clear();
+        this.barrels.putAll(barrels);
     }
 
     //---------------------------------- END OF BARREL MANAGEMENT ----------------------------------//
@@ -181,8 +171,6 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
             queue.gateway = (GatewayInterface) registry.lookup("gateway");
             queue.gateway.reportQueueStatus(true);
             Log.info("[URLQueue] Connected to Gateway on port " + Config.GATEWAY_PORT);
-
-            queue.barrels.putAll(queue.gateway.getActiveBarrels());
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 queue.saveQueue();
