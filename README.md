@@ -1,6 +1,7 @@
 # Googol, a Distributed Web Search Engine
 
 A distributed web search engine implementation using Java RMI that provides web crawling, indexing, and search capabilities across multiple nodes for fault tolerance and scalability.
+You can find the full report on  **docs/** folder.
 
 # Project Structure
 
@@ -107,5 +108,5 @@ Use `Ctrl+C` in each component's terminal to stop it gracefully
 
 # Authorship
 
--**José Amado**
--**José Silva**
+- **José Amado**
+- **José Silva**

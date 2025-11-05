@@ -49,8 +49,8 @@ public interface BarrelInterface extends Remote {
     List<Page> getBacklinks(Page page) throws java.rmi.RemoteException;
 
     /**
-     *  Returns all words found in a page
-     * @param page Given Page
+     * Populates the given Page with all words found in it.
+     * @param page Given Page instance to enrich with words
      * @throws java.rmi.RemoteException RMI Exception
      */
     void getWordsInPage(Page page) throws java.rmi.RemoteException;

@@ -75,8 +75,8 @@ public class Page implements Serializable {
     }
 
     /**
-     * Adds a list of words found into the class parameter
-     * @param words ArrayList of words
+     * Adds a list of words found into the class parameter.
+     * @param words List of words to add
      */
     public void InsertWordsFound(List<String> words) {
         this.wordsFound.addAll(words);

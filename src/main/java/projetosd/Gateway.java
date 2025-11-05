@@ -203,7 +203,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
     /**
      * Method to check all barrel hashes and compare to find mismatches
      * @param now Timestamp to get consistent hashes
-     * @return HashMap with ports as keys and a list of table names where mismatches were found as value
+     * @return List of table names where mismatches were found across barrels
      */
     private List<String> checkBarrelMismatches(Timestamp now){
         Set<String> mismatches = new HashSet<>();
@@ -514,6 +514,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
     /**
      * Get backlinks for a given page.
+    * @param clientId Client identifier
      * @param page Page to get backlinks for
      * @return list of backlink pages
      * @throws RemoteException RMI exception
