@@ -544,6 +544,8 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
             barrel.gateway.reportBarrelStatus(barrel.port, true);
             Log.info("[BARREL " + barrel.port + "] Registered with gateway on " + Config.GATEWAY_HOST + ":" + Config.GATEWAY_PORT);
 
+            barrel.reportIndexSize();
+
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
                     if (barrel.gateway == null) {
