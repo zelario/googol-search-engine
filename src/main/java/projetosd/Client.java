@@ -199,7 +199,7 @@ public class Client {
 
             try (Scanner scanner = new Scanner(System.in)) {
 
-                System.out.print("\n>  ");
+                System.out.print("\n=== SEARCH MODE ===\n\n>  ");
 
                 while (run) {
                     String query = scanner.nextLine().trim();
@@ -246,7 +246,8 @@ public class Client {
                                 while(true){
                                     List<Page> results = client.callGateway(() -> client.gateway.search(client.id, query, pageNumber, filter, domain));
                                     client.printResults(results);
-                                    System.out.print("\n                 Prev             Backlinks              Next\n\n> ");
+                                    System.out.print("\n                 Prev             Backlinks              Next\n");
+                                    System.out.print("                  Input anything else to end search results.\n\n> ");
                                     String command = scanner.nextLine().trim();
                                     if (command.equalsIgnoreCase("next")) {
                                         pageNumber++;
