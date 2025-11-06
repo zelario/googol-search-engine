@@ -48,10 +48,19 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
     /**
      * Pings the barrel to check if working.
+     * @param object Object to be used (can be null)
      * @throws java.rmi.RemoteException RMI exception
      */
     @Override
-    public void ping() throws java.rmi.RemoteException {
+    public void ping(Object object) throws java.rmi.RemoteException {
+        if(object != null){
+            try {
+                gateway = (GatewayInterface) object;
+                Log.info("[BARREL " + port + "] Reconnected to Gateway");
+            } catch (ClassCastException e) {
+                Log.error("[BARREL " + port + "] Ping received invalid object");
+            }
+        }
     }
 
     /**

@@ -93,7 +93,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         }
 
         try{
-            queue.ping();
+            queue.ping(this);
             Log.info("[GATEWAY] Gateway queue is alive");
         } catch (RemoteException | NullPointerException e) {
             queue = null;
@@ -102,7 +102,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
         for(Integer barrelPort : barrels.keySet()){
             try{
-                barrels.get(barrelPort).ping();
+                barrels.get(barrelPort).ping(this);
                 Log.info("[GATEWAY] Gateway barrel " + barrelPort + " is alive");
             } catch (RemoteException | NullPointerException e){
                 barrels.remove(barrelPort);
@@ -141,7 +141,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
 
             while (attempts < Config.GATEWAY_RETRIES) {
                 try {
-                    barrel.ping();
+                    barrel.ping(null);
                     available = true;
                     break;
                 } catch (RemoteException e) {
@@ -193,7 +193,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         for(Integer barrelPort : Config.BARREL_PORTS) {
             try{
                 BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrelPort), barrelPort).lookup("barrel");
-                barrel.ping();
+                barrel.ping(null);
 
                 barrelHashes.put(barrelPort, barrel.getMD5Hash("", now));
             }
@@ -271,7 +271,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 for(int i = 0; i < Config.GATEWAY_RETRIES; i++){
                     try{
                         BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrelPort), barrelPort).lookup("barrel");
-                        barrel.ping();
+                        barrel.ping(null);
                         Map<String, Map<String, String>> barrelRows = new HashMap<>();
 
                         for (String table : mismatches) {
@@ -320,7 +320,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 for(int i = 0; i < Config.GATEWAY_RETRIES; i++){
                     try {
                         BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrelPort), barrelPort).lookup("barrel");
-                        barrel.ping();
+                        barrel.ping(this);
 
                         for (String table : tableInsertOrder) {
                             if(!barrelData.containsKey(table)) continue;

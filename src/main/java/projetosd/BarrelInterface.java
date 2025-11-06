@@ -24,9 +24,10 @@ public interface BarrelInterface extends Remote {
 
     /**
      * Pings the barrel to check if working.
+     * @param object Object to be used (can be null)
      * @throws java.rmi.RemoteException if a remote error occurs
      */
-    void ping() throws java.rmi.RemoteException;
+    void ping(Object object) throws java.rmi.RemoteException;
 
     /**
      * Adds all necessary info into a barrel

@@ -93,8 +93,21 @@ public class UrlQueue extends UnicastRemoteObject implements UrlQueueInterface {
         }
     }
 
+    /**
+     * Ping queue to check connectivity
+     * @param object Object to be used (can be null)
+     * @throws java.rmi.RemoteException RMI Exception
+     */
     @Override
-    public void ping() throws java.rmi.RemoteException{
+    public void ping(Object object) throws java.rmi.RemoteException {
+        if(object != null){
+            try {
+                gateway = (GatewayInterface) object;
+                Log.info("[URLQueue] Reconnected to Gateway");
+            } catch (ClassCastException e) {
+                Log.error("[URLQueue] Ping received invalid object");
+            }
+        }
     }
 
     //---------------------------------- END OF URL QUEUE MANAGEMENT METHODS -----------------------------------------//

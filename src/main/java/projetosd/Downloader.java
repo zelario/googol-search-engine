@@ -111,7 +111,7 @@ public class Downloader extends Thread {
                 // Attempt connection to queue, if it fails attempts again
                 while(true){
                     try{
-                        queue.ping();
+                        queue.ping(null);
                         counter = 0;
                         waitTime = Config.DOWNLOADER_QUEUE_WAIT;
                         break;
@@ -263,7 +263,7 @@ public class Downloader extends Thread {
                 // To recall that success is in the 'for' condition
                 for (int attempt = 0; attempt < Config.DOWNLOADER_RETRIES && !success; attempt++) {
                     try {
-                        barrel.ping();
+                        barrel.ping(null);
 
                         String response = barrel.addEntry(url, words, title, citation, relatedUrls);
                         if (response.equals("ACK")) {

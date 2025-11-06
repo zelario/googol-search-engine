@@ -1,44 +1,17 @@
-[2025-11-06 20:08:25] [INFO] [GATEWAY] Gateway ready on localhost:1098
-[2025-11-06 20:08:25] [INFO] [GATEWAY] No previous Gateway state found
-[2025-11-06 20:08:25] [INFO] [GATEWAY] Starting period barrel sync
-[2025-11-06 20:08:25] [INFO] [GATEWAY] No active barrels, no synchronization needed
-[2025-11-06 20:08:25] [INFO] [CLIENT 30] Connected to gateway on port 1098 on attempt 1
-[2025-11-06 20:08:25] [INFO] [URLQueue] No data file found, starting empty queue
-[2025-11-06 20:08:25] [INFO] [URLQueue] RMI server ready
-[2025-11-06 20:08:25] [INFO] [GATEWAY] URL Queue registered
-[2025-11-06 20:08:25] [INFO] [URLQueue] Connected to Gateway on port 1098
-[2025-11-06 20:08:25] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-11-06 20:08:25] [INFO] [DOWNLOADER 5] Starting downloader thread.
-[2025-11-06 20:08:25] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-11-06 20:08:25] [INFO] [DOWNLOADER 4] Starting downloader thread.
-[2025-11-06 20:08:25] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-11-06 20:08:26] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
-[2025-11-06 20:08:26] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
-[2025-11-06 20:08:26] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
-[2025-11-06 20:08:26] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
-[2025-11-06 20:08:26] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
-[2025-11-06 20:08:26] [INFO] [BARREL 1100] Running on localhost:1100
-[2025-11-06 20:08:26] [INFO] [BARREL 1100] Requesting sync to gateway
-[2025-11-06 20:08:26] [INFO] [GATEWAY] Barrel 1100 requested synchronization
-[2025-11-06 20:08:32] [INFO] [GATEWAY] No active barrels, no synchronization needed
-[2025-11-06 20:08:32] [INFO] [BARREL 1100] Sync successful
-[2025-11-06 20:08:32] [INFO] [GATEWAY] Barrel 1100 registered
-[2025-11-06 20:08:32] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
-[2025-11-06 20:08:32] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
-[2025-11-06 20:08:34] [INFO] [GATEWAY] Client added URL to queue: https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:P%C3%A1gina_principal
-[2025-11-06 20:08:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-06 20:08:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-06 20:08:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-06 20:08:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-06 20:08:37] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
-[2025-11-06 20:08:38] [WARNING] [BARREL 1100] Deadlock detected on insertion
-[2025-11-06 20:08:40] [WARNING] [BARREL 1100] Deadlock detected on insertion
-[2025-11-06 20:08:41] [WARNING] [BARREL 1100] Deadlock detected on insertion
-[2025-11-06 20:08:55] [WARNING] [BARREL 1100] Deadlock detected on insertion
-[2025-11-06 20:09:03] [WARNING] [BARREL 1100] Deadlock detected on insertion
-[2025-11-06 20:09:04] [WARNING] [BARREL 1100] Deadlock detected on insertion
-[2025-11-06 20:13:25] [INFO] [GATEWAY] Starting period barrel sync
-[2025-11-06 20:13:39] [INFO] [GATEWAY] Only one barrel active, no synchronization needed
-[2025-11-06 20:15:41] [INFO] [GATEWAY] Barrel 1100 unregistered
-[2025-11-06 20:15:41] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
-[2025-11-06 20:15:41] [INFO] [BARREL 1100] Shutdown notification sent to gateway. Exiting.
+[2025-11-06 21:16:20] [INFO] [GATEWAY] Gateway ready on localhost:1098
+[2025-11-06 21:16:20] [INFO] [GATEWAY] Gateway revived. Checking connections
+[2025-11-06 21:16:20] [INFO] [URLQueue] Reconnected to Gateway
+[2025-11-06 21:16:20] [INFO] [GATEWAY] Gateway queue is alive
+[2025-11-06 21:16:20] [INFO] [BARREL 1100] Reconnected to Gateway
+[2025-11-06 21:16:20] [INFO] [GATEWAY] Gateway barrel 1100 is alive
+[2025-11-06 21:16:20] [INFO] [GATEWAY] Starting period barrel sync
+[2025-11-06 21:16:20] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 25.39.245.93; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-06 21:16:20] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 25.39.245.93; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-06 21:16:21] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 25.39.245.93; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-06 21:16:21] [ERROR] [BARREL 1100] Failed to report index stats to gateway: Connection refused to host: 25.39.245.93; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-06 21:16:37] [INFO] [GATEWAY] Only one barrel active, no synchronization needed
+[2025-11-06 21:16:38] [INFO] [BARREL 1100] Stop words checked

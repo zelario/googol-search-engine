@@ -25,9 +25,10 @@ public interface UrlQueueInterface extends Remote {
 
     /**
      * Ping queue to check connectivity
+     * @param object Object to be used (can be null)
      * @throws java.rmi.RemoteException RMI Exception
      */
-    void ping() throws java.rmi.RemoteException;
+    void ping(Object object) throws java.rmi.RemoteException;
 
     /**
      * Changes barrel status to keep track of active barrels
