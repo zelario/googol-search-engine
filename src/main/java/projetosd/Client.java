@@ -194,14 +194,13 @@ public class Client {
         System.out.print("===== Welcome to Googol! You are client " + client.id + "! =====\n\n");
         System.out.print("SEARCH: To search for a url\nFILTER: Filter results\nINDEX: To add new url\nSTATS: To see statistics\nEXIT: To exit the app\n");
 
-            boolean run = true;
             String mode = "SEARCH";
 
             try (Scanner scanner = new Scanner(System.in)) {
 
                 System.out.print("\n=== SEARCH MODE ===\n\n>  ");
 
-                while (run) {
+                while (true) {
                     String query = scanner.nextLine().trim();
 
                     if (!mode.equals("SEARCH") && (query.equals("SEARCH") || query.equals("search"))) {
@@ -234,8 +233,8 @@ public class Client {
                         System.out.print("\n- Filter applied\n\n> ");
                         continue;
                     } else if (query.equals("EXIT") || query.equals("exit")) {
-                        run = false;
                         System.out.println("=== Exiting. Goodbye! ===");
+                        System.exit(0);
                     }
 
                     switch (mode) {

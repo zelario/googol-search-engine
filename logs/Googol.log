@@ -1,39 +1,44 @@
-[2025-11-06 12:18:30] [INFO] [GATEWAY] Gateway ready on localhost:1098
-[2025-11-06 12:18:30] [INFO] [GATEWAY] Gateway revived. Checking connections
-[2025-11-06 12:18:30] [INFO] [GATEWAY] Gateway queue is not reachable
-[2025-11-06 12:18:30] [INFO] [GATEWAY] Starting period barrel sync
-[2025-11-06 12:18:30] [INFO] [GATEWAY] No active barrels, no synchronization needed
-[2025-11-06 12:18:34] [INFO] [BARREL 1100] Running on localhost:1100
-[2025-11-06 12:18:34] [INFO] [BARREL 1100] Requesting sync to gateway
-[2025-11-06 12:18:34] [INFO] [GATEWAY] Barrel 1100 requested synchronization
-[2025-11-06 12:18:35] [INFO] [GATEWAY] No active barrels, no synchronization needed
-[2025-11-06 12:18:35] [INFO] [BARREL 1100] Sync successful
-[2025-11-06 12:18:35] [INFO] [GATEWAY] Barrel 1100 registered
-[2025-11-06 12:18:52] [INFO] [PORTS] Port already in use: 1100
-[2025-11-06 12:18:52] [INFO] [BARREL 1101] Running on localhost:1101
-[2025-11-06 12:18:53] [INFO] [BARREL 1101] Requesting sync to gateway
-[2025-11-06 12:18:53] [INFO] [GATEWAY] Barrel 1101 requested synchronization
-[2025-11-06 12:18:54] [WARNING] [GATEWAY] Barrel mismatch found
-[2025-11-06 12:19:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:01] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:11] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:11] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:12] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:12] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:31] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:31] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:32] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:32] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:38] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:38] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:39] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:39] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:45] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:45] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:45] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:45] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:51] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:51] [INFO] [BARREL] Inserted missing data from sync
-[2025-11-06 12:19:51] [INFO] [GATEWAY] Barrel synchronization completed
-[2025-11-06 12:19:51] [INFO] [BARREL 1101] Sync successful
-[2025-11-06 12:19:51] [INFO] [GATEWAY] Barrel 1101 registered
+[2025-11-06 20:08:25] [INFO] [GATEWAY] Gateway ready on localhost:1098
+[2025-11-06 20:08:25] [INFO] [GATEWAY] No previous Gateway state found
+[2025-11-06 20:08:25] [INFO] [GATEWAY] Starting period barrel sync
+[2025-11-06 20:08:25] [INFO] [GATEWAY] No active barrels, no synchronization needed
+[2025-11-06 20:08:25] [INFO] [CLIENT 30] Connected to gateway on port 1098 on attempt 1
+[2025-11-06 20:08:25] [INFO] [URLQueue] No data file found, starting empty queue
+[2025-11-06 20:08:25] [INFO] [URLQueue] RMI server ready
+[2025-11-06 20:08:25] [INFO] [GATEWAY] URL Queue registered
+[2025-11-06 20:08:25] [INFO] [URLQueue] Connected to Gateway on port 1098
+[2025-11-06 20:08:25] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-11-06 20:08:25] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2025-11-06 20:08:25] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-11-06 20:08:25] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2025-11-06 20:08:25] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-11-06 20:08:26] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
+[2025-11-06 20:08:26] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
+[2025-11-06 20:08:26] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
+[2025-11-06 20:08:26] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
+[2025-11-06 20:08:26] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
+[2025-11-06 20:08:26] [INFO] [BARREL 1100] Running on localhost:1100
+[2025-11-06 20:08:26] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-11-06 20:08:26] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-11-06 20:08:32] [INFO] [GATEWAY] No active barrels, no synchronization needed
+[2025-11-06 20:08:32] [INFO] [BARREL 1100] Sync successful
+[2025-11-06 20:08:32] [INFO] [GATEWAY] Barrel 1100 registered
+[2025-11-06 20:08:32] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
+[2025-11-06 20:08:32] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
+[2025-11-06 20:08:34] [INFO] [GATEWAY] Client added URL to queue: https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:P%C3%A1gina_principal
+[2025-11-06 20:08:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-06 20:08:35] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-06 20:08:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-06 20:08:36] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-06 20:08:37] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-06 20:08:38] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-06 20:08:40] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-06 20:08:41] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-06 20:08:55] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-06 20:09:03] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-06 20:09:04] [WARNING] [BARREL 1100] Deadlock detected on insertion
+[2025-11-06 20:13:25] [INFO] [GATEWAY] Starting period barrel sync
+[2025-11-06 20:13:39] [INFO] [GATEWAY] Only one barrel active, no synchronization needed
+[2025-11-06 20:15:41] [INFO] [GATEWAY] Barrel 1100 unregistered
+[2025-11-06 20:15:41] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
+[2025-11-06 20:15:41] [INFO] [BARREL 1100] Shutdown notification sent to gateway. Exiting.

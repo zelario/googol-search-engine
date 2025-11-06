@@ -211,11 +211,11 @@ public class Downloader extends Thread {
                             e instanceof HttpStatusException && ((HttpStatusException) e).getStatusCode() == 404
                     ) continue;
 
-                    Log.warning("[DOWNLOADER " + threadNumber + "] Error downloading/parsing " + url + ", retrying later");
+                    Log.url("[DOWNLOADER " + threadNumber + "] Error downloading/parsing " + url + ", retrying later");
 
                     try {queue.addUrl(url, false);}
                     catch (RemoteException e2){
-                        Log.warning("[DOWNLOADER " + threadNumber + "] Error re-inserting url: " +  e2.getMessage());
+                        Log.url("[DOWNLOADER " + threadNumber + "] Error re-inserting url: " +  e2.getMessage());
                     }
                 }
             }

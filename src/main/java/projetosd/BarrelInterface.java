@@ -49,13 +49,6 @@ public interface BarrelInterface extends Remote {
     List<Page> getBacklinks(Page page) throws java.rmi.RemoteException;
 
     /**
-     * Populates the given Page with all words found in it.
-     * @param page Given Page instance to enrich with words
-     * @throws java.rmi.RemoteException RMI Exception
-     */
-    void getWordsInPage(Page page) throws java.rmi.RemoteException;
-
-    /**
      * RMI Method to calculate MD5 hash. If a table name is passed it computes the table hash per row, if not it computes for each table
      * @param tableName Name of the table to get hash
      * @param now Current time for sync

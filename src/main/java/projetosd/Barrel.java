@@ -82,13 +82,13 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         String preInsertPageUrlsQuery = "INSERT INTO url(url) VALUES (?) ON CONFLICT (url) DO NOTHING";
         String insertPageUrlsQuery = "INSERT INTO url_url(url_url, url_url1) VALUES (?, ?) ON CONFLICT DO NOTHING";
         String insertWordsQuery = "INSERT INTO words(word) " +
-                "SELECT ? " +
-                "WHERE NOT EXISTS (SELECT 1 FROM stop_words WHERE word = ?) " +
-                "ON CONFLICT (word) DO NOTHING";
+            "SELECT v.word FROM (VALUES (?)) AS v(word) " +
+            "WHERE NOT EXISTS (SELECT 1 FROM stop_words s WHERE s.word = v.word) " +
+            "ON CONFLICT (word) DO NOTHING";
         String insertWordsUrlQuery = "INSERT INTO words_url(words_word, url_url) " +
-                "SELECT ?, ? " +
-                "WHERE NOT EXISTS (SELECT 1 FROM stop_words WHERE word = ?) " +
-                "ON CONFLICT DO NOTHING";
+            "SELECT v.word, v.url FROM (VALUES (?, ?)) AS v(word, url) " +
+            "WHERE NOT EXISTS (SELECT 1 FROM stop_words s WHERE s.word = v.word) " +
+            "ON CONFLICT DO NOTHING";
 
         // deadlocks...
         int attempt = 0;
@@ -315,33 +315,27 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     }
 
     /**
-     * Populates the given Page with all words found in it.
-     * @param page Given Page
+     * Checks and updates stop words in the barrel database.
      */
     @Override
-    public void getWordsInPage(Page page) throws java.rmi.RemoteException{
-        Database db = new Database(this.port);
-        List<String> words = new ArrayList<>();
+    public void checkStopWords() throws RemoteException{
+        Database db = new Database(port);
 
-        try (java.sql.Connection conn = db.getConnection()){
-            String query = "SELECT wu.words_word " +
-                    "FROM words_url wu " +
-                    "WHERE wu.url_url = ?; ";
+        try (java.sql.Connection conn = db.getConnection()) {
 
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, page.getUrl());
+            float percentile=0.9999f;
 
-            try(ResultSet rs = stmt.executeQuery()){
-                while (rs.next()) {
-                    words.add(rs.getString("words_word"));
-                }
+            try (CallableStatement cs = conn.prepareCall("CALL check_stop_words(?)")) {
+                cs.setFloat(1, percentile);
+                cs.execute();
+                Log.info("[BARREL " + port + "] Stop words checked");
+            } catch (SQLException e) {
+                Log.error("[BARREL " + port + "] Error calling procedure: " + e.getMessage());
             }
-        }
-        catch (Exception e){
-            Log.error("[BARREL] Error fetching pages: " + e.getMessage());
-        }
 
-        page.InsertWordsFound(words);
+        } catch (SQLException e) {
+            Log.error("[BARREL " + port + "] Error connecting to DB: " + e.getMessage());
+        }
     }
 
     @Override
@@ -524,48 +518,6 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         }
         catch (SQLException e){
             Log.error("[BARREL] Error fetching index size: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Checks and updates stop words in the barrel database.
-     */
-    @Override
-    public void checkStopWords() throws RemoteException{
-        Database db = new Database(port);
-
-        try (java.sql.Connection conn = db.getConnection()) {
-
-            String query = "SELECT COUNT(*) AS page_count FROM url;";
-            int pageCount = 0;
-
-            try (PreparedStatement stmt = conn.prepareStatement(query);
-                ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    pageCount = rs.getInt("page_count");
-                }
-            } catch (SQLException e) {
-                Log.error("[BARREL " + port + "] Error fetching page count: " + e.getMessage());
-                return;
-            }
-
-            float threshold;
-            if (pageCount < 1000) threshold = 0.5f;
-            else if (pageCount < 10000) threshold = 0.8f;
-            else if (pageCount < 100000) threshold = 1.0f;
-            else if (pageCount < 1000000) threshold = 1.2f;
-            else threshold = 1.5f;
-
-            try (CallableStatement cs = conn.prepareCall("CALL check_stop_words(?)")) {
-                cs.setFloat(1, threshold);
-                cs.execute();
-                Log.info("[BARREL " + port + "] Stop words checked");
-            } catch (SQLException e) {
-                Log.error("[BARREL " + port + "] Error calling procedure: " + e.getMessage());
-            }
-
-        } catch (SQLException e) {
-            Log.error("[BARREL " + port + "] Error connecting to DB: " + e.getMessage());
         }
     }
 
