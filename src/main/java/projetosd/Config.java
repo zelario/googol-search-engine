@@ -116,6 +116,8 @@ public class Config {
      */
     public static HashMap<Integer, String> BARREL_HOSTS_TRANSLATION_TABLE;
 
+    public static float STOPWORDS_PERCENTILE;
+
     static {
         loadConfiguration();
     }
@@ -142,6 +144,7 @@ public class Config {
         DOWNLOADER_RETRIES = 3;
         DOWNLOADER_CONNECTION_TIMEOUT = 10000;
         DOWNLOADER_QUEUE_WAIT = 5000;
+        STOPWORDS_PERCENTILE = 0.9999f;
         DEBUG = true;
 
         BARREL_HOSTS_TRANSLATION_TABLE = new HashMap<>();
@@ -176,6 +179,7 @@ public class Config {
         int defaultDownloaderBackoff = 300;
         int defaultDownloaderConnectionTimeout = 10000;
         int defaultDownloaderQueueWait = 5000;
+        float defaultStopwordsPercentile = 0.9999f;
         boolean defaultDebug = true;
 
         if (!Files.exists(path)) {
@@ -218,6 +222,8 @@ public class Config {
             DOWNLOADER_BACKOFF = Integer.parseInt(properties.getProperty("downloader.backoff", String.valueOf(defaultDownloaderBackoff)));
             DOWNLOADER_CONNECTION_TIMEOUT = Integer.parseInt(properties.getProperty("downloader.connection.timeout", String.valueOf(defaultDownloaderConnectionTimeout)));
             DOWNLOADER_QUEUE_WAIT = Integer.parseInt(properties.getProperty("downloader.queue.wait", String.valueOf(defaultDownloaderQueueWait)));
+
+            STOPWORDS_PERCENTILE = Float.parseFloat(properties.getProperty("stopwords.percentile", String.valueOf(defaultStopwordsPercentile)));
 
             DEBUG = Boolean.parseBoolean(properties.getProperty("debug.enabled", String.valueOf(defaultDebug)));
 

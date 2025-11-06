@@ -323,10 +323,8 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
         try (java.sql.Connection conn = db.getConnection()) {
 
-            float percentile=0.9999f;
-
             try (CallableStatement cs = conn.prepareCall("CALL check_stop_words(?)")) {
-                cs.setFloat(1, percentile);
+                cs.setFloat(1, Config.STOPWORDS_PERCENTILE);
                 cs.execute();
                 Log.info("[BARREL " + port + "] Stop words checked");
             } catch (SQLException e) {
