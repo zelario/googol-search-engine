@@ -251,10 +251,8 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
         if(mismatches.isEmpty()) {
             if (barrels.size() > 1) {
                 Log.info("[GATEWAY] All barrels are consistent");
-            } else if (barrels.size() == 1) {
-                Log.info("[GATEWAY] Only one barrel active, no synchronization needed");
-            } else {
-                Log.info("[GATEWAY] No active barrels, no synchronization needed");
+            } else if (barrels.isEmpty()) {
+                Log.info("[GATEWAY] No barrel synchronization needed");
             }
             return true;
         }
@@ -320,7 +318,7 @@ public class Gateway extends UnicastRemoteObject implements GatewayInterface {
                 for(int i = 0; i < Config.GATEWAY_RETRIES; i++){
                     try {
                         BarrelInterface barrel = (BarrelInterface) LocateRegistry.getRegistry(Config.BARREL_HOSTS_TRANSLATION_TABLE.get(barrelPort), barrelPort).lookup("barrel");
-                        barrel.ping(this);
+                        barrel.ping(null);
 
                         for (String table : tableInsertOrder) {
                             if(!barrelData.containsKey(table)) continue;

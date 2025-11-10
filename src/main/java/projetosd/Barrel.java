@@ -103,7 +103,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         int attempt = 0;
         while(attempt < Config.BARREL_RETRIES){
             // There is also a Connection object of jsoup so it is better to explicitly declare it as sql connection object
-            try (Connection conn = db.getConnection()){
+            try (Connection conn = db.getConnection(null)){
                 // Begin transaction (if it fails jdbc rollbacks automatically)
                 conn.setAutoCommit(false);
                 // Set transactions to READ_COMMITED (default apparently but here anyway to make sure, some drivers can overlap)
@@ -221,7 +221,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         Database db = new Database(this.port);
         List<Page> pages = new ArrayList<>();
 
-        try (java.sql.Connection conn = db.getConnection()) {
+        try (java.sql.Connection conn = db.getConnection(null)) {
             String placeholders = String.join(",", Collections.nCopies(terms.length, "?"));
 
             StringBuilder filterQuery = new StringBuilder();
@@ -301,7 +301,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         Database db = new Database(this.port);
         List<Page> pages = new ArrayList<>();
 
-        try (java.sql.Connection conn = db.getConnection()){
+        try (java.sql.Connection conn = db.getConnection(null)){
             String query = "SELECT u.url " +
                     "FROM url u " +
                     "JOIN url_url uu ON uu.url_url = u.url " +
@@ -330,7 +330,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
     public void checkStopWords() throws RemoteException{
         Database db = new Database(port);
 
-        try (java.sql.Connection conn = db.getConnection()) {
+        try (java.sql.Connection conn = db.getConnection(null)) {
 
             try (CallableStatement cs = conn.prepareCall("CALL check_stop_words(?)")) {
                 cs.setFloat(1, Config.STOPWORDS_PERCENTILE);
@@ -390,7 +390,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         Map<String, String> hashes = new HashMap<>();
         String[] tables = {"stop_words", "words", "url", "words_url", "url_url"};
 
-        try(java.sql.Connection conn = db.getConnection()){
+        try(java.sql.Connection conn = db.getConnection(null)){
             for(String table : tables){
                 String[] tableStuff = this.getColumnsAndOrder(table);
                 String columns = tableStuff[0];
@@ -439,7 +439,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
 
         String extraColumn = tableName.equals("url") ? "updated_at" : "created_at";
 
-        try(java.sql.Connection conn = db.getConnection()){
+        try(java.sql.Connection conn = db.getConnection(null)){
             String query = String.format("SELECT md5(row(%s)::text) AS row_hash, CONCAT_WS(E'\\001', %s) AS combined_columns FROM %s WHERE %s < ? ORDER BY %s", columns, columns, tableName, extraColumn, orderColumns);
 
             try(PreparedStatement stmt = conn.prepareStatement(query)){
@@ -473,7 +473,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
                 "title = CASE WHEN url.title = 'Page' THEN EXCLUDED.title ELSE url.title END, " +
                 "citation = CASE WHEN url.title = 'Page' THEN EXCLUDED.citation ELSE url.citation END"
                 : "DO NOTHING";
-        try(java.sql.Connection conn = db.getConnection()){
+        try(java.sql.Connection conn = db.getConnection(null)){
             conn.setAutoCommit(false);
 
             int numColumns = columns.split(",", -1).length;
@@ -498,7 +498,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         }
         catch (SQLException ignored){}
 
-        Log.info("[BARREL] Inserted missing data from sync");
+        Log.info("[BARREL " + port + "] Inserted missing data from sync");
     }
 
     /**
@@ -508,7 +508,7 @@ public class Barrel extends UnicastRemoteObject implements BarrelInterface {
         Database db = new Database(this.port);
         String query = "SELECT COUNT(*) AS index_size FROM words_url;";
 
-        try (java.sql.Connection conn = db.getConnection()){
+        try (java.sql.Connection conn = db.getConnection(null)){
             PreparedStatement stmt = conn.prepareStatement(query);
 
             try (ResultSet rs = stmt.executeQuery()){

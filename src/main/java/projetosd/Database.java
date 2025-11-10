@@ -1,8 +1,12 @@
 package projetosd;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -42,60 +46,104 @@ public class Database {
 
     /**
      * Database Class Constructor
-     * @param identifier DB id
+     * @param barrelPort DB barrel port
      */
-    public Database(int identifier) {
+    @SuppressWarnings("OverridableMethodCallInConstructor")
+    public Database(int barrelPort) {
         if (dotenv == null) dotenv = Dotenv.configure().directory("config/.env").load();
 
-        String placeholder = "DB" + identifier + "_";
+        this.hostname = dotenv.get("DB_HOSTNAME");
+        this.port = dotenv.get("DB_PORT");
+        this.dbName = "Barrel" + barrelPort;
+        this.username = dotenv.get("DB_USERNAME");
+        this.password = dotenv.get("DB_PASSWORD");
 
-        this.hostname = dotenv.get(placeholder + "HOSTNAME");
-        this.port = dotenv.get(placeholder + "PORT");
-        this.dbName = dotenv.get(placeholder + "NAME");
-        this.username = dotenv.get(placeholder + "USERNAME");
-        this.password = dotenv.get(placeholder + "PASSWORD");
+        try {
+            ensureDatabaseExists(barrelPort);
+        } catch (SQLException e) {
+            Log.error("[DATABASE] Error ensuring database exists: " + e.getMessage());
+        }
     }
 
     /**
      * Gets connection for database instance
      *
+     * @param dbName Database name (if null, uses instance dbName)
      * @return DB Connection Object
      */
-    public Connection getConnection() {
+    public Connection getConnection(String dbName) {
         Connection connection;
 
         try {
-            String url = "jdbc:postgresql://" + this.hostname + ":" + this.port + "/" + this.dbName;
+            if (dbName == null) {
+                dbName = this.dbName;
+            }
+            String url = "jdbc:postgresql://" + this.hostname + ":" + this.port + "/" + dbName;
 
             connection = DriverManager.getConnection(url, this.username, this.password);
 
             return connection;
         } catch (SQLException e) {
-            Log.error("[DATABASE] " + e.getMessage());
             return null;
         }
     }
 
     /**
-     * Method to count the number of databases in the system
-     *
-     * @return Database count
+     * Ensures the target database exists for this barrel. If it does not exist,
+     * attempts to create it by connecting to the default 'postgres' database.
+     * 
+     * @param barrelPort The port number of the barrel database.
      */
-    public static int databaseCount() {
-        if (dotenv == null) Dotenv.configure().directory("config/.env").load();
+    public void ensureDatabaseExists(int barrelPort) throws SQLException {
 
-        String count = dotenv.get("DB_COUNT");
-
-        if (count == null) {
-            Log.warning("[DATABASE] Database count not set");
-            return 0;
+        try (Connection ignored = getConnection(this.dbName)) {
+            if (ignored != null) {
+                return;
+            }
+        } catch (SQLException e) {
+            Log.warning("[BARREL " + barrelPort + "] Unable to connect to barrel database. Attempting to create it.");
         }
 
-        try {
-            return Integer.parseInt(count);
-        } catch (NumberFormatException e) {
-            Log.error("[DATABASE] Error converting database count to integer");
-            return 0;
+        try (Connection adminConn = getConnection("postgres")) {
+
+            final String createSql = "CREATE DATABASE \"" + this.dbName + "\" WITH ENCODING 'UTF8' TEMPLATE template1";
+            try (Statement st = adminConn.createStatement()) {
+                st.executeUpdate(createSql);
+                Log.info("[BARREL " + barrelPort + "] Database '" + this.dbName + "' created successfully.");
+            }
+
+            try (Connection barrelConn = getConnection(this.dbName)) {
+
+                String sql = new String(Files.readAllBytes(Paths.get("scripts/create_tables.sql")));
+                String[] statements = sql.split(";");
+                try (Statement stmt = barrelConn.createStatement()) {
+                    for (String s : statements) {
+                        s = s.trim();
+                        if (!s.isEmpty()) {
+                            stmt.executeUpdate(s);
+                        }
+                    }
+                }
+
+                sql = new String(Files.readAllBytes(Paths.get("scripts/stop_words.sql")));
+                statements = sql.split(";");
+                try (Statement stmt = barrelConn.createStatement()) {
+                    for (String s : statements) {
+                        s = s.trim();
+                        if (!s.isEmpty()) {
+                            stmt.executeUpdate(s);
+                        }
+                    }
+                }
+
+                Log.info("[BARREL " + barrelPort + "] Tables created successfully in barrel database.");
+
+            } catch (SQLException e) {
+                Log.error("[BARREL " + barrelPort + "] Failed to connect or execute SQL on '" + this.dbName + "': " + e.getMessage());
+            }
+
+        } catch (SQLException | IOException e) {
+            Log.error("[BARREL " + barrelPort + "] ensureDatabaseExists error: " + e.getMessage());
         }
     }
 }
