@@ -114,32 +114,27 @@ public class Database {
 
             try (Connection barrelConn = getConnection(this.dbName)) {
 
-                String sql = new String(Files.readAllBytes(Paths.get("scripts/create_tables.sql")));
-                String[] statements = sql.split(";");
+                String sql = Files.readString(Paths.get("scripts/create_tables.sql"));
                 try (Statement stmt = barrelConn.createStatement()) {
-                    for (String s : statements) {
-                        s = s.trim();
-                        if (!s.isEmpty()) {
-                            stmt.executeUpdate(s);
-                        }
-                    }
+                    stmt.execute(sql);
+                    Log.info("[BARREL " + barrelPort + "] Tables created successfully in barrel database.");
+                } catch (SQLException e) {
+                    Log.error("[BARREL " + barrelPort + "] Failed to execute create_tables.sql on barrel database");
                 }
 
-                sql = new String(Files.readAllBytes(Paths.get("scripts/stop_words.sql")));
-                statements = sql.split(";");
+
+                sql = Files.readString(Paths.get("scripts/stop_words.sql"));
                 try (Statement stmt = barrelConn.createStatement()) {
-                    for (String s : statements) {
-                        s = s.trim();
-                        if (!s.isEmpty()) {
-                            stmt.executeUpdate(s);
-                        }
-                    }
+                    stmt.execute(sql);
+                    Log.info("[BARREL " + barrelPort + "] Stop words procedure created successfully in barrel database.");
+                } catch (SQLException e) {
+                    Log.error("[BARREL " + barrelPort + "] Failed to execute stop_words.sql on barrel database");
                 }
 
                 Log.info("[BARREL " + barrelPort + "] Tables created successfully in barrel database.");
 
             } catch (SQLException e) {
-                Log.error("[BARREL " + barrelPort + "] Failed to connect or execute SQL on '" + this.dbName + "': " + e.getMessage());
+                Log.error("[BARREL " + barrelPort + "] Failed to connect to newly created barrel database");
             }
 
         } catch (SQLException | IOException e) {
