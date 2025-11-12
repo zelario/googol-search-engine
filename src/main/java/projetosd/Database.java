@@ -100,9 +100,9 @@ public class Database {
             if (ignored != null) {
                 return;
             }
-        } catch (SQLException e) {
-            Log.warning("[BARREL " + barrelPort + "] Unable to connect to barrel database. Attempting to create it.");
-        }
+        } catch (SQLException e) {}
+
+        Log.warning("[BARREL " + barrelPort + "] Unable to connect to barrel database. Attempting to create it.");
 
         try (Connection adminConn = getConnection("postgres")) {
 

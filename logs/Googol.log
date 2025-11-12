@@ -1,33 +1,105 @@
-[2025-11-10 20:58:55] [INFO] [GATEWAY] Gateway ready on localhost:1098
-[2025-11-10 20:58:55] [INFO] [GATEWAY] No previous Gateway state found
-[2025-11-10 20:58:55] [INFO] [GATEWAY] Starting period barrel sync
-[2025-11-10 20:58:55] [INFO] [GATEWAY] No barrel synchronization needed
-[2025-11-10 20:58:56] [INFO] [URLQueue] No data file found, starting empty queue
-[2025-11-10 20:58:56] [INFO] [URLQueue] RMI server ready
-[2025-11-10 20:58:56] [INFO] [GATEWAY] URL Queue registered
-[2025-11-10 20:58:56] [INFO] [URLQueue] Connected to Gateway on port 1098
-[2025-11-10 20:58:56] [INFO] [DOWNLOADER 5] Starting downloader thread.
-[2025-11-10 20:58:56] [INFO] [DOWNLOADER 3] Starting downloader thread.
-[2025-11-10 20:58:56] [INFO] [DOWNLOADER 1] Starting downloader thread.
-[2025-11-10 20:58:56] [INFO] [DOWNLOADER 2] Starting downloader thread.
-[2025-11-10 20:58:56] [INFO] [DOWNLOADER 4] Starting downloader thread.
-[2025-11-10 20:58:56] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
-[2025-11-10 20:58:56] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
-[2025-11-10 20:58:56] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
-[2025-11-10 20:58:56] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
-[2025-11-10 20:58:56] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
-[2025-11-10 20:58:56] [INFO] [CLIENT 73] Connected to gateway on port 1098 on attempt 1
-[2025-11-10 20:58:57] [INFO] [BARREL 1100] Running on localhost:1100
-[2025-11-10 20:58:57] [INFO] [BARREL 1100] Requesting sync to gateway
-[2025-11-10 20:58:57] [INFO] [GATEWAY] Barrel 1100 requested synchronization
-[2025-11-10 20:58:58] [INFO] [BARREL 1100] Database 'Barrel1100' created successfully.
-[2025-11-10 20:58:58] [INFO] [BARREL 1100] Tables created successfully in barrel database.
-[2025-11-10 20:58:58] [INFO] [BARREL 1100] stop_words.sql executed successfully.
-[2025-11-10 20:58:58] [INFO] [BARREL 1100] Tables created successfully in barrel database.
-[2025-11-10 20:58:58] [INFO] [GATEWAY] No barrel synchronization needed
-[2025-11-10 20:58:58] [INFO] [BARREL 1100] Sync successful
-[2025-11-10 20:58:58] [INFO] [GATEWAY] Barrel 1100 registered
-[2025-11-10 20:58:58] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
-[2025-11-10 20:58:58] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
-[2025-11-10 21:03:55] [INFO] [GATEWAY] Starting period barrel sync
-[2025-11-10 21:03:55] [INFO] [BARREL 1100] Stop words checked
+[2025-11-12 22:04:13] [INFO] [GATEWAY] Gateway ready on localhost:1098
+[2025-11-12 22:04:13] [INFO] [GATEWAY] No previous Gateway state found
+[2025-11-12 22:04:13] [INFO] [GATEWAY] Starting period barrel sync
+[2025-11-12 22:04:13] [INFO] [GATEWAY] No barrel synchronization needed
+[2025-11-12 22:04:18] [INFO] [URLQueue] No data file found, starting empty queue
+[2025-11-12 22:04:18] [INFO] [URLQueue] RMI server ready
+[2025-11-12 22:04:18] [INFO] [GATEWAY] URL Queue registered
+[2025-11-12 22:04:18] [INFO] [URLQueue] Connected to Gateway on port 1098
+[2025-11-12 22:04:22] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2025-11-12 22:04:22] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2025-11-12 22:04:22] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2025-11-12 22:04:22] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2025-11-12 22:04:22] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2025-11-12 22:04:22] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
+[2025-11-12 22:04:22] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
+[2025-11-12 22:04:22] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
+[2025-11-12 22:04:22] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
+[2025-11-12 22:04:22] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
+[2025-11-12 22:04:26] [INFO] [BARREL 1100] Running on localhost:1100
+[2025-11-12 22:04:26] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-11-12 22:04:26] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-11-12 22:04:27] [INFO] [BARREL 1100] Connected to existing barrel database.
+[2025-11-12 22:04:27] [INFO] [GATEWAY] No barrel synchronization needed
+[2025-11-12 22:04:27] [INFO] [BARREL 1100] Sync successful
+[2025-11-12 22:04:27] [INFO] [GATEWAY] Barrel 1100 registered
+[2025-11-12 22:04:27] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
+[2025-11-12 22:04:27] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
+[2025-11-12 22:04:27] [INFO] [BARREL 1100] Connected to existing barrel database.
+[2025-11-12 22:05:03] [INFO] [BARREL 1100] Running on localhost:1100
+[2025-11-12 22:05:03] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-11-12 22:05:03] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-11-12 22:05:04] [INFO] [BARREL 1100] Connected to existing barrel database.
+[2025-11-12 22:05:04] [INFO] [BARREL 1100] Sync successful
+[2025-11-12 22:05:04] [INFO] [GATEWAY] Barrel 1100 registered
+[2025-11-12 22:05:04] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
+[2025-11-12 22:05:04] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
+[2025-11-12 22:05:04] [INFO] [BARREL 1100] Connected to existing barrel database.
+[2025-11-12 22:06:37] [INFO] [BARREL 1100] Running on localhost:1100
+[2025-11-12 22:06:37] [INFO] [BARREL 1100] Requesting sync to gateway
+[2025-11-12 22:06:37] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2025-11-12 22:06:37] [INFO] [BARREL 1100] Sync successful
+[2025-11-12 22:06:37] [INFO] [GATEWAY] Barrel 1100 registered
+[2025-11-12 22:06:37] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
+[2025-11-12 22:06:37] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
+[2025-11-12 22:06:43] [INFO] [CLIENT 83] Connected to gateway on port 1098 on attempt 1
+[2025-11-12 22:06:47] [INFO] [GATEWAY] Client 83 searching for query: ola
+[2025-11-12 22:06:47] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
+[2025-11-12 22:06:48] [INFO] [GATEWAY] Search completed on barrel 1100 for query ola in 117 ms
+[2025-11-12 22:07:01] [INFO] [PORTS] Port already in use: 1100
+[2025-11-12 22:07:01] [INFO] [BARREL 1101] Running on localhost:1101
+[2025-11-12 22:07:01] [INFO] [BARREL 1101] Requesting sync to gateway
+[2025-11-12 22:07:01] [INFO] [GATEWAY] Barrel 1101 requested synchronization
+[2025-11-12 22:07:01] [WARNING] [BARREL 1101] Unable to connect to barrel database. Attempting to create it.
+[2025-11-12 22:07:02] [INFO] [BARREL 1101] Database 'Barrel1101' created successfully.
+[2025-11-12 22:07:02] [INFO] [BARREL 1101] Tables created successfully in barrel database.
+[2025-11-12 22:07:02] [INFO] [BARREL 1101] Stop words procedure created successfully in barrel database.
+[2025-11-12 22:07:02] [INFO] [BARREL 1101] Tables created successfully in barrel database.
+[2025-11-12 22:07:02] [INFO] [BARREL 1101] Sync successful
+[2025-11-12 22:07:02] [INFO] [GATEWAY] Barrel 1101 registered
+[2025-11-12 22:07:02] [INFO] [GATEWAY] Updated barrel 1101 status to url queue
+[2025-11-12 22:07:02] [INFO] [BARREL 1101] Registered with gateway on localhost:1098
+[2025-11-12 22:07:12] [INFO] [PORTS] Port already in use: 1100
+[2025-11-12 22:07:12] [INFO] [PORTS] Port already in use: 1101
+[2025-11-12 22:07:12] [INFO] [BARREL 1102] Running on localhost:1102
+[2025-11-12 22:07:12] [INFO] [BARREL 1102] Requesting sync to gateway
+[2025-11-12 22:07:12] [INFO] [GATEWAY] Barrel 1102 requested synchronization
+[2025-11-12 22:07:13] [WARNING] [BARREL 1102] Unable to connect to barrel database. Attempting to create it.
+[2025-11-12 22:07:13] [INFO] [BARREL 1102] Database 'Barrel1102' created successfully.
+[2025-11-12 22:07:13] [INFO] [BARREL 1102] Tables created successfully in barrel database.
+[2025-11-12 22:07:13] [INFO] [BARREL 1102] Stop words procedure created successfully in barrel database.
+[2025-11-12 22:07:13] [INFO] [BARREL 1102] Tables created successfully in barrel database.
+[2025-11-12 22:07:13] [INFO] [GATEWAY] All barrels are consistent
+[2025-11-12 22:07:13] [INFO] [BARREL 1102] Sync successful
+[2025-11-12 22:07:13] [INFO] [GATEWAY] Barrel 1102 registered
+[2025-11-12 22:07:13] [INFO] [GATEWAY] Updated barrel 1102 status to url queue
+[2025-11-12 22:07:13] [INFO] [BARREL 1102] Registered with gateway on localhost:1098
+[2025-11-12 22:07:18] [INFO] [PORTS] Port already in use: 1100
+[2025-11-12 22:07:18] [INFO] [PORTS] Port already in use: 1101
+[2025-11-12 22:07:18] [INFO] [PORTS] Port already in use: 1102
+[2025-11-12 22:07:18] [ERROR] [BARREL] No available ports. All barrel ports are in use
+[2025-11-12 22:07:52] [INFO] [GATEWAY] Client added URL to queue: https://www.billboard.com/charts/hot-100/
+[2025-11-12 22:07:54] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-12 22:07:54] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-12 22:07:54] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-12 22:07:54] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-12 22:07:54] [WARNING] [DOWNLOADER] No active barrels to multicast entries.
+[2025-11-12 22:07:58] [WARNING] [BARREL 1102] Deadlock detected on insertion
+[2025-11-12 22:07:59] [WARNING] [BARREL 1102] Deadlock detected on insertion
+[2025-11-12 22:08:41] [INFO] [GATEWAY] Client 83 requested stats
+[2025-11-12 22:08:41] [INFO] [GATEWAY] Client 83 stats retrieved successfully
+[2025-11-12 22:08:50] [INFO] [GATEWAY] Client 83 requested stats
+[2025-11-12 22:08:50] [INFO] [GATEWAY] Client 83 stats retrieved successfully
+[2025-11-12 22:08:54] [INFO] [GATEWAY] Client 83 requested stats
+[2025-11-12 22:08:54] [INFO] [GATEWAY] Client 83 stats retrieved successfully
+[2025-11-12 22:09:13] [INFO] [GATEWAY] Starting period barrel sync
+[2025-11-12 22:09:26] [ERROR] [BARREL 1101] Failed to report index stats to gateway: Connection refused to host: 172.27.64.1; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-12 22:09:26] [ERROR] [BARREL 1102] Failed to report index stats to gateway: Connection refused to host: 172.27.64.1; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-12 22:09:27] [ERROR] [BARREL 1101] Failed to report index stats to gateway: Connection refused to host: 172.27.64.1; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-12 22:09:27] [ERROR] [BARREL 1102] Failed to report index stats to gateway: Connection refused to host: 172.27.64.1; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+[2025-11-12 22:09:27] [ERROR] [BARREL 1102] Failed to report index stats to gateway: Connection refused to host: 172.27.64.1; nested exception is: 
+	java.net.ConnectException: Connection refused: connect

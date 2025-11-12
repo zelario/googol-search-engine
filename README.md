@@ -46,23 +46,15 @@ src/main/java/projetosd/
 
 # Setup Instructions
 
-1. Create PostgreSQL databases for each barrel (defaultly named: `Barrel1100` and `Barrel1101`)
-2. Run the database initialization scripts: `create_database` and `stop_words_triggers`
-3. Navigate to the `config/` folder and alter `.env.example` to `.env`
-4. Edit `.env` with your database connection details:
-   DB1100_HOSTNAME=`your_barrel_1100_host`
-   DB1100_PORT=`5432`
-   DB1100_NAME=`Barrel1100`
-   DB1100_USERNAME=`your_username`
-   DB1100_PASSWORD=`your_password`
-
-   DB1101_HOSTNAME=`your_barrel_1101_host`
-   DB1101_PORT=`5432`
-   DB1101_NAME=`Barrel1101`
-   DB1101_USERNAME=`your_username`
-   DB1101_PASSWORD=`your_password`
-5. Compile the project using Maven or Javac (if you are in VS Code you can also run the task: "Compile Project")
-6. Run each component in the order: `Gateway`, `URL Queue`, `Barrels`, `Downloaders`, `Clients`.
+1. Create a PostgreSQL user that will own the barrel databases
+2. Navigate to the `config/` folder and alter `.env.example` to `.env`
+2. Edit `.env` with your database connection details:
+   HOST=`localhost`
+   PORT=`5432`
+   USERNAME=`username`
+   PASSWORD=`password`
+3. Compile the project using Maven or Javac (if you are in VS Code you can also run the task: "Compile Project")
+4. Run each component in the order: `Gateway`, `URL Queue`, `Barrels`, `Downloaders`, `Clients`.
 
 # Usage
 
