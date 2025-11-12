@@ -48,11 +48,11 @@ src/main/java/projetosd/
 
 1. Create a PostgreSQL user that will own the barrel databases
 2. Navigate to the `config/` folder and alter `.env.example` to `.env`
-2. Edit `.env` with your database connection details:
-   HOST=`localhost`
-   PORT=`5432`
-   USERNAME=`username`
-   PASSWORD=`password`
+2. Edit `.env` with your database connection details:              
+   HOST=`localhost`                        
+   PORT=`5432`                       
+   USERNAME=`username`                      
+   PASSWORD=`password`                        
 3. Compile the project using Maven or Javac (if you are in VS Code you can also run the task: "Compile Project")
 4. Run each component in the order: `Gateway`, `URL Queue`, `Barrels`, `Downloaders`, `Clients`.
 
