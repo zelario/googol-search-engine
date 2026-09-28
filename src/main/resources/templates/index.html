@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div th:replace="~{partials/navbar :: navbar_index}"></div>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- Main Content -->
+  <main class="main-content fade-in">
+    <div class="index-container">
+      <!-- Logo -->
+      <div class="logo-container">
+        <h1 class="logo">Googol</h1>
+      </div>
+
+      <!-- Index Form -->
+      <form th:action="@{/index}" method="post" class="index-form"> <!-- ACAO @{/index} -->
+        <div class="index-input-wrapper">
+          <div class="index-bar">
+            <div class="plus-icon-container">
+              <span class="plus-icon">+</span>
+            </div>
+            <input type="text" class="index-input" name="url" required>
+          </div>
+        </div>
+        <div class="button-container">
+          <button type="submit" id="index-btn" class="action-button index-button">Index</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <div th:replace="~{partials/footer :: footer}"></div>
+
+</body>
+
+<script>
+  const form = document.querySelector('.index-form');
+  const btn = document.getElementById('index-btn');
+
+  function setButtonStatus(status) {
+    if (status === "success") {
+      btn.textContent = "Indexed!";
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = "Index";
+        btn.disabled = false;
+      }, 2000);
+    } else {
+      btn.textContent = "Index";
+      btn.disabled = false;
+    }
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const urlInput = form.querySelector('.index-input').value;
+    btn.disabled = true;
+    fetch(form.getAttribute('action'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `url=${encodeURIComponent(urlInput)}`
+    })
+      .then(response => response.ok ? response.text() : Promise.reject())
+      .then(() => setButtonStatus("success"))
+      .catch(() => setButtonStatus("index"));
+  });
+</script>
+
+</html>

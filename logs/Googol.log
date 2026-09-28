@@ -1,0 +1,51 @@
+[2026-01-04 21:40:22] [INFO] [GATEWAY] Gateway ready on localhost:1098
+[2026-01-04 21:40:22] [INFO] [GATEWAY] No previous Gateway state found
+[2026-01-04 21:40:22] [INFO] [WEBSOCKET] Stats WebSocket server started on: localhost:8080
+[2026-01-04 21:40:22] [INFO] [GATEWAY] Starting period barrel sync
+[2026-01-04 21:40:22] [INFO] [URLQueue] RMI server ready
+[2026-01-04 21:40:22] [INFO] [URLQueue] No data file found, starting empty queue
+[2026-01-04 21:40:22] [INFO] [GATEWAY] No barrel synchronization needed
+[2026-01-04 21:40:22] [INFO] [GATEWAY] URL Queue registered
+[2026-01-04 21:40:22] [INFO] [URLQueue] Connected to Gateway on port 1098
+[2026-01-04 21:40:22] [INFO] [BARREL 1100] Running on localhost:1100
+[2026-01-04 21:40:22] [INFO] [BARREL 1100] Requesting sync to gateway
+[2026-01-04 21:40:22] [INFO] [GATEWAY] Barrel 1100 requested synchronization
+[2026-01-04 21:40:22] [WARNING] [BARREL 1100] Unable to connect to barrel database. Attempting to create it.
+[2026-01-04 21:40:23] [INFO] [BARREL 1100] Database 'Barrel1100' created successfully.
+[2026-01-04 21:40:23] [INFO] [BARREL 1100] Tables created successfully in barrel database.
+[2026-01-04 21:40:23] [INFO] [BARREL 1100] Stop words procedure created successfully in barrel database.
+[2026-01-04 21:40:23] [INFO] [BARREL 1100] Tables created successfully in barrel database.
+[2026-01-04 21:40:23] [INFO] [GATEWAY] No barrel synchronization needed
+[2026-01-04 21:40:23] [INFO] [BARREL 1100] Sync successful
+[2026-01-04 21:40:23] [INFO] [GATEWAY] Barrel 1100 registered
+[2026-01-04 21:40:23] [INFO] [GATEWAY] Updated barrel 1100 status to url queue
+[2026-01-04 21:40:23] [INFO] [BARREL 1100] Registered with gateway on localhost:1098
+[2026-01-04 21:40:23] [INFO] [DOWNLOADER 4] Starting downloader thread.
+[2026-01-04 21:40:23] [INFO] [DOWNLOADER 2] Starting downloader thread.
+[2026-01-04 21:40:23] [INFO] [DOWNLOADER 3] Starting downloader thread.
+[2026-01-04 21:40:23] [INFO] [DOWNLOADER 1] Starting downloader thread.
+[2026-01-04 21:40:23] [INFO] [DOWNLOADER 5] Starting downloader thread.
+[2026-01-04 21:40:23] [INFO] [DOWNLOADER 4] Connected to url queue on localhost:1099
+[2026-01-04 21:40:23] [INFO] [WEB SERVER] Web server running on https://localhost
+[2026-01-04 21:40:23] [INFO] [DOWNLOADER 5] Connected to url queue on localhost:1099
+[2026-01-04 21:40:23] [INFO] [DOWNLOADER 2] Connected to url queue on localhost:1099
+[2026-01-04 21:40:23] [INFO] [DOWNLOADER 3] Connected to url queue on localhost:1099
+[2026-01-04 21:40:23] [INFO] [DOWNLOADER 1] Connected to url queue on localhost:1099
+[2026-01-04 21:41:29] [INFO] [CLIENT 2] Connected to gateway on port 1098 on attempt 1
+[2026-01-04 21:41:29] [INFO] [GATEWAY] Client 2 requested stats
+[2026-01-04 21:41:29] [INFO] [CLIENT 2] Retrieved gateway stats
+[2026-01-04 21:42:11] [INFO] [GATEWAY] Client 2 requested stats
+[2026-01-04 21:42:11] [INFO] [CLIENT 2] Retrieved gateway stats
+[2026-01-04 21:42:18] [INFO] [GATEWAY] Client 2 added URL to queue: https://en.wikipedia.org/wiki/Kanye_West
+[2026-01-04 21:42:18] [INFO] [CLIENT 2] Indexed URL: https://en.wikipedia.org/wiki/Kanye_West
+[2026-01-04 21:42:23] [INFO] [CLIENT 2] Searching for query: 'kanye' with filter 1, page number 1
+[2026-01-04 21:42:23] [INFO] [GATEWAY] Client 2 searching for query: kanye
+[2026-01-04 21:42:23] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
+[2026-01-04 21:42:23] [INFO] [GATEWAY] Search completed on barrel 1100 for query kanye in 241 ms
+[2026-01-04 21:42:50] [INFO] [GATEWAY] Client 2 requested stats
+[2026-01-04 21:42:50] [INFO] [CLIENT 2] Retrieved gateway stats
+[2026-01-04 21:42:57] [INFO] [CLIENT 2] Searching for query: 'kanye' with filter 1, page number 1
+[2026-01-04 21:42:57] [INFO] [GATEWAY] Client 2 searching for query: kanye
+[2026-01-04 21:42:57] [INFO] [GATEWAY] Chosen barrel is fine. Selected barrel 1100
+[2026-01-04 21:42:57] [INFO] [GATEWAY] Search completed on barrel 1100 for query kanye in 421 ms
+[2026-01-04 21:42:57] [INFO] [GATEWAY] Client 2 search completed successfully on barrel 1100 on attempt 1

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Googol</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    #filter-popup {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #filter-popup.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+
+<div th:replace="~{'partials/navbar' :: navbar_search}"></div>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- Main Content -->
+  <main class="main-content fade-in">
+    <div class="search-container">
+      <!-- Logo -->
+      <div class="logo-container">
+        <h1 class="logo">Googol</h1>
+      </div>
+      <!-- Search Bar and Filter Popup -->
+      <div style="display: flex; align-items: flex-start; gap: 1rem; position: relative;">
+        <form th:action="@{/search}" method="post" class="search-form" style="flex: 1;">
+          <div class="search-bar" style="position: relative;">
+            <div class="search-icon-container">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <input type="text" class="search-input" name="query" required>
+            <!-- Filter Button inside search bar -->
+            <button id="filter-btn" type="button" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; height: 32px; width: 32px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
+                <circle cx="12" cy="5" r="1.5"/>
+                <circle cx="12" cy="12" r="1.5"/>
+                <circle cx="12" cy="19" r="1.5"/>
+              </svg>
+            </button>
+          </div>
+          <!-- Filter Menu Popup moved inside form -->
+          <div id="filter-popup" style="position: absolute; left: calc(100% + 0.5rem); top: 0; background: #fff; border: 1px solid #dfe1e5; border-radius: 0.625rem; box-shadow: 0 2px 8px rgba(32,33,36,0.08); padding: 1rem; width: 16rem; z-index: 10; display: block;">
+            <div style="margin-bottom: 1rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" id="language-filter" style="width: 1rem; height: 1rem; cursor: pointer; accent-color: #6b7280;" />
+                <span style="color: #202124; font-size: 0.95rem;">Language Filter</span>
+              </label>
+            </div>
+            <div>
+              <label style="display: block; color: #202124; font-size: 0.95rem; margin-bottom: 0.5rem;">Domain:</label>
+              <input type="text" id="domain-filter" placeholder="e.g., example.com" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #dfe1e5; border-radius: 0.5rem; color: #202124; font-size: 0.95rem; outline: none; transition: border-color 0.2s;" />
+            </div>
+          </div>
+          <div class="button-container">
+            <button type="submit" class="action-button search-button">Search</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{partials/footer :: footer}"></div>
+
+<script>
+  const filterBtn = document.getElementById('filter-btn');
+  const filterPopup = document.getElementById('filter-popup');
+
+  filterBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    filterPopup.classList.toggle('show');
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!filterBtn.contains(e.target) && !filterPopup.contains(e.target)) {
+      filterPopup.classList.remove('show');
+    }
+  });
+</script>
+<script>
+  // Helper to get cookie value
+  function getCookie(name) {
+    const value = "; " + document.cookie;
+    const parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+
+  // Restore filter settings on page load
+  window.addEventListener('DOMContentLoaded', function() {
+    const lang = getCookie("languageFilter");
+    const domain = getCookie("domainFilter");
+    const langInput = document.getElementById('language-filter');
+    const domainInput = document.getElementById('domain-filter');
+    if (langInput && lang !== undefined) langInput.checked = (lang === "true");
+    if (domainInput && domain !== undefined) domainInput.value = decodeURIComponent(domain);
+  });
+
+  // Save filter settings when changed
+  document.addEventListener('DOMContentLoaded', function() {
+    const langInput = document.getElementById('language-filter');
+    const domainInput = document.getElementById('domain-filter');
+    if (langInput) {
+      langInput.addEventListener('change', function() {
+        document.cookie = "languageFilter=" + (this.checked ? "true" : "false") + "; path=/";
+      });
+    }
+    if (domainInput) {
+      domainInput.addEventListener('input', function() {
+        document.cookie = "domainFilter=" + encodeURIComponent(this.value) + "; path=/";
+      });
+    }
+  });
+</script>
+</body>
+</html>

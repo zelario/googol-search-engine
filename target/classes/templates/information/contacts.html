@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div th:replace="~{'partials/navbar' :: navbar_stats}"></div>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<main class="main-content fade-in">
+    <div class="search-container">
+
+        <div class="logo-container" style="margin-bottom: 3rem;">
+            <h1 class="logo" style="font-size: 2.5rem; letter-spacing: 0.03em;">Contact Us</h1>
+        </div>
+
+        <div class="contacto-info">
+            <h2>José Silva</h2>
+            <h3>2023215540</h3>
+            <a href="mailto:joseds@student.dei.uc.pt?subject=Projeto%20SD">joseds@student.dei.uc.pt</a>
+        </div>
+
+        <div class="contacto-info">
+            <h2>José Amado</h2>
+            <h3>2023212241</h3>
+            <a href="mailto:jose.amado@student.dei.uc.pt?subject=Projeto%20SD">jose.amado@student.dei.uc.pt</a>
+        </div>
+
+    </div>
+</main>
+
+<div th:replace="~{partials/footer :: footer}"></div>
+
+</body>
+</html>

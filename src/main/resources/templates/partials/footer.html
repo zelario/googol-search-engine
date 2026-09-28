@@ -1,0 +1,36 @@
+<!-- Footer -->
+<div th:fragment="footer">
+    <footer class="footer fade-in">
+        <div class="footer-toggle" onclick="toggleFooter()">
+            <span id="footer-icon">></span>
+        </div>
+        <nav class="footer-nav" id="footer-nav" style="display: none;">
+            <span class="footer-close" onclick="toggleFooter()">×</span>
+            <a href="/terms" class="footer-link">TERMS</a>
+            <a href="/contacts" class="footer-link">CONTACTS</a>
+        </nav>
+    </footer>
+
+    <script>
+            // tab client id generation and storage
+            if (!sessionStorage.getItem('clientId')) {
+                sessionStorage.setItem('clientId', Math.floor(Math.random() * 99).toString());
+            }
+            window.clientId = sessionStorage.getItem('clientId');
+            document.cookie = "clientId=" + window.clientId + "; path=/";
+
+            function toggleFooter() {
+                const nav = document.getElementById('footer-nav');
+                const icon = document.getElementById('footer-icon');
+                const toggle = document.querySelector('.footer-toggle');
+
+                if (nav.style.display === 'none') {
+                    nav.style.display = 'flex';
+                    toggle.style.display = 'none';
+                } else {
+                    nav.style.display = 'none';
+                    toggle.style.display = 'block';
+                }
+            }
+    </script>
+</div>

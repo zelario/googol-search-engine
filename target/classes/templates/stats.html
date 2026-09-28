@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stats</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div th:replace="~{'partials/navbar' :: navbar_stats}"></div>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- Main Content -->
+  <main class="main-content fade-in">
+    <div class="stats-container">
+      <div class="stats-grid">
+        <!-- Top 10 Searches -->
+          <div class="stats-card">
+            <h2 class="stats-title">Top 10 Searches</h2>
+            <div class="stats-list" id="top-searches-list">
+              <!-- Inicial stats fetch -->
+              <th:block th:each="entry, idx : ${topSearches}">
+                <div class="stats-item">
+                  <div class="stats-item-left">
+                    <span class="stats-number" th:text="${idx.index + 1}"></span>
+                    <span class="stats-label" th:text="${entry.key}"></span>
+                  </div>
+                  <span class="stats-value" th:text="${entry.value}"></span>
+                </div>
+              </th:block>
+            </div>
+          </div>
+        <!-- Barrels Status -->
+          <div class="stats-right">
+            <!-- Active Barrels -->
+            <div class="stats-card">
+              <h2 class="stats-title">Index Sizes</h2>
+              <div class="stats-list" id="active-barrels-list">
+                <!-- Inicial stats fetch -->
+                <th:block th:each="barrel : ${activeBarrels}">
+                  <div class="stats-item">
+                    <span class="barrel-id">BARREL <span th:text="${barrel.key}"></span></span>
+                    <span class="stats-value" th:text="${barrel.value}"></span> indexes
+                  </div>
+                </th:block>
+              </div>
+            </div>
+            <!-- Average Response Time -->
+            <div class="stats-card">
+              <h2 class="stats-title">Average Response Time</h2>
+              <div class="stats-list" id="response-times-list">
+                <!-- Inicial stats fetch -->
+                <th:block th:each="resp : ${responseTimes}">
+                  <div class="stats-item">
+                    <span class="barrel-id">BARREL <span th:text="${resp.key}"></span></span>
+                    <span class="stats-value" th:text="${resp.value}"></span> tenths
+                  </div>
+                </th:block>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{partials/footer :: footer}"></div>
+
+  <script>
+  const wsHost = '[[${websocketHost}]]';
+  const wsPort = [[${websocketPort}]];
+  const socket = new WebSocket('wss://' + wsHost + ':' + wsPort);
+  socket.onmessage = function(event) {
+    const stats = JSON.parse(event.data);
+    updateStatsUI(stats);
+  };
+
+  function updateStatsUI(stats) {
+    console.log('Received stats:', stats);
+
+    // Top 10 Searches
+    const topSearchesList = document.getElementById('top-searches-list');
+    topSearchesList.innerHTML = '';
+    if (stats.topSearches) {
+      stats.topSearches.forEach((item, idx) => {
+        topSearchesList.innerHTML += `
+          <div class="stats-item">
+            <div class="stats-item-left">
+              <span class="stats-number">${idx + 1}.</span>
+              <span class="stats-label">${item.query}</span>
+            </div>
+            <span class="stats-value">${item.count}</span>
+          </div>
+        `;
+      });
+    }
+
+    // Active Barrels
+    const activeBarrelsList = document.getElementById('active-barrels-list');
+    activeBarrelsList.innerHTML = '';
+    if (stats.activeBarrels) {
+      Object.entries(stats.activeBarrels).forEach(([barrelId, size]) => {
+        activeBarrelsList.innerHTML += `
+          <div class="stats-item">
+            <span class="barrel-id">BARREL ${barrelId}</span>
+            <span class="stats-value">${size} indexes</span>
+          </div>
+        `;
+      });
+    }
+
+    // Average Response Times
+    const responseTimesList = document.getElementById('response-times-list');
+    responseTimesList.innerHTML = '';
+    if (stats.responseTimes) {
+      Object.entries(stats.responseTimes).forEach(([barrelId, time]) => {
+          responseTimesList.innerHTML += `
+            <div class="stats-item">
+              <span class="barrel-id">BARREL ${barrelId}</span>
+              <span class="stats-value">${time} tenths</span>
+            </div>
+          `;
+      });
+    }
+  }
+  </script>
+
+</body>
+</html>

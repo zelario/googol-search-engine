@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<!-- Toggle buttons remain unchanged -->
+
+<div th:replace="~{partials/navbar :: navbar_search}"></div>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+<main class="main-content fade-in" style="padding-top: 3rem;">
+    <div class="results-wrapper">
+
+        <!-- Search Bar -->
+        <form th:action="@{/search}" method="post" class="search-form" style="margin-bottom: 2rem; position: relative;">
+            <div class="search-bar" style="position: relative;">
+                <div class="search-icon-container">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+
+                <input id="search-input" type="text" class="search-input" name="query" required th:value="${query}" autocomplete="off">
+
+                <button id="filter-btn" type="button"
+                        style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+                         background: none; border: none; padding: 0; cursor: pointer;
+                         display: flex; align-items: center; justify-content: center; height: 32px; width: 32px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
+                        <circle cx="12" cy="5" r="1.5"/>
+                        <circle cx="12" cy="12" r="1.5"/>
+                        <circle cx="12" cy="19" r="1.5"/>
+                    </svg>
+                </button>
+            </div>
+        </form>
+
+        <div id="filter-popup" style="
+                 display: none;
+                 position: absolute;
+                 background: #fff;
+                 border: 1px solid #dfe1e5;
+                 border-radius: 0.625rem;
+                 box-shadow: 0 2px 8px rgba(32,33,36,0.08);
+                 padding: 1rem;
+                 width: 16rem;
+                 z-index: 9999;
+            ">
+            <div style="margin-bottom: 1rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="language-filter" style="width: 1rem; height: 1rem; cursor: pointer;" />
+                    <span style="color: #202124; font-size: 0.95rem;">Language Filter</span>
+                </label>
+            </div>
+
+            <div>
+                <label style="display: block; color: #202124; font-size: 0.95rem; margin-bottom: 0.5rem;">Domain:</label>
+                <input type="text" id="domain-filter" placeholder="e.g., example.com"
+                       style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #dfe1e5; border-radius: 0.5rem;" />
+            </div>
+        </div>
+
+        <div th:if="${didYouMean != null}" class="didyoumean-wrapper">
+            <span class="didyoumean-label">Showing results for:</span>
+            <a th:href="@{/results(q=${didYouMean})}" th:text="${didYouMean}" class="didyoumean-link"></a>
+            <span th:if="${badQuery != null}" style="margin: 0 0.75em; color: #6b7280;">|</span>
+            <span th:if="${badQuery != null}" class="didyoumean-label">Instead search for:</span>
+            <a th:if="${badQuery != null}" th:href="@{/results(q=${badQuery},force=true)}" th:text="${badQuery}" class="didyoumean-link"></a>
+        </div>
+
+        <div class="ai-overview-wrapper fade-in" th:if="${overview != null && !overview.isEmpty() && (isQuestion || (results != null && !results.isEmpty()))}">
+            <h3 class="ai-overview-title" th:text="${isQuestion} ? 'Answer Box' : 'Overview'"></h3>
+            <p class="ai-overview-content" th:text="${overview}"></p>
+        </div>
+
+        <div class="results-container">
+            <div th:if="${(url != null && !url.isEmpty()) &&  (results != null && !results.isEmpty())}" class="results-header">
+                <span>Backlinks for</span>
+                <a th:href="@{${url}}" th:text="${url}" class="results-site-link"></a>
+            </div>
+
+            <div th:each="page : ${results}" th:if="${results != null and !results.isEmpty()}" class="result-item">
+                <a th:href="@{${page.getUrl()}}" class="result-title" th:text="${page.getTitle()}"></a>
+                <div class="result-url-wrapper">
+                    <a class="result-url"
+                       th:if="${!#strings.isEmpty(page.url)}"
+                       th:href="${page.url}"
+                       th:text="${page.url}">
+                    </a>
+
+                    <div class="result-url"
+                         th:unless="${!#strings.isEmpty(page.url)}"
+                         th:text="${page.url}">
+                    </div>                    <a th:if="${url == null || url == ''}" th:href="@{/backlinks(b=${page.getUrl()})}" class="backlinks-link">Backlinks</a>
+                </div>
+                <div class="result-desc" th:text="${page.getSnippet()}"></div>
+            </div>
+            <div th:if="${results == null or #lists.isEmpty(results)}" style="margin-bottom: 2rem">
+                <h2>No Results Available</h2>
+            </div>
+        </div>
+
+        <div th:if="${query != null && !query.isEmpty()}" class="button-container" style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; position: relative">
+            <button id="index-hn-btn" class="action-button index-button">
+                Index Hacker News
+            </button>
+        </div>
+
+        <div th:if="${url == null || url.isEmpty()}" class="pagination">
+            <a th:href="@{/results(q=${query}, pageNumber=${(pageNumber != null ? pageNumber : 1) - 1})}" th:classappend="${query != null && pageNumber > 1} ? 'active' : 'disabled'">&laquo; Prev</a>
+
+            <span class="current-page">
+                <span th:text="${pageNumber != null ? pageNumber : 1}"></span>
+            </span>
+
+            <a th:href="@{/results(q=${query}, pageNumber=${(pageNumber != null ? pageNumber : 1) + 1})}" th:classappend="${results == null || results.isEmpty() || results.size() < 10} ? 'disabled' : 'active'">Next &raquo;</a>
+        </div>
+
+    </div>
+</main>
+
+<div th:replace="~{partials/footer :: footer}"></div>
+
+<script>
+    const btn = document.getElementById("index-hn-btn");
+
+        function setButtonStatus(status) {
+            const btn = document.getElementById("index-hn-btn");
+            if (status === "loading") {
+                btn.disabled = true;
+                btn.textContent = "Indexing...";
+            } else if (status === "success") {
+                btn.textContent = "Indexed!";
+                setTimeout(() => {
+                    btn.textContent = "Index Hacker News";
+                    btn.disabled = false;
+                }, 2000);
+            } else if (status === "error") {
+                btn.textContent = "Error";
+                setTimeout(() => {
+                    btn.textContent = "Index Hacker News";
+                    btn.disabled = false;
+                }, 2000);
+            } else {
+                btn.textContent = "Index Hacker News";
+                btn.disabled = false;
+            }
+        }
+
+        btn.addEventListener("click", function() {
+            const query = document.querySelector(".search-input").value;
+            if (!query) {
+                setButtonStatus("error");
+                return;
+            }
+
+            setButtonStatus("loading");
+
+            fetch("/indexHackerNews", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(query)
+            })
+                .then(response => response.json())
+                .then(success => {
+                    if(success) setButtonStatus("success");
+                    else setButtonStatus("error");
+                })
+                .catch(err => {
+                    console.error(err);
+                    setButtonStatus("error");
+                });
+        });
+
+        const filterBtn = document.getElementById('filter-btn');
+        const filterPopup = document.getElementById('filter-popup');
+
+        if (filterBtn && filterPopup) {
+        filterBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            const showing = filterPopup.style.display === 'block';
+            filterPopup.style.display = showing ? 'none' : 'block';
+
+            if (!showing) {
+                const rect = filterBtn.getBoundingClientRect();
+                filterPopup.style.left = rect.left + 'px';
+                filterPopup.style.top = (rect.bottom + 6) + 'px';
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+        if (!filterBtn.contains(e.target) && !filterPopup.contains(e.target)) {
+        filterPopup.style.display = 'none';
+    }
+    });
+
+        // ESC closes
+        document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') filterPopup.style.display = 'none';
+    });
+    }
+
+    // Helper to get cookie value
+    function getCookie(name) {
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    // Restore filter settings on page load
+    window.addEventListener('DOMContentLoaded', function() {
+        const lang = getCookie("languageFilter");
+        const domain = getCookie("domainFilter");
+        const langInput = document.getElementById('language-filter');
+        const domainInput = document.getElementById('domain-filter');
+        if (langInput && lang !== undefined) langInput.checked = (lang === "true");
+        if (domainInput && domain !== undefined) domainInput.value = decodeURIComponent(domain);
+    });
+
+    // Save filter settings when changed
+    document.addEventListener('DOMContentLoaded', function() {
+        const langInput = document.getElementById('language-filter');
+        const domainInput = document.getElementById('domain-filter');
+        if (langInput) {
+            langInput.addEventListener('change', function() {
+                document.cookie = "languageFilter=" + (this.checked ? "true" : "false") + "; path=/";
+            });
+        }
+        if (domainInput) {
+            domainInput.addEventListener('input', function() {
+                document.cookie = "domainFilter=" + encodeURIComponent(this.value) + "; path=/";
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!-- Navbar for Search Page -->
+<div th:fragment="navbar_search">
+    <div class="toggle-button toggle-left" onclick="location.href='/index'">
+        <div class="toggle-icon">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </div>
+        <div class="toggle-text">INDEX</div>
+    </div>
+    <div class="toggle-button toggle-right" onclick="location.href='/stats'">
+        <div class="toggle-icon">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+        </div>
+        <div class="toggle-text">STATS</div>
+    </div>
+</div>
+
+<!-- Navbar for Index Page -->
+<div th:fragment="navbar_index">
+    <div class="toggle-button toggle-left" onclick="location.href='/search'">
+        <div class="toggle-icon">
+            <svg class="icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4">
+                <circle cx="26" cy="26" r="18"></circle>
+                <line x1="40" y1="40" x2="56" y2="56"></line>
+            </svg>
+        </div>
+        <div class="toggle-text">SEARCH</div>
+    </div>
+    <div class="toggle-button toggle-right" onclick="location.href='/stats'">
+        <div class="toggle-icon">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+        </div>
+        <div class="toggle-text">STATS</div>
+    </div>
+</div>
+
+<!-- Navbar for Stats Page -->
+<div th:fragment="navbar_stats">
+    <div class="toggle-button toggle-left" onclick="location.href='index'">
+        <div class="toggle-icon">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </div>
+        <div class="toggle-text">INDEX</div>
+    </div>
+
+    <div class="toggle-button toggle-right" onclick="location.href='search'">
+        <div class="toggle-icon">
+            <svg class="icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4">
+                <circle cx="26" cy="26" r="18"></circle>
+                <line x1="40" y1="40" x2="56" y2="56"></line>
+            </svg>
+        </div>
+        <div class="toggle-text">SEARCH</div>
+    </div>
+</div>
